@@ -3,14 +3,15 @@
         <div class="container">
             <div class="wrapper">
                 <button class="menu"></button>
-                <div class="now s-btn">{{ now }}</div>
-            </div>
-            <div class="logo"></div>
-            <div class="wrapper">
-                <div class="switch-table">
-                    <button>切换表格</button>
-                    <button>关闭</button>
+                <s-btn class="now">{{ now }}</s-btn>
+                <div v-if="code && temperature" class="weather">
+                    <img v-if="code" :src="require(`@images/weather/${code}@2x.png`)" />
+                    <span>{{ temperature }}℃</span>
                 </div>
+            </div>
+            <router-link to="/" class="logo" />
+            <div class="wrapper">
+                <switch-table />
             </div>
         </div>
     </div>
@@ -18,12 +19,17 @@
 
 <script>
 import moment from 'moment'
+
+import SwitchTable from '@/components/switchTable'
 // import axios from 'axios'
 
 export default {
+    components: { SwitchTable },
     data () {
         return {
-            now: ''
+            now: '',
+            code: '0',
+            temperature: '28'
         }
     },
     async created () {
@@ -31,8 +37,9 @@ export default {
             this.now = moment().format('YYYY-MM-DD HH:mm:ss')
         }, 1000)
 
-        // const data = await axios.get('https://api.seniverse.com/v3/weather/now.json?key=SaQfcWF2mcKTuwIjk&location=34.26316071:108.94802094&language=zh-Hans&unit=c')
-        // console.info(data)
+        // const { code, temperature } = await this.$axios.get('apiv1/guest/weather')
+        // this.code = code
+        // this.temperature = temperature
     }
 }
 </script>
