@@ -43,5 +43,33 @@
     }
 }
 
+.btn-search {
+    width: 40px;
+    height: 40px;
+    background: #42dfff url(~@images/search.png) center no-repeat;
+    background-size: 22px 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
 .searcher {
+    display: flex;
+    align-items: center;
+    width: 230px;
+    height: 60px;
+    padding: 0 16px;
+    input {
+        flex: 1;
+        margin-right: 16px;
+    }
+    .placeholder {
+        position: absolute;
+        left: 16px;
+        flex: 1;
+        cursor: text;
+    }
+    .btn-search {
+        position: absolute;
+        right: 16px;
+    }
 }
