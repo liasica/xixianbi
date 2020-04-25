@@ -47,32 +47,24 @@ export default {
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/progress-bar.png)
 
-- `label` `string` 名称(可为空) 
-- `schedule` `number` 进度
-- `color` `string` 颜色
+-   `label` `string` 名称(可为空)
+-   `schedule` `number` 进度
+-   `color` `string` 颜色
 
 ```html
 <progress-bar label="通勤公交" :schedule="getRandomInt(100)" color="#3C77FF" />
 ```
 
-
-
 ### `tie-number`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/tie-number.png)
 
-- `label` `string`
-- `number` `number` 变动数字
+-   `label` `string`
+-   `number` `number` 变动数字
 
 ```html
 <tie-number :number="getRandomInt(5000)" label="活跃车数" />
 ```
-
-
-
-
-
-
 
 ## CSS 组件
 
