@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
-import SBtn from '@/components/global/sbtn'
-
-Vue.component('s-btn', SBtn)
+import './click-outside'
+import './sbtn'
+import './choose'

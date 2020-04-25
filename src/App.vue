@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <bi-header />
-        <router-view :key="$route.fullPath" />
+        <transition name="fade">
+            <router-view :key="$route.fullPath" />
+        </transition>
     </div>
 </template>
 
