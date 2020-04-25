@@ -132,3 +132,33 @@ body {
         }
     }
 }
+
+.bi-title {
+    position: relative;
+    width: 246px;
+    line-height: 50px;
+    padding-left: 18px;
+    &:before {
+        position: absolute;
+        content: '';
+        background: #42dfff;
+        height: 8px;
+        width: 34px;
+        left: 0;
+        top: -5px;
+    }
+    &:after {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0.6;
+        background-image: linear-gradient(
+            270deg,
+            rgba(66, 223, 255, 0) 0%,
+            #42dfff 100%
+        );
+    }
+}
