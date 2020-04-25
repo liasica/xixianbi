@@ -11,6 +11,7 @@
             </div>
             <router-link to="/" class="logo" />
             <div class="wrapper">
+                <search />
                 <switch-table />
             </div>
         </div>
@@ -21,10 +22,11 @@
 import moment from 'moment'
 
 import SwitchTable from '@/components/switchTable'
+import Search from '@/components/search'
 // import axios from 'axios'
 
 export default {
-    components: { SwitchTable },
+    components: { SwitchTable, Search },
     data () {
         return {
             now: '',
