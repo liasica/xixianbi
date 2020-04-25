@@ -1,6 +1,6 @@
 ## Vue 组件
 
-### s-btn
+### `s-btn`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/s-btn.png)
 
@@ -20,7 +20,7 @@
 </s-btn>
 ```
 
-### choose
+### `choose`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/choose.png)
 
@@ -43,9 +43,23 @@ export default {
 }
 ```
 
+### `progress-bar`
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/progress-bar.png)
+
+- `label` `string` 名称(可为空) 
+- `schedule` `number` 进度
+- `color` `string` 颜色
+
+```html
+<progress-bar label="通勤公交" :schedule="getRandomInt(100)" color="#3C77FF" />
+```
+
+
+
 ## CSS 组件
 
-### .bi-title
+### `.bi-title`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/bi-title.png)
 
