@@ -1,12 +1,12 @@
 <template>
     <div class="header">
         <div class="container">
-            <div>
+            <div class="wrapper">
                 <button class="menu"></button>
                 <div class="now s-btn">{{ now }}</div>
             </div>
             <div class="logo"></div>
-            <div>
+            <div class="wrapper">
                 <div class="switch-table">
                     <button>切换表格</button>
                     <button>关闭</button>
