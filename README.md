@@ -43,7 +43,7 @@ export default {
 }
 ```
 
-## Css 组件
+## CSS 组件
 
 ### .bi-title
 
