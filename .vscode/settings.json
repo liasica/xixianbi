@@ -1,7 +1,6 @@
 {
     "workbench.colorTheme": "Monokai Dark Soda",
     "editor.fontFamily": "Operator Mono, Cascadia Code, Fira Mono for Powerline, Ubuntu Mono derivative Powerline, Menlo, Monaco, 'Courier New', monospace",
-    "editor.fontSize": 16,
     "window.zoomLevel": 0,
     "files.autoSave": "off",
     "explorer.confirmDelete": false,
@@ -55,7 +54,6 @@
     "vsicons.dontShowNewVersionMessage": true,
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
-    "editor.lineHeight": 28,
     "sync.gist": "dec91ab1a7071acfdbaf9a7050b9212bÎ",
     "prettier.vueIndentScriptAndStyle": true,
     "editor.codeActionsOnSave": {
