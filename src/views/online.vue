@@ -1,7 +1,9 @@
 <template>
     <div class="container">
         <div class="sidebar">
-            <span class="title"><i class="icon-home"></i>首页大屏</span>
+            <span class="title">
+                <i class="icon-home"></i>首页大屏
+            </span>
             <a>公交上线情况</a>
             <a>车辆违规统计</a>
             <a>早高峰出车率</a>
@@ -9,34 +11,41 @@
         </div>
         <div class="content">
             <BiTable :columns="columns" :source="list" />
+            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
 import BiTable from '@/components/table'
+import BiPagination from '@/components/pagination'
 import Mock from 'mockjs'
 const data = Mock.mock({
-    'list|10': [{
-        id: '01',
-        cate: '常规公交',
-        station: '场站1',
-        name: '880',
-        start: '泾河新城管委会',
-        start_time: '07:00:00-19:00:00',
-        end: '后卫寨地铁站',
-        end_time: '07:00:00-19:00:00',
-        fleet: '1号车队',
-        statue: '运营'
-    }]
+    'list|11': [
+        {
+            id: '01',
+            cate: '常规公交',
+            station: '场站1',
+            name: '880',
+            start: '泾河新城管委会',
+            start_time: '07:00:00-19:00:00',
+            end: '后卫寨地铁站',
+            end_time: '07:00:00-19:00:00',
+            fleet: '1号车队',
+            statue: '运营'
+        }
+    ]
 })
 
 export default {
     components: {
-        BiTable
+        BiTable,
+        BiPagination
     },
     data () {
         return {
+            total: 150,
+            page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
                 { prop: 'cate', label: '公交分类' },
@@ -52,46 +61,51 @@ export default {
             list: data.list
         }
     },
-    created () {
+    created () {},
+    methods: {
+        handleChange () {
+            console.log(1)
+        }
     }
 }
 </script>
 <style lang="less" scoped>
-  .container{
+.container {
     display: flex;
     height: calc(100vh - 130px);
-    .sidebar{
-      height: 100%;
-      width: 121px;
-      font-size: 16px;
-      background-color: #122836;
-      padding: 50px 6px 0;
-      .title{
-        font-size: 20px;
-        color: #42DFFF;
-      }
-      .icon-home{
-        display: inline-block;
-        background-image: url('~@images/home.png');
-        background-size: cover;
-        width: 18px;
-        height: 18px;
-        margin-right: 10px;
-      }
-      a{
-        display: inline-block;
-        margin-top: 54px;
-        color: fade(#D8D8D8, 50);
-        cursor: pointer;
-        &.active, &:hover{
-          color: #ffffff;
+    .sidebar {
+        height: 100%;
+        width: 121px;
+        font-size: 16px;
+        background-color: #122836;
+        padding: 50px 6px 0;
+        .title {
+            font-size: 20px;
+            color: #42dfff;
         }
-      }
+        .icon-home {
+            display: inline-block;
+            background-image: url('~@images/home.png');
+            background-size: cover;
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 54px;
+            color: fade(#d8d8d8, 50);
+            cursor: pointer;
+            &.active,
+            &:hover {
+                color: #ffffff;
+            }
+        }
     }
-    .content{
-      flex: 1;
-      height: 100%;
-      margin-left: 20px;
+    .content {
+        flex: 1;
+        height: 100%;
+        margin-left: 20px;
     }
-  }
+}
 </style>
