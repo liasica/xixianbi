@@ -81,7 +81,7 @@ export default {
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/table.jpg)
 
 ```html
-<bi-table :columns="columns" :source="list" />
+<bi-table :columns="columns" :source="source" />
 ```
 
 ```javascript
