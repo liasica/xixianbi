@@ -75,3 +75,42 @@ export default {
 ```html
 <div class="bi-title" sty>当日公交上线情况</div>
 ```
+
+## bi-table
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/table.jpg)
+
+```html
+<bi-table :columns="columns" :source="list" />
+```
+
+```javascript
+export default {
+    data() {
+        return {
+            columns: [{ prop: 'id', label: '序号' }],
+            source: [{ id: 1 }]
+        }
+    }
+}
+```
+
+## pagination
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/pagination.jpg)
+
+```html
+<bi-pagination total="10" page.sync="1" @pagination="handleChange" />
+```
+
+## checkbox
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/checkbox.jpg)
+
+```html
+<bi-checkbox
+    label="当日公交上线情况"
+    :value.sync="value"
+    @change="handleChange"
+/>
+```

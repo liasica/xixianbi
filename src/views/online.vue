@@ -11,10 +11,10 @@
         </div>
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公交分类" :options="options" v-model="cate_id" />
-                <choose class="choose" label="场站" :options="options" v-model="cate_id" />
-                <choose class="choose" label="线路" :options="options" v-model="cate_id" />
-                <choose class="choose" label="线路状态" :options="options" v-model="cate_id" />
+                <choose class="choose" label="公交分类" :options="cate_options" v-model="cate_id" />
+                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
+                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
+                <choose class="choose" label="线路状态" :options="status_options" v-model="status_id" />
                 <button class="search-btn">
                     <i class="icon-search"></i>查询
                 </button>
@@ -77,11 +77,26 @@ export default {
                 { prop: 'statue', label: '线路状态' }
             ],
             list: data.list,
-            options: [
+            cate_options: [
                 { id: 1, label: '常规公交' },
                 { id: 2, label: '双层公交' }
             ],
             cate_id: 1,
+            station_options: [
+                { id: 1, label: '场站一' },
+                { id: 2, label: '场站二' }
+            ],
+            station_id: 1,
+            name_options: [
+                { id: 1, label: '880' },
+                { id: 2, label: '930' }
+            ],
+            name_id: 1,
+            status_options: [
+                { id: 1, label: '运营' },
+                { id: 2, label: '停运' }
+            ],
+            status_id: 1,
             isShowToday: false
         }
     },
