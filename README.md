@@ -57,6 +57,23 @@ export default {
 
 
 
+### `tie-number`
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/tie-number.png)
+
+- `label` `string`
+- `number` `number` 变动数字
+
+```html
+<tie-number :number="getRandomInt(5000)" label="活跃车数" />
+```
+
+
+
+
+
+
+
 ## CSS 组件
 
 ### `.bi-title`
