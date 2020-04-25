@@ -71,6 +71,9 @@ export default {
         height: 100%;
         width: 40px;
         line-height: 1;
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
     }
     .wrapper {
         .value {
