@@ -4,7 +4,7 @@
         <div class="progress-bar" :style="`border-color: ${this.color};`">
             <div class="progress" :style="style"></div>
         </div>
-        <div class="schedule">{{ parseInt(schedule) }}</div>
+        <div class="schedule" :style="`color: ${color}`">{{ parseInt(schedule) }}</div>
     </div>
 </template>
 
