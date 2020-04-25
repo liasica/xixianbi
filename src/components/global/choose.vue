@@ -61,3 +61,59 @@ export default {
     }
 }
 </script>
+
+<style lang="less" scoped>
+.choose {
+    display: flex;
+    align-items: center;
+    // height: 50px;
+    & > span {
+        height: 100%;
+        width: 40px;
+        line-height: 1;
+    }
+    .wrapper {
+        .value {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            padding-right: 40px;
+            line-height: 30px;
+            &:after {
+                position: absolute;
+                content: '';
+                right: 10px;
+                width: 20px;
+                height: 12px;
+                background: url(~@images/choose-arrow.png) center no-repeat;
+                background-size: 20px 12px;
+            }
+        }
+        .v-popover {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            width: 100%;
+            left: 0;
+            top: 100%;
+            padding: 6px 0;
+            background: #121c25;
+            li {
+                padding: 0 10px;
+                margin: 4px 0;
+                cursor: pointer;
+                width: 100%;
+            }
+        }
+    }
+}
+</style>
