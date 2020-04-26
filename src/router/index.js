@@ -16,4 +16,12 @@ const router = new VueRouter({
     routes
 })
 
+router.beforeEach((to, from, next) => {
+    const name = to.name || ''
+    const prevName = from.name || ''
+    document.body.classList.add(`page-${name.toLowerCase()}-body`)
+    document.body.classList.remove(`page-${prevName.toLowerCase()}-body`)
+    next()
+})
+
 export default router

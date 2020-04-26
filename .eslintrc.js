@@ -47,6 +47,6 @@ module.exports = {
         parser: 'babel-eslint'
     },
     globals: {
-        AFRAME: 'readonly'
+        CircleProgress: 'readonly'
     }
 }

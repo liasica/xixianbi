@@ -28,10 +28,7 @@ export default {
             options: {
                 useEasing: true,
                 useGrouping: false,
-                separator: ',',
-                decimal: '.',
-                prefix: '',
-                suffix: ''
+                duration: 1
             }
         }
     },

@@ -4,7 +4,10 @@
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/s-btn.png)
 
--   `corner` `string` 携带为左上角右下角边角颜色
+-   `corner` 
+    -   `string` 为`左上角`和`右下角`边角颜色
+    -   `bool` 为`左上角`和`右下角`边角默认颜色为`#42dfff`
+    -   `object`为四个角分别设置，格式为key=>value，例如`{leftTop: '#42dfff', leftBottom: '#42dfff', rightTop: '#42dfff', rightBottom: '#42dfff'}`
 -   `bg-color` `string` 背景和边框颜色
 
 ```
@@ -70,6 +73,14 @@ export default {
 
 
 
+### `radial`
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/radial.png)
+
+```html
+<radial radial-id="radial3" :schedule="80" />
+```
+
 
 
 
@@ -83,3 +94,13 @@ export default {
 ```html
 <div class="bi-title" sty>当日公交上线情况</div>
 ```
+
+
+
+### `.thin-border` 0.5像素边框
+
+- `&.border-top`
+- `&.border-right`
+- `&.border-bottom`
+- `&.border-left`
+- `&.border-around` 四边

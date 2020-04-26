@@ -5,6 +5,9 @@ body {
     background-size: 100% 100%;
     color: #ffffff;
     font-size: 20px;
+    &.page-home-body {
+        background-image: url(~@images/home-bg.jpg);
+    }
 }
 
 .fade-enter-active,
@@ -70,5 +73,35 @@ body {
             rgba(66, 223, 255, 0) 0%,
             #42dfff 100%
         );
+    }
+}
+
+.thin-border {
+    position: relative;
+    &:after {
+        position: absolute;
+        pointer-events: none;
+        content: '';
+        width: 200%;
+        height: 200%;
+        transform: scale(0.5);
+        transform-origin: left top;
+        left: 0;
+        top: 0;
+    }
+    &.border-left:after {
+        border-left: 1px solid #39bdd9;
+    }
+    &.border-bottom:after {
+        border-bottom: 1px solid #39bdd9;
+    }
+    &.border-top:after {
+        border-top: 1px solid #39bdd9;
+    }
+    &.border-right:after {
+        border-right: 1px solid #39bdd9;
+    }
+    &.border-around:after {
+        border: 1px solid #39bdd9;
     }
 }
