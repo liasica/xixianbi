@@ -1,6 +1,6 @@
 ## Vue 组件
 
-### `s-btn`
+### s-btn
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/s-btn.png)
 
@@ -25,7 +25,7 @@
 
 
 
-### choose`
+### choose
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/choose.png)
 
@@ -50,7 +50,7 @@ export default {
 
 
 
-### progress-bar`
+### progress-bar
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/progress-bar.png)
 
@@ -64,7 +64,7 @@ export default {
 
 
 
-### tie-number`
+### tie-number
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/tie-number.png)
 
@@ -77,7 +77,7 @@ export default {
 
 
 
-### `radial`
+### radial
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/radial.png)
 
@@ -138,7 +138,7 @@ export default {
 
 ## CSS 组件
 
-### `.bi-title`
+### .bi-title
 
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/bi-title.png)
@@ -149,7 +149,7 @@ export default {
 
 
 
-### `.thin-border` 0.5像素边框
+### .thin-border  0.5像素边框
 
 - `&.border-top`
 - `&.border-right`
