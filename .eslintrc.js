@@ -15,10 +15,11 @@ module.exports = {
         'vue/script-indent': ['error', 4, { switchCase: 1 }],
         'func-names': ['error', 'never'],
         'arrow-parens': ['error', 'as-needed'],
-        'max-len': [
+        'vue/max-len': [
             'error',
             {
                 code: 200,
+                template: 800,
                 ignoreComments: true,
                 ignoreStrings: true,
                 ignoreTrailingComments: true,
@@ -27,6 +28,18 @@ module.exports = {
                 ignoreRegExpLiterals: true
             }
         ],
+        // 'max-len': [
+        //     'error',
+        //     {
+        //         code: 200,
+        //         ignoreComments: true,
+        //         ignoreStrings: true,
+        //         ignoreTrailingComments: true,
+        //         ignoreUrls: true,
+        //         ignoreTemplateLiterals: true,
+        //         ignoreRegExpLiterals: true
+        //     }
+        // ],
         'space-before-function-paren': ['error', 'always'],
         'vue/mustache-interpolation-spacing': [2, 'always'],
         'vue/no-unused-components': 0,

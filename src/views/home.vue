@@ -95,8 +95,74 @@
                     <div class="value">{{ getRandomInt(15000000) }}</div>
                 </div>
             </div>
+            <div class="charts">
+                <div class="chart-item">
+                    <div class="title">车辆营收统计时间分布图（日）</div>
+                    <v-chart :options="incomeChart" />
+                </div>
+                <div class="chart-item">
+                    <div class="title">车辆运行能耗比较统计（日）</div>
+                    <v-chart :options="energyChart" />
+                </div>
+            </div>
         </div>
-        <div class="right"></div>
+        <div class="right">
+            <div class="bus-speed">
+                <div class="bi-title">当日车辆平均速度</div>
+                <div class="items">
+                    <div class="speed-item" v-for="(item, index) in speedRank" :key="index">
+                        <speed-icon :bg-color="item.bgColor" :color="item.color" />
+                        <div class="speed-body">
+                            <div class="speed">{{ item.speed.toFixed(2) }}km/h</div>
+                            <div class="rank-info">
+                                <span class="busline">{{ item.busline }}线路</span>
+                                <span class="rank">{{ index+1 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mileage">
+                <div class="bi-title">当日营运里程</div>
+                <div class="item">
+                    <div class="label">场站一</div>
+                    <s-btn
+                        class="mileage-data"
+                        bg-color="#42DFFF"
+                        :corner="{leftTop: '#42DFFF', rightTop: '#42DFFF', leftBottom: '#42DFFF', rightBottom: '#42DFFF'}"
+                    >
+                        <div style="color:#42DFFF">68232.32 KM</div>
+                    </s-btn>
+                </div>
+                <div class="item">
+                    <div class="label">场站二</div>
+                    <s-btn
+                        class="mileage-data"
+                        bg-color="#08F0C9"
+                        :corner="{leftTop: '#08F0C9', rightTop: '#08F0C9', leftBottom: '#08F0C9', rightBottom: '#08F0C9'}"
+                    >
+                        <div style="color:#08F0C9">25575.45 KM</div>
+                    </s-btn>
+                </div>
+                <div class="item">
+                    <div class="label">场站三</div>
+                    <s-btn
+                        class="mileage-data"
+                        bg-color="#3C77FF"
+                        :corner="{leftTop: '#3C77FF', rightTop: '#3C77FF', leftBottom: '#3C77FF', rightBottom: '#3C77FF'}"
+                    >
+                        <div style="color:#3C77FF">445565.56 KM</div>
+                    </s-btn>
+                </div>
+            </div>
+            <div class="total">
+                <div class="bi-title">当日完成总班数</div>
+                <div class="total-data">
+                    <div class="label">总班次</div>
+                    <div class="value">25444</div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -104,15 +170,133 @@
 import ProgressBar from '@/components/progressBar'
 import TieNumber from '@/components/tieNumber'
 import Radial from '@/components/radial'
+import SpeedIcon from '@/components/speedIcon'
 
 export default {
-    components: { ProgressBar, TieNumber, Radial },
+    components: { ProgressBar, TieNumber, Radial, SpeedIcon },
     data () {
-        return {}
+        return {
+            incomeChart: {},
+            energyChart: {},
+            options: {
+                legend: false,
+                tooltip: {},
+                grid: {
+                    left: '54px',
+                    bottom: '16px',
+                    right: '10px',
+                    top: '20px'
+                },
+                xAxis: {
+                    show: false,
+                    type: 'category',
+                    axisLine: {
+                        lineStyle: {
+                            color: '#42DFFF'
+                        }
+                    }
+                },
+                yAxis: {
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#42DFFF'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                        formatter: value => {
+                            return value > 0 ? value : null
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'bar',
+                        barWidth: 12,
+                        itemStyle: {
+                            barBorderRadius: 6,
+                            color: '#42DFFF'
+                        },
+                        data: []
+                    }
+                ]
+            },
+            speedRank: [
+                {
+                    color: '#42DFFF',
+                    bgColor: '#0A2E41',
+                    busline: 801,
+                    speed: 30.0
+                },
+                {
+                    color: '#F4BE45',
+                    bgColor: '#3B2E17',
+                    busline: 802,
+                    speed: 29.9
+                },
+                {
+                    color: '#F06060',
+                    bgColor: '#3F1E22',
+                    busline: 803,
+                    speed: 29.85
+                },
+                {
+                    color: '#08F0C9',
+                    bgColor: '#045648',
+                    busline: 804,
+                    speed: 29.7
+                },
+                {
+                    color: '#3C77FF',
+                    bgColor: '#0C2357',
+                    busline: 805,
+                    speed: 29.65
+                },
+                {
+                    color: '#FFFFFF',
+                    bgColor: '#393A3B',
+                    busline: 806,
+                    speed: 29.6
+                }
+            ]
+        }
     },
     methods: {
         getRandomInt (max) {
             return Math.floor(Math.random() * Math.floor(max))
+        }
+    },
+    created () {
+        this.incomeChart = JSON.parse(JSON.stringify(this.options))
+        this.energySeries = JSON.parse(JSON.stringify(this.options))
+
+        const incomeSeries = this.incomeChart.series[0]
+        incomeSeries.name = '收入'
+        for (let i = 0; i < 12; i++) {
+            incomeSeries.data.push(this.getRandomInt(5000))
+        }
+        this.incomeChart = {
+            ...this.incomeChart,
+            ...{
+                series: [incomeSeries]
+            }
+        }
+
+        const energySeries = this.energySeries.series[0]
+        energySeries.name = '能耗'
+        for (let i = 0; i < 12; i++) {
+            energySeries.data.push(this.getRandomInt(5000))
+        }
+        this.energyChart = {
+            ...this.energySeries,
+            ...{
+                series: [energySeries]
+            }
         }
     }
 }
@@ -201,13 +385,14 @@ export default {
     }
 }
 
+.title {
+    text-align: center;
+    font-size: 22px;
+}
+
 .pile {
     display: flex;
     justify-content: space-between;
-    .title {
-        text-align: center;
-        font-size: 22px;
-    }
     .value {
         font-size: 48px;
         letter-spacing: -4px;
@@ -226,6 +411,141 @@ export default {
     .flow {
         .value {
             color: #3c77ff;
+        }
+    }
+}
+.chart-item {
+    position: relative;
+    &:before,
+    &:after {
+        position: absolute;
+        content: '';
+        background: #42dfff;
+        left: -3px;
+    }
+    &:before {
+        width: 5px;
+        height: 34px;
+        bottom: 0;
+    }
+    &:after {
+        width: 37px;
+        height: 5px;
+        bottom: -3px;
+    }
+}
+.bus-speed {
+    .items {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .speed-item {
+        display: flex;
+        align-items: center;
+        width: 48%;
+        margin-bottom: 20px;
+    }
+    .speed-body {
+        position: relative;
+        margin-left: 4px;
+        line-height: 1;
+        &:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 2px;
+            background: #033651;
+        }
+    }
+    .speed {
+        opacity: 0.9;
+    }
+    .rank-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .busline {
+        font-size: 14px;
+        opacity: 0.8;
+    }
+    .rank {
+        opacity: 1;
+        font-size: 26px;
+    }
+}
+.mileage {
+    margin-top: 20px;
+    .item {
+        display: flex;
+        align-items: center;
+        height: 68px;
+        margin-bottom: 20px;
+    }
+    .mileage-data {
+        display: flex;
+        align-items: center;
+        height: 68px;
+        flex: 1;
+        margin-left: 10px;
+        font-size: 28px;
+        padding: 10px;
+    }
+}
+.total {
+    margin-top: 20px;
+}
+.total-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 150px;
+    padding-left: 164px;
+    background: url(~@images/radar.png) left center no-repeat;
+    background-size: 144px 150px;
+    line-height: 1;
+    .label {
+        opacity: 0.7;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .value {
+        font-size: 45px;
+        color: #42dfff;
+    }
+}
+</style>
+
+<style lang="less">
+.home-container {
+    .charts {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        .title {
+            margin-bottom: 20px;
+        }
+        & > div {
+            width: calc(50% - 6px);
+        }
+        .echarts {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border-bottom: 1px solid #42dfff;
+            border-left: 1px solid #42dfff;
+            &:before {
+                position: absolute;
+                content: '';
+                background: #42dfff;
+                left: -3px;
+                height: 34px;
+                width: 5px;
+                top: 10px;
+            }
         }
     }
 }
