@@ -23,7 +23,9 @@
 </s-btn>
 ```
 
-### `choose`
+
+
+### choose`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/choose.png)
 
@@ -46,13 +48,15 @@ export default {
 }
 ```
 
-### `progress-bar`
+
+
+### progress-bar`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/progress-bar.png)
 
-- `label` `string` 名称(可为空) 
-- `schedule` `number` 进度
-- `color` `string` 颜色
+-   `label` `string` 名称(可为空)
+-   `schedule` `number` 进度
+-   `color` `string` 颜色
 
 ```html
 <progress-bar label="通勤公交" :schedule="getRandomInt(100)" color="#3C77FF" />
@@ -60,12 +64,12 @@ export default {
 
 
 
-### `tie-number`
+### tie-number`
 
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/tie-number.png)
 
-- `label` `string`
-- `number` `number` 变动数字
+-   `label` `string`
+-   `number` `number` 变动数字
 
 ```html
 <tie-number :number="getRandomInt(5000)" label="活跃车数" />
@@ -83,16 +87,64 @@ export default {
 
 
 
+## bi-table
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/table.jpg)
+
+```html
+<bi-table :columns="columns" :source="source" />
+```
+
+```javascript
+export default {
+    data() {
+        return {
+            columns: [{ prop: 'id', label: '序号' }],
+            source: [{ id: 1 }]
+        }
+    }
+}
+```
+
+
+
+## pagination
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/pagination.jpg)
+
+```html
+<bi-pagination total="10" page.sync="1" @pagination="handleChange" />
+```
+
+
+
+## checkbox
+
+![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/checkbox.jpg)
+
+```html
+<bi-checkbox
+    label="当日公交上线情况"
+    :value.sync="value"
+    @change="handleChange"
+/>
+```
+
+
+
+
+
 
 
 ## CSS 组件
 
 ### `.bi-title`
 
+
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/bi-title.png)
 
 ```html
-<div class="bi-title" sty>当日公交上线情况</div>
+<div class="bi-title">当日公交上线情况</div>
 ```
 
 
