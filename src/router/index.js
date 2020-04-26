@@ -3,13 +3,15 @@ import VueRouter from 'vue-router'
 import Home from '@/views/home'
 import Online from '@/views/online'
 import Cars from '@/views/cars'
+import Energy from '@/views/energy'
 
 Vue.use(VueRouter)
 
 const routes = [
     { path: '/', name: 'Home', component: Home },
     { path: '/online', name: 'online', component: Online },
-    { path: '/cars', name: 'cars', component: Cars }
+    { path: '/cars', name: 'cars', component: Cars },
+    { path: '/energy', name: 'energy', component: Energy }
 ]
 
 const router = new VueRouter({

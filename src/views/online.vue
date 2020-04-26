@@ -4,7 +4,7 @@
             <span class="title">
                 <i class="icon-home"></i>首页大屏
             </span>
-            <a>公交上线情况</a>
+            <a class="active">公交上线情况</a>
             <a>车辆违规统计</a>
             <a>早高峰出车率</a>
             <a>车辆营收</a>
