@@ -10,7 +10,7 @@
     -   `object`为四个角分别设置，格式为key=>value，例如`{leftTop: '#42dfff', leftBottom: '#42dfff', rightTop: '#42dfff', rightBottom: '#42dfff'}`
 -   `bg-color` `string` 背景和边框颜色
 
-```
+```html
 <s-btn corner="#42DFFF">
     <div class="searcher">
         <div class="placeholder" v-if="!focus" @click="onPlaceHolderClick">
