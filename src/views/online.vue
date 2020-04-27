@@ -1,14 +1,5 @@
 <template>
     <div class="container">
-        <div class="sidebar">
-            <span class="title">
-                <i class="icon-home"></i>首页大屏
-            </span>
-            <a class="active">公交上线情况</a>
-            <a>车辆违规统计</a>
-            <a>早高峰出车率</a>
-            <a>车辆营收</a>
-        </div>
         <div class="content">
             <div class="filter-box">
                 <choose class="choose" label="公交分类" :options="cate_options" v-model="cate_id" />

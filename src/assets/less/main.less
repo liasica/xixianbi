@@ -20,6 +20,21 @@ body {
     opacity: 0;
 }
 
+.menu-enter-active,
+.menu-leave-active {
+    transition: all 0.25s;
+}
+
+.menu-enter,
+.menu-leave-to {
+    transform: translate(-100%, 0);
+    opacity: 0;
+}
+
+#app {
+    min-height: 100%;
+}
+
 .container {
     display: flex;
     width: 1280px;

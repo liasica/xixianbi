@@ -1,13 +1,5 @@
 <template>
     <div class="container energe-container">
-        <div class="sidebar">
-            <span class="title">
-                <i class="icon-platform"></i>综合管理
-            </span>
-            <a>综合信息</a>
-            <a>车辆信息</a>
-            <a>运行数据</a>
-        </div>
         <div class="content">
             <div class="header-box">
                 <span>车辆耗能</span>

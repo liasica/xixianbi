@@ -1,13 +1,5 @@
 <template>
     <div class="container cars-container">
-        <div class="sidebar">
-            <span class="title">
-                <i class="icon-platform"></i>综合管理
-            </span>
-            <a>综合信息</a>
-            <a>车辆信息</a>
-            <a>运行数据</a>
-        </div>
         <div class="content">
             <div class="filter-box">
                 <choose class="choose" label="公司" :options="company_options" v-model="company_id" />
@@ -122,35 +114,7 @@ export default {
 .cars-container {
     display: flex;
     // min-height: calc(100vh - 130px);
-    .sidebar {
-        min-height: 100%;
-        width: 121px;
-        font-size: 16px;
-        background-color: #122836;
-        padding: 50px 6px 0;
-        .title {
-            font-size: 20px;
-            color: #42dfff;
-        }
-        .icon-platform {
-            display: inline-block;
-            background-image: url('~@images/platform.png');
-            background-size: cover;
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 54px;
-            color: fade(#d8d8d8, 50);
-            cursor: pointer;
-            &.active,
-            &:hover {
-                color: #ffffff;
-            }
-        }
-    }
+
     .content {
         flex: 1;
         height: 100%;
