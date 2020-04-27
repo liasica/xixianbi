@@ -10,6 +10,7 @@
         <router-link to="/cars">车辆信息</router-link>
         <router-link to="/station">场站管理</router-link>
         <router-link to="/maintenance">机务管理</router-link>
+        <router-link to="/operation">营运管理</router-link>
     </aside>
 </template>
 

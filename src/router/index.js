@@ -7,6 +7,7 @@ import energy from '@/views/energy'
 import complex from '@/views/complex'
 import station from '@/views/station/view'
 import maintenance from '@/views/maintenance/view'
+import operation from '@/views/operation/view'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,8 @@ const routes = [
     { path: '/cars', name: 'cars', component: cars },
     { path: '/energy', name: 'energy', component: energy },
     { path: '/station', name: 'station', component: station },
-    { path: '/maintenance', name: 'maintenance', component: maintenance }
+    { path: '/maintenance', name: 'maintenance', component: maintenance },
+    { path: '/operation', name: 'operation', component: operation }
 ]
 
 const router = new VueRouter({
