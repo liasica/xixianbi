@@ -13,6 +13,20 @@
                 <span>车辆耗能</span>
                 <s-btn class="back-btn">返回</s-btn>
             </div>
+            <div class="summery-box">
+                <div class="left-box">
+                    <div v-for="(item,index) in car_info" :key="index" class="item">
+                        <i :class="'icon icon-'+item.icon"></i>
+                        <div class="num-box">
+                            <s-btn class="num">
+                                <span class="title">{{ item.label }}</span>
+                                <span>{{ item.value }}</span>
+                            </s-btn>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-box"></div>
+            </div>
             <BiTable :columns="columns" :source="list" />
             <!-- <BiPagination :total="total" :page.sync="page" @pagination="handleChange" /> -->
         </div>
@@ -75,7 +89,19 @@ export default {
                 { prop: 'energe_status', label: '电源状态' },
                 { prop: 'warning_reason', label: '告警原因' }
             ],
-            list: data.list
+            list: data.list,
+            car_info: [
+                { label: '线路', value: '808', icon: 'bus' },
+                { label: '驾驶员', value: '张三', icon: 'driver' },
+                { label: '时间', value: '2019-07-23', icon: 'time' }
+            ],
+            energy_info: [
+                { label: '充电金额', value: '68232.32', unit: 'RMB' },
+                { label: '昨日里程', value: '25600', unit: 'KM' },
+                { label: 'GPS车速', value: '3434', unit: 'KM' },
+                { label: '当前电量', value: '48232.32', unit: '度' },
+                { label: 'GPS里程', value: '3434', unit: 'KM' }
+            ]
         }
     },
     created () {},
@@ -124,9 +150,9 @@ export default {
         height: 100%;
         margin-left: 20px;
     }
-
     .header-box {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
         .back-btn {
@@ -135,6 +161,66 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+    }
+    .summery-box {
+        .icon {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            margin-right: 6px;
+        }
+        .icon-bus {
+            background-image: url('~@images/bus.png');
+        }
+        .icon-driver {
+            background-image: url('~@images/driver.png');
+        }
+        .icon-time {
+            background-image: url('~@images/time.png');
+        }
+        .left-box {
+            .item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                .num-box {
+                    position: relative;
+                    padding: 4px;
+                    height: 60px;
+                    width: 230px;
+                    padding: 10px;
+                    .title {
+                        width: 60px;
+                        font-size: 18px;
+                    }
+                    .num {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        padding: 0 0 0 20px;
+                    }
+                    &:before,
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        width: 100%;
+                        height: 12px;
+                        left: 0;
+                        border: 1px solid #42dfff;
+                    }
+                    &:before {
+                        top: 0;
+                        border-bottom: none;
+                    }
+                    &:after {
+                        bottom: 0;
+                        border-top: none;
+                    }
+                }
+            }
         }
     }
 }
