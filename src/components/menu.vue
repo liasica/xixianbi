@@ -8,6 +8,7 @@
         <router-link to="/online">公交上线情况</router-link>
         <router-link to="/energy">耗能数据</router-link>
         <router-link to="/cars">车辆信息</router-link>
+        <router-link to="/station">场站管理</router-link>
     </aside>
 </template>
 

@@ -5,6 +5,7 @@ import Online from '@/views/online'
 import Cars from '@/views/cars'
 import Energy from '@/views/energy'
 import Complex from '@/views/complex'
+import Station from '@/views/station/view'
 
 Vue.use(VueRouter)
 
@@ -13,7 +14,8 @@ const routes = [
     { path: '/complex', name: 'complex', component: Complex },
     { path: '/online', name: 'online', component: Online },
     { path: '/cars', name: 'cars', component: Cars },
-    { path: '/energy', name: 'energy', component: Energy }
+    { path: '/energy', name: 'energy', component: Energy },
+    { path: '/station', name: 'station', component: Station }
 ]
 
 const router = new VueRouter({
