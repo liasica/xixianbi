@@ -1,21 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/home'
-import Online from '@/views/online'
-import Cars from '@/views/cars'
-import Energy from '@/views/energy'
-import Complex from '@/views/complex'
-import Station from '@/views/station/view'
+import home from '@/views/home'
+import online from '@/views/online'
+import cars from '@/views/cars'
+import energy from '@/views/energy'
+import complex from '@/views/complex'
+import station from '@/views/station/view'
+import maintenance from '@/views/maintenance/view'
 
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/', name: 'home', component: Home },
-    { path: '/complex', name: 'complex', component: Complex },
-    { path: '/online', name: 'online', component: Online },
-    { path: '/cars', name: 'cars', component: Cars },
-    { path: '/energy', name: 'energy', component: Energy },
-    { path: '/station', name: 'station', component: Station }
+    { path: '/', name: 'home', component: home },
+    { path: '/complex', name: 'complex', component: complex },
+    { path: '/online', name: 'online', component: online },
+    { path: '/cars', name: 'cars', component: cars },
+    { path: '/energy', name: 'energy', component: energy },
+    { path: '/station', name: 'station', component: station },
+    { path: '/maintenance', name: 'maintenance', component: maintenance }
 ]
 
 const router = new VueRouter({
