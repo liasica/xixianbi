@@ -17,7 +17,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="right-box"></div>
+                <div class="right-box">
+                    <div class="title">昨日线路消耗</div>
+                    <div class="energy-box">
+                        <div v-for="(item, index) in energy_info" :key="index" class="energy-item">
+                            <span class="item-title">{{ item.label }}</span>
+                            <s-btn
+                                class="item-box"
+                                :style="{color: item.fontColor}"
+                                :corner="{leftTop: item.color, leftBottom: item.color, rightTop: item.color, rightBottom: item.color}"
+                            >{{ item.value }}</s-btn>
+                            <span class="item-unit" :style="{color: item.fontColor}">{{ item.unit }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <BiTable :columns="columns" :source="list" />
             <!-- <BiPagination :total="total" :page.sync="page" @pagination="handleChange" /> -->
@@ -88,11 +101,41 @@ export default {
                 { label: '时间', value: '2019-07-23', icon: 'time' }
             ],
             energy_info: [
-                { label: '充电金额', value: '68232.32', unit: 'RMB' },
-                { label: '昨日里程', value: '25600', unit: 'KM' },
-                { label: 'GPS车速', value: '3434', unit: 'KM' },
-                { label: '当前电量', value: '48232.32', unit: '度' },
-                { label: 'GPS里程', value: '3434', unit: 'KM' }
+                {
+                    label: '充电金额',
+                    value: '68232.32',
+                    unit: 'RMB',
+                    color: '#42DFFF',
+                    fontColor: '#42DFFF'
+                },
+                {
+                    label: '昨日里程',
+                    value: '25600',
+                    unit: 'KM',
+                    color: '#3C77FF',
+                    fontColor: '#3C77FF'
+                },
+                {
+                    label: 'GPS车速',
+                    value: '3434',
+                    unit: 'KM',
+                    color: '#C9C9C9',
+                    fontColor: '#FFFFFF'
+                },
+                {
+                    label: '当前电量',
+                    value: '48232.32',
+                    unit: '度',
+                    color: '#08F0C9',
+                    fontColor: '#08F0C9'
+                },
+                {
+                    label: 'GPS里程',
+                    value: '3434',
+                    unit: 'KM',
+                    color: '#C9C9C9',
+                    fontColor: '#FFFFFF'
+                }
             ]
         }
     },
@@ -156,6 +199,7 @@ export default {
         }
     }
     .summery-box {
+        display: flex;
         .icon {
             display: inline-block;
             width: 50px;
@@ -212,6 +256,40 @@ export default {
                         border-top: none;
                     }
                 }
+            }
+        }
+        .right-box {
+            margin-left: 12px;
+            .title {
+                color: #42dfff;
+                font-size: 24px;
+            }
+            .energy-box {
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 30px;
+            }
+            .energy-item {
+                display: flex;
+                margin-right: 10px;
+                margin-bottom: 30px;
+            }
+            .item-title {
+                width: 44px;
+                font-size: 22px;
+                margin-right: 5px;
+            }
+            .item-box {
+                margin: 0 8px;
+                font-size: 36px;
+                display: flex;
+                align-items: center;
+                padding: 0 10px;
+            }
+            .item-unit {
+                display: flex;
+                align-items: center;
+                font-size: 30px;
             }
         }
     }
