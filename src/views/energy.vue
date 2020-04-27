@@ -1,5 +1,5 @@
 <template>
-    <div class="energe-container">
+    <div class="container energe-container">
         <div class="sidebar">
             <span class="title">
                 <i class="icon-platform"></i>综合管理

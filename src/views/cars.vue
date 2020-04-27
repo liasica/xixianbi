@@ -1,5 +1,5 @@
 <template>
-    <div class="cars-container">
+    <div class="container cars-container">
         <div class="sidebar">
             <span class="title">
                 <i class="icon-platform"></i>综合管理

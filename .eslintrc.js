@@ -6,8 +6,8 @@ module.exports = {
     extends: ['plugin:vue/essential', '@vue/standard', 'standard'],
     plugins: ['vue'],
     rules: {
-        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-console': 'off',
+        'no-debugger': 'off',
         'generator-star-spacing': 'off',
         'arrow-parens': ['error', 'as-needed'],
         indent: ['error', 4, { SwitchCase: 1 }],
