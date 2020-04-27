@@ -29,53 +29,53 @@
                             <img :src="require('@images/violation-alert.png')" />
                         </s-btn>
                         <span>本月30内报警数</span>
-                        <div class="value">100</div>
+                        <div class="value">{{ home.alarm }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-illegal.png')" />
                         </s-btn>
                         <span>驾驶员违法违规</span>
-                        <div class="value">100</div>
+                        <div class="value">0</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-accident.png')" />
                         </s-btn>
                         <span>驾驶员事故次数</span>
-                        <div class="value">100</div>
+                        <div class="value">{{ home.accidentTimes }}</div>
                     </li>
                     <li>
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-insurance.png')" />
                         </s-btn>
                         <span>车辆保险到期</span>
-                        <div class="value">100</div>
+                        <div class="value">{{ home.review }}</div>
                     </li>
                 </ul>
             </div>
             <div class="radials">
                 <div class="bi-title">早高峰平均出车率（日）</div>
-                <div class="items">
+                <div class="items" v-if="home.avg">
                     <s-btn :corner="{ leftTop: '#42DFFF', rightTop: '#42DFFF' }" class="radial">
-                        <radial radial-id="radial1" :schedule="getRandomInt(100)" />
-                        <div class="radial-label">场站一</div>
+                        <radial radial-id="radial1" :schedule="home.avg[0].ontimeRatio" />
+                        <div class="radial-label">{{ home.avg[0].groupName }}</div>
                     </s-btn>
                     <s-btn
                         :corner="{ leftTop: '#08F0C9', rightTop: '#08F0C9' }"
                         bg-color="#08F0C9"
                         class="radial radial2"
                     >
-                        <radial radial-id="radial2" :schedule="getRandomInt(100)" />
-                        <div class="radial-label">场站二</div>
+                        <radial radial-id="radial2" :schedule="home.avg[1].ontimeRatio" />
+                        <div class="radial-label">{{ home.avg[1].groupName }}</div>
                     </s-btn>
                     <s-btn
                         :corner="{ leftTop: '#3C77FF', rightTop: '#3C77FF' }"
                         bg-color="#3C77FF"
                         class="radial radial3"
                     >
-                        <radial radial-id="radial3" :schedule="getRandomInt(100)" />
-                        <div class="radial-label">场站三</div>
+                        <radial radial-id="radial3" :schedule="home.avg[2].ontimeRatio" />
+                        <div class="radial-label">{{ home.avg[2].groupName }}</div>
                     </s-btn>
                 </div>
             </div>
@@ -122,36 +122,36 @@
                     </div>
                 </div>
             </div>
-            <div class="mileage">
+            <div class="mileage" v-if="home.distance">
                 <div class="bi-title">当日营运里程</div>
                 <div class="item">
-                    <div class="label">场站一</div>
+                    <div class="label">{{ home.distance[0].lineNo }}</div>
                     <s-btn
                         class="mileage-data"
                         bg-color="#42DFFF"
                         :corner="{leftTop: '#42DFFF', rightTop: '#42DFFF', leftBottom: '#42DFFF', rightBottom: '#42DFFF'}"
                     >
-                        <div style="color:#42DFFF">68232.32 KM</div>
+                        <div style="color:#42DFFF">{{ home.distance[0].runDistance }} KM</div>
                     </s-btn>
                 </div>
                 <div class="item">
-                    <div class="label">场站二</div>
+                    <div class="label">{{ home.distance[1].lineNo }}</div>
                     <s-btn
                         class="mileage-data"
                         bg-color="#08F0C9"
                         :corner="{leftTop: '#08F0C9', rightTop: '#08F0C9', leftBottom: '#08F0C9', rightBottom: '#08F0C9'}"
                     >
-                        <div style="color:#08F0C9">25575.45 KM</div>
+                        <div style="color:#08F0C9">{{ home.distance[1].runDistance }} KM</div>
                     </s-btn>
                 </div>
                 <div class="item">
-                    <div class="label">场站三</div>
+                    <div class="label">{{ home.distance[2].lineNo }}</div>
                     <s-btn
                         class="mileage-data"
                         bg-color="#3C77FF"
                         :corner="{leftTop: '#3C77FF', rightTop: '#3C77FF', leftBottom: '#3C77FF', rightBottom: '#3C77FF'}"
                     >
-                        <div style="color:#3C77FF">445565.56 KM</div>
+                        <div style="color:#3C77FF">{{ home.distance[2].runDistance }} KM</div>
                     </s-btn>
                 </div>
             </div>
@@ -159,7 +159,7 @@
                 <div class="bi-title">当日完成总班数</div>
                 <div class="total-data">
                     <div class="label">总班次</div>
-                    <div class="value">25444</div>
+                    <div class="value">{{ home.times }}</div>
                 </div>
             </div>
         </div>
@@ -176,6 +176,7 @@ export default {
     components: { ProgressBar, TieNumber, Radial, SpeedIcon },
     data () {
         return {
+            home: {},
             incomeChart: {},
             energyChart: {},
             options: {
@@ -271,7 +272,15 @@ export default {
             return Math.floor(Math.random() * Math.floor(max))
         }
     },
-    created () {
+    async created () {
+        const data = await this.$axios.get('apiv1/home')
+        this.home = data
+
+        for (let i = 0; i < 6; i++) {
+            this.speedRank[i].busline = data.speed[i].lineSpeed
+            this.speedRank[i].busline = data.speed[i].busNo
+        }
+
         this.incomeChart = JSON.parse(JSON.stringify(this.options))
         this.energySeries = JSON.parse(JSON.stringify(this.options))
 
@@ -289,9 +298,7 @@ export default {
 
         const energySeries = this.energySeries.series[0]
         energySeries.name = '能耗'
-        for (let i = 0; i < 12; i++) {
-            energySeries.data.push(this.getRandomInt(5000))
-        }
+        energySeries.data = data.oil
         this.energyChart = {
             ...this.energySeries,
             ...{
@@ -365,7 +372,7 @@ export default {
     width: 70px;
     bottom: -14px;
     left: 13px;
-    font-size: 18px;
+    font-size: 12px;
     background: #131c24;
     border: 1px solid #42dfff;
     box-shadow: inset 0 0 9px 0 #42dfff;
@@ -482,6 +489,7 @@ export default {
     .item {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         height: 68px;
         margin-bottom: 20px;
     }
@@ -489,10 +497,10 @@ export default {
         display: flex;
         align-items: center;
         height: 68px;
-        flex: 1;
         margin-left: 10px;
         font-size: 28px;
         padding: 10px;
+        width: 200px;
     }
 }
 .total {

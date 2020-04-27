@@ -36,7 +36,10 @@ service.interceptors.response.use(
                 source.cancel('需要登录')
                 source = CancelToken.source()
                 if (path !== '/login') {
-                    router.replace({ path: '/login', query: { redirect: router.currentRoute.fullPath } })
+                    router.replace({
+                        path: '/login',
+                        query: { redirect: router.currentRoute.fullPath }
+                    })
                 }
             }
             // Message({ message: res.message || 'Error', type: 'error', duration: 5 * 1000 })
