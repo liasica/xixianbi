@@ -20,12 +20,20 @@ export default {
             return `border-color: ${this.bgColor}; box-shadow: inset 0 0 15px 0 ${this.bgColor};`
         },
         cornerStyle () {
-            return typeof this.corner === 'boolean' ? '' : `border-color: ${this.corner}`
+            return typeof this.corner === 'boolean'
+                ? ''
+                : `border-color: ${this.corner}`
         },
         leftTop () {
             return {
-                show: this.corner === true || typeof this.corner === 'string' || this.corner.leftTop,
-                style: typeof this.corner === 'boolean' ? '' : `border-color: ${this.corner.leftTop || this.corner}`
+                show:
+                    this.corner === true ||
+                    typeof this.corner === 'string' ||
+                    this.corner.leftTop,
+                style:
+                    typeof this.corner === 'boolean'
+                        ? ''
+                        : `border-color: ${this.corner.leftTop || this.corner}`
             }
         },
         leftBottom () {
@@ -44,8 +52,14 @@ export default {
         },
         rightBottom () {
             return {
-                show: this.corner === true || typeof this.corner === 'string' || this.corner.rightBottom,
-                style: typeof this.corner === 'boolean' ? '' : `border-color: ${this.corner.leftTop || this.corner}`
+                show:
+                    this.corner === true ||
+                    typeof this.corner === 'string' ||
+                    this.corner.rightBottom,
+                style:
+                    typeof this.corner === 'boolean'
+                        ? ''
+                        : `border-color: ${this.corner.leftTop || this.corner}`
             }
         }
     }
@@ -65,7 +79,7 @@ export default {
         opacity: 0.3;
         border: 1px solid #7afff2;
         box-shadow: inset 0 0 15px 0 #7afff2;
-        z-index: -1;
+        // z-index: -1;
     }
     .corner {
         position: absolute;

@@ -110,6 +110,7 @@ export default {
             top: 100%;
             padding: 6px 0;
             background: #121c25;
+            z-index: 9;
             li {
                 padding: 0 10px;
                 margin: 4px 0;
