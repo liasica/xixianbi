@@ -4,11 +4,13 @@ import Home from '@/views/home'
 import Online from '@/views/online'
 import Cars from '@/views/cars'
 import Energy from '@/views/energy'
+import Complex from '@/views/complex'
 
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/', name: 'Home', component: Home },
+    { path: '/', name: 'home', component: Home },
+    { path: '/complex', name: 'complex', component: Complex },
     { path: '/online', name: 'online', component: Online },
     { path: '/cars', name: 'cars', component: Cars },
     { path: '/energy', name: 'energy', component: Energy }

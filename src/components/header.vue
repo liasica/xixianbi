@@ -44,9 +44,11 @@ export default {
             this.now = moment().format('YYYY-MM-DD HH:mm:ss')
         }, 1000)
 
-        // const { code, temperature } = await this.$axios.get('apiv1/guest/weather')
-        // this.code = code
-        // this.temperature = temperature
+        const { code, temperature } = await this.$axios.get(
+            'apiv1/guest/weather'
+        )
+        this.code = code
+        this.temperature = temperature
     },
     watch: {
         $route () {

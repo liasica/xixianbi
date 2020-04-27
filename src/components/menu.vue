@@ -4,6 +4,7 @@
             <i class="icon-platform"></i>西咸BI
         </span>
         <router-link to="/" exact>首页</router-link>
+        <router-link to="/complex" exact>综合管理</router-link>
         <router-link to="/online">公交上线情况</router-link>
         <router-link to="/energy">耗能数据</router-link>
         <router-link to="/cars">车辆信息</router-link>
