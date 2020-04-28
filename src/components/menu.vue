@@ -1,5 +1,5 @@
 <template>
-    <aside class="sidebar">
+    <div class="sidebar">
         <span class="title">
             <i class="icon-platform"></i>西咸BI
         </span>
@@ -11,7 +11,7 @@
         <router-link to="/station">场站管理</router-link>
         <router-link to="/maintenance">机务管理</router-link>
         <router-link to="/operation">营运管理</router-link>
-    </aside>
+    </div>
 </template>
 
 <style lang="less" scoped>
