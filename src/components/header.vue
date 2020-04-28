@@ -2,7 +2,7 @@
     <div class="header">
         <div class="container">
             <div class="wrapper">
-                <button class="menu" @click="menuShow = !menuShow"></button>
+                <button class="menu" @click="toggleMenu"></button>
                 <s-btn class="now">{{ now }}</s-btn>
                 <div v-if="code && temperature" class="weather">
                     <img v-if="code" :src="require(`@images/weather/${code}@2x.png`)" />
@@ -37,6 +37,12 @@ export default {
             code: '0',
             temperature: '28',
             menuShow: false
+        }
+    },
+    methods: {
+        toggleMenu () {
+            console.info('toggleMenu')
+            this.menuShow = !this.menuShow
         }
     },
     async created () {
