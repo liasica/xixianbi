@@ -55,13 +55,46 @@
             </div>
             <div class="bottom">
                 <div class="bi-title">超速信息</div>
-                <img :src="require('@images/demo/12.png')" />
+                <div class="progress-bars">
+                    <progress-bar
+                        class="pbar"
+                        label="48秒"
+                        :schedule="getRandomInt(100)"
+                        rightText="km/h"
+                        :noBorder="true"
+                    />
+                    <progress-bar
+                        class="pbar"
+                        label="30秒"
+                        :schedule="getRandomInt(100)"
+                        rightText="km/h"
+                        :noBorder="true"
+                    />
+                    <progress-bar
+                        class="pbar"
+                        label="48秒"
+                        :schedule="getRandomInt(100)"
+                        rightText="km/h"
+                        :noBorder="true"
+                    />
+                    <progress-bar
+                        class="pbar"
+                        label="30秒"
+                        :schedule="getRandomInt(100)"
+                        rightText="km/h"
+                        :noBorder="true"
+                    />
+                </div>
+                <!-- <img :src="require('@images/demo/12.png')" /> -->
             </div>
         </div>
     </div>
 </template>
 <script>
+import ProgressBar from '@/components/progressBar'
+
 export default {
+    components: { ProgressBar },
     data () {
         return {
             repairs: [
@@ -77,6 +110,11 @@ export default {
                 { icon: 'number', value: '00123' },
                 { icon: 'user', value: '张三' }
             ]
+        }
+    },
+    methods: {
+        getRandomInt (max) {
+            return Math.floor(Math.random() * Math.floor(max))
         }
     }
 }
