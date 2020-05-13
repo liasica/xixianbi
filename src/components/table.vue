@@ -7,7 +7,7 @@
         </thead>
         <tbody>
             <tr v-for="(item, index) in source" :key="index">
-                <td v-for="t in columns" :key="t.prop">
+                <td v-for="t in columns" :key="t.prop" :style="'text-align:' + t.align">
                     <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
                     <span v-else>{{ item[t.prop] }}</span>
                 </td>

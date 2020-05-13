@@ -7,26 +7,28 @@
             <li
                 v-for="(item, index) in list"
                 :key="index"
-                class="item"
+                :class="['item', { active: page === index + 1}]"
                 @click="onChange(item)"
             >{{ item }}</li>
             <li @click="onNext">
                 <span class="icon-right-arrow"></span>
             </li>
         </ul>
-        <div class="jump">
+        <div v-if="jump" class="jump">
             跳转至
             <input v-model="jumpNum" type="text" />
             <span @click="onJump">确定</span>
         </div>
-        <div class="total">共{{ totalPage }}页/{{ total }}条数据</div>
+        <div v-if="showTotal" class="total">共{{ totalPage }}页/{{ total }}条数据</div>
     </div>
 </template>
 <script>
 export default {
     props: {
         total: { type: Number, default: 1 },
-        page: { type: Number, default: 1 }
+        page: { type: Number, default: 1 },
+        jump: { type: Boolean, default: true },
+        showTotal: { type: Boolean, default: true }
     },
     computed: {
         totalPage () {
@@ -77,7 +79,7 @@ export default {
         onPrev () {},
         onNext () {},
         onChange (value) {
-            console.log(value)
+            this.$emit('update:page', value)
         }
     }
 }
