@@ -8,6 +8,8 @@ import complex from '@/views/complex'
 import station from '@/views/station/view'
 import maintenance from '@/views/maintenance/view'
 import operation from '@/views/operation/view'
+import finance from '@/views/finance'
+import supplies from '@/views/supplies'
 
 Vue.use(VueRouter)
 
@@ -19,7 +21,9 @@ const routes = [
     { path: '/energy', name: 'energy', component: energy },
     { path: '/station', name: 'station', component: station },
     { path: '/maintenance', name: 'maintenance', component: maintenance },
-    { path: '/operation', name: 'operation', component: operation }
+    { path: '/operation', name: 'operation', component: operation },
+    { path: '/finance', name: 'finance', component: finance },
+    { path: '/supplies', name: 'supplies', component: supplies }
 ]
 
 const router = new VueRouter({
