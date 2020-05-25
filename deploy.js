@@ -3,10 +3,10 @@ const os = require('os')
 const shell = require('shelljs')
 const SSH2Shell = require('ssh2shell')
 
-const remotePath = '/web/admin.izxxz.com'
+const remotePath = '/web/sites/xixianbi'
 const dist = 'dist'
 const gitRemote = 'git@gitlab.liasica.com:xixianbus/bi-front-dist.git'
-const hostIp = '117.34.209.229'
+const hostIp = '36.133.97.19'
 
 function logSubhead (message) {
     console.log(os.EOL + chalk.bold.underline(message))
