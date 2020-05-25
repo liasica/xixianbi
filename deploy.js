@@ -3,7 +3,7 @@ const os = require('os')
 const shell = require('shelljs')
 const SSH2Shell = require('ssh2shell')
 
-const remotePath = '/web/sites/xixianbi'
+const remotePath = '/web/sites/bi-front-dist'
 const dist = 'dist'
 const gitRemote = 'git@gitlab.liasica.com:xixianbus/bi-front-dist.git'
 const hostIp = '36.133.97.19'
