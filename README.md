@@ -55,7 +55,9 @@ export default {
 ![preview](https://github.com/liasica/xixianbi/blob/master/extra-images/progress-bar.png)
 
 -   `label` `string` 名称(可为空)
--   `schedule` `number` 进度
+-   `schedule` `[number, array]` 进度
+    -   参数为number时为占比
+    -   参数为array时进度为 arr[0] / arr[1]
 -   `color` `string` 颜色
 
 ```html

@@ -35,7 +35,7 @@ export default {
     methods: {
         onReady (instance, CountUp) {
             const that = this
-            instance.update(that.number + 100)
+            instance.update(that.number)
         }
     }
 }

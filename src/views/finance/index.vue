@@ -19,7 +19,7 @@
             <choose
                 label="司机"
                 :value="1"
-                :options="[{id: 1, label: '张三'}, {id: 2, label: '李四'}, {id: 2, label: '王五'}]"
+                :options="[{id: 1, label: '陈志强'}, {id: 2, label: '王慧波'}, {id: 2, label: '李彦'}]"
             />
             <choose
                 label="数据日期"
@@ -30,10 +30,10 @@
         <div class="finance-box">
             <div class="bi-title">财务分析</div>
             <div class="list">
-                <Card type="1" label="IC卡人次" value="3242" color="#42DFFF" />
-                <Card type="2" label="IC卡金额" value="3242" color="#3C77FF" />
-                <Card type="3" label="IC卡人次" value="3242" color="#08F0C9" />
-                <Card type="4" label="投币收入" value="3242" color="#F2F2F2" />
+                <Card :type="1" label="IC卡人次" :value="0" color="#42DFFF" />
+                <Card :type="2" label="IC卡金额" :value="0" color="#3C77FF" />
+                <Card :type="3" label="IC卡人次" :value="0" color="#08F0C9" />
+                <Card :type="4" label="投币收入" :value="0" color="#F2F2F2" />
             </div>
         </div>
         <div class="icnum-box">

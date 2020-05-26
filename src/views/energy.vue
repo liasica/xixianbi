@@ -97,42 +97,42 @@ export default {
             list: data.list,
             car_info: [
                 { label: '线路', value: '808', icon: 'bus' },
-                { label: '驾驶员', value: '张三', icon: 'driver' },
-                { label: '时间', value: '2019-07-23', icon: 'time' }
+                { label: '驾驶员', value: '王伟', icon: 'driver' },
+                { label: '时间', value: '2020-05-23', icon: 'time' }
             ],
             energy_info: [
                 {
                     label: '充电金额',
-                    value: '68232.32',
+                    value: '0',
                     unit: 'RMB',
                     color: '#42DFFF',
                     fontColor: '#42DFFF'
                 },
                 {
                     label: '昨日里程',
-                    value: '25600',
+                    value: '230',
                     unit: 'KM',
                     color: '#3C77FF',
                     fontColor: '#3C77FF'
                 },
                 {
                     label: 'GPS车速',
-                    value: '3434',
-                    unit: 'KM',
+                    value: '36',
+                    unit: 'KM/H',
                     color: '#C9C9C9',
                     fontColor: '#FFFFFF'
                 },
                 {
                     label: '当前电量',
-                    value: '48232.32',
+                    value: '82.32',
                     unit: '度',
                     color: '#08F0C9',
                     fontColor: '#08F0C9'
                 },
                 {
                     label: 'GPS里程',
-                    value: '3434',
-                    unit: 'KM',
+                    value: '34',
+                    unit: 'KM/H',
                     color: '#C9C9C9',
                     fontColor: '#FFFFFF'
                 }

@@ -3,23 +3,13 @@
         <div class="left">
             <div class="bi-title">当日公交上线情况</div>
             <div class="progress-bars">
-                <progress-bar class="pbar" label="常规公交" :schedule="getRandomInt(100)" />
-                <progress-bar
-                    class="pbar"
-                    label="定制公交"
-                    :schedule="getRandomInt(100)"
-                    color="#08F0C9"
-                />
-                <progress-bar
-                    class="pbar"
-                    label="通勤公交"
-                    :schedule="getRandomInt(100)"
-                    color="#3C77FF"
-                />
+                <progress-bar class="pbar" label="常规公交" :schedule="[370, 550]" />
+                <progress-bar class="pbar" label="定制公交" :schedule="[22, 550]" color="#08F0C9" />
+                <progress-bar class="pbar" label="通勤公交" :schedule="[29, 550]" color="#3C77FF" />
             </div>
             <div class="tie-items">
-                <tie-number :number="getRandomInt(5000)" label="活跃车数" />
-                <tie-number :number="getRandomInt(5000)" label="非活跃车数" />
+                <tie-number :number="421" label="活跃车数" />
+                <tie-number :number="550" label="非活跃车数" />
             </div>
             <div class="violation">
                 <div class="bi-title">当日车辆违规统计</div>
@@ -58,24 +48,24 @@
                 <div class="bi-title">早高峰平均出车率（日）</div>
                 <div class="items" v-if="home.avg">
                     <s-btn :corner="{ leftTop: '#42DFFF', rightTop: '#42DFFF' }" class="radial">
-                        <radial radial-id="radial1" :schedule="home.avg[0].ontimeRatio" />
-                        <div class="radial-label">{{ home.avg[0].groupName }}</div>
+                        <radial radial-id="radial1" :schedule="96" />
+                        <div class="radial-label">第一场站</div>
                     </s-btn>
                     <s-btn
                         :corner="{ leftTop: '#08F0C9', rightTop: '#08F0C9' }"
                         bg-color="#08F0C9"
                         class="radial radial2"
                     >
-                        <radial radial-id="radial2" :schedule="home.avg[1].ontimeRatio" />
-                        <div class="radial-label">{{ home.avg[1].groupName }}</div>
+                        <radial radial-id="radial2" :schedule="95" />
+                        <div class="radial-label">第二场站</div>
                     </s-btn>
                     <s-btn
                         :corner="{ leftTop: '#3C77FF', rightTop: '#3C77FF' }"
                         bg-color="#3C77FF"
                         class="radial radial3"
                     >
-                        <radial radial-id="radial3" :schedule="home.avg[2].ontimeRatio" />
-                        <div class="radial-label">{{ home.avg[2].groupName }}</div>
+                        <radial radial-id="radial3" :schedule="98" />
+                        <div class="radial-label">第三场站</div>
                     </s-btn>
                 </div>
             </div>
@@ -84,15 +74,15 @@
             <div class="pile">
                 <div class="income">
                     <div class="title">车辆累计月收入</div>
-                    <div class="value">{{ getRandomInt(15000000) }}</div>
+                    <div class="value">{{ 2401679 * 1.25 }}</div>
                 </div>
                 <div class="count">
                     <div class="title">本月累计发车</div>
-                    <div class="value">{{ getRandomInt(99999) }}</div>
+                    <div class="value">{{ 53125 }}</div>
                 </div>
                 <div class="flow">
                     <div class="title">车辆累计月客流</div>
-                    <div class="value">{{ getRandomInt(15000000) }}</div>
+                    <div class="value">{{ 2401679 }}</div>
                 </div>
             </div>
             <div class="charts">
@@ -401,8 +391,8 @@ export default {
     display: flex;
     justify-content: space-between;
     .value {
-        font-size: 48px;
-        letter-spacing: -4px;
+        font-size: 40px;
+        letter-spacing: -1px;
         text-align: center;
     }
     .income {

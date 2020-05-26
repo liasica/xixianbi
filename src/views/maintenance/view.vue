@@ -99,16 +99,16 @@ export default {
         return {
             repairs: [
                 { label: '地点', value: '场站一' },
-                { label: '信息', value: 'WXH-20190725-001' },
+                { label: '信息', value: 'WXH-19112305' },
                 { label: '车牌号', value: '陕AV9276' },
                 { label: '维修点', value: '西咸汽车维修点' },
-                { label: '维修时间', value: '2019-07-23 12:12:22' },
-                { label: '维修人员', value: '张三' }
+                { label: '维修时间', value: '2019-11-23' },
+                { label: '维修人员', value: '杨建国' }
             ],
             factory: [
                 { icon: 'time', value: '2018-09-24 12:00:00' },
                 { icon: 'number', value: '00123' },
-                { icon: 'user', value: '张三' }
+                { icon: 'user', value: '王涛' }
             ]
         }
     },

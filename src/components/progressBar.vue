@@ -4,7 +4,7 @@
         <div class="progress-bar" :style="`border-color: ${this.color};`">
             <div class="progress" :style="style"></div>
         </div>
-        <div class="schedule" :style="`color: ${color}`">{{ parseInt(schedule) }} {{ rightText }}</div>
+        <div class="schedule" :style="`color: ${color}`">{{ parseInt(target) }} {{ rightText }}</div>
     </div>
 </template>
 
@@ -12,7 +12,7 @@
 export default {
     props: {
         label: { type: String, default: '' },
-        schedule: { type: Number, default: 0 },
+        schedule: { type: [Number, Array], default: 0 },
         color: { type: String, default: '#42DFFF' },
         rightText: { type: String, default: '' },
         noBorder: { type: Boolean, default: false }
@@ -24,13 +24,21 @@ export default {
     },
     data () {
         return {
-            width: 0
+            width: 0,
+            target: 0
         }
     },
     created () {
         this.width = 0
         setTimeout(() => {
-            this.width = this.schedule
+            if (typeof this.schedule === 'number') {
+                this.width = this.schedule
+                this.target = this.schedule
+            } else {
+                const [num, max] = this.schedule
+                this.width = (num / max) * 100
+                this.target = num
+            }
         }, 1)
     }
 }
@@ -67,7 +75,7 @@ export default {
     }
     .schedule {
         font-size: 28px;
-        // width: 60px;
+        min-width: 60px;
         text-align: right;
         flex-shrink: 0;
         margin-left: 5px;

@@ -69,7 +69,7 @@ export default {
     // height: 50px;
     & > span {
         height: 100%;
-        width: 40px;
+        max-width: 40px;
         line-height: 1;
         display: flex;
         align-items: center;

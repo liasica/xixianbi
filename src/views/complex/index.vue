@@ -37,28 +37,28 @@ export default {
                 {
                     icon: 'rmb',
                     label: '昨日收入',
-                    value: '5678.0',
+                    value: '-',
                     unit: 'RMB',
                     color: '#42DFFF'
                 },
                 {
                     icon: 'dashboard',
                     label: '累计里程',
-                    value: '43293',
+                    value: '-',
                     unit: 'KM',
                     color: '#08F0C9'
                 },
                 {
                     icon: 'users',
                     label: '当日人次',
-                    value: '3250',
+                    value: '2401679',
                     unit: '人次',
                     color: '#3C77FF'
                 },
                 {
                     icon: 'battery',
                     label: '累计耗能',
-                    value: '2890',
+                    value: '-',
                     unit: '度',
                     color: '#EBEBEB'
                 }

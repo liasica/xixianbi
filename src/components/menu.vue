@@ -28,6 +28,7 @@
     padding: 30px 6px 0;
     display: flex;
     flex-direction: column;
+    z-index: 9;
     // transition: all 0.25s;
     .title {
         font-size: 20px;
