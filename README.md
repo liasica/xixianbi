@@ -158,3 +158,56 @@ export default {
 - `&.border-bottom`
 - `&.border-left`
 - `&.border-around` 四边
+
+
+
+首页
+- 当日公交上线情况 HomeOnline
+- 当日车辆违规统计 HomeViolation
+- 早高峰平均出车率 HomeWorkRate
+- 车辆营收统计时间分布图 HomeRevenue
+- 车辆运行能耗比较统计（日）HomeEnergy
+- 当日车辆平均速度 HomeSpeed
+- 当日营运里程  HomeMileage
+- 当日完成班次数 HomeWorkTimes
+
+综合管理
+- 综合信息 complexInfo
+- 车辆信息 complexCarInfo
+- 运行数据 complexWorkInfo
+
+场站管理
+- 场站信息 stationInfo
+
+机务管理
+- 维修计划 maintenanceFixPlan
+- 安全管理 maintenanceSafe
+
+营运调度
+- 车长信息 operationCarMaster
+- 调度计划 operationDispatchPlan
+- 排班计划 operationScheduPlan
+- 营运分析 operationAnalyse
+
+财务管理
+- 财务分析 financeInfo
+
+物资管理
+- 物资入库 suppliesStock
+  - 详细 suppliesDetail
+- 物资调拨 suppliesAllocate
+
+权限管理
+- 角色管理 role
+- 用户列表 user
+
+系统管理
+- 个人资料（不是表格）
+- 操作日志 SystemOprationLog
+
+
+
+TODO 组件
+输入框
+日期选择
+时间选择

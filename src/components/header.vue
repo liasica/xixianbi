@@ -36,7 +36,7 @@ export default {
             now: '',
             code: '0',
             temperature: '28',
-            menuShow: false
+            menuShow: true
         }
     },
     methods: {
@@ -58,7 +58,7 @@ export default {
     },
     watch: {
         $route () {
-            this.menuShow = false
+            // this.menuShow = false
         }
     }
 }
