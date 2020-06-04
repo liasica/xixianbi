@@ -2,16 +2,21 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公交分类" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <choose class="choose" label="线路状态" :options="status_options" v-model="status_id" />
+                <choose class="choose" label="分公司" :options="cate_options" v-model="cate_id" />
+                <choose class="choose" label="线路号" :options="station_options" v-model="station_id" />
+                <choose class="choose" label="方案名称" :options="name_options" v-model="name_id" />
+                <choose
+                    class="choose"
+                    label="发车点当/次日"
+                    :options="status_options"
+                    v-model="status_id"
+                />
                 <button class="search-btn">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
+                <BiCheckBox label="排班计划" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
                     <i class="icon-switch"></i>
                     <span>导出数据</span>
@@ -24,7 +29,6 @@
 </template>
 
 <script>
-// TODO
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
@@ -33,15 +37,26 @@ const data = Mock.mock({
     'list|11': [
         {
             id: '01',
-            cate: '常规公交',
-            station: '场站1',
-            name: '880',
-            start: '泾河新城管委会',
-            start_time: '07:00:00-19:00:00',
-            end: '后卫寨地铁站',
-            end_time: '07:00:00-19:00:00',
-            fleet: '1号车队',
-            statue: '运营'
+            company: '场站1',
+            line: '880',
+            planname: '1121',
+            no: '1',
+            time1: '13:00',
+            direction1: '下行-秦汉中学',
+            time2: '13:00',
+            direction2: '上行-秦汉中学',
+            time3: '13:00',
+            direction3: '下行-秦汉中学',
+            time4: '13:00',
+            direction4: '上行-秦汉中学',
+            time5: '13:00',
+            direction5: '下行-秦汉中学',
+            time6: '13:00',
+            direction6: '上行-秦汉中学',
+            time7: '13:00',
+            direction7: '下行-秦汉中学',
+            time8: '13:00',
+            direction8: '上行-秦汉中学'
         }
     ]
 })
@@ -58,15 +73,26 @@ export default {
             page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'cate', label: '公交分类' },
-                { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'start', label: '上车发行站点' },
-                { prop: 'start_time', label: '运营时间' },
-                { prop: 'end', label: '下车发行站点' },
-                { prop: 'end_time', label: '运营时间' },
-                { prop: 'fleet', label: '所属车队' },
-                { prop: 'statue', label: '线路状态' }
+                { prop: 'company', label: '分公司' },
+                { prop: 'line', label: '线路' },
+                { prop: 'planname', label: '方案名称' },
+                { prop: 'no', label: '部位号' },
+                { prop: 'time1', label: '时间点1' },
+                { prop: 'direction1', label: '开往方向1' },
+                { prop: 'time2', label: '时间点2' },
+                { prop: 'direction2', label: '开往方向2' },
+                { prop: 'time3', label: '时间点3' },
+                { prop: 'direction3', label: '开往方向3' },
+                { prop: 'time4', label: '时间点4' },
+                { prop: 'direction4', label: '开往方向4' },
+                { prop: 'time5', label: '时间点5' },
+                { prop: 'direction5', label: '开往方向5' },
+                { prop: 'time6', label: '时间点6' },
+                { prop: 'direction6', label: '开往方向6' },
+                { prop: 'time7', label: '时间点7' },
+                { prop: 'direction7', label: '开往方向7' },
+                { prop: 'time8', label: '时间点8' },
+                { prop: 'direction8', label: '开往方向8' }
             ],
             list: data.list,
             cate_options: [

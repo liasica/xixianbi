@@ -2,16 +2,15 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公交分类" :options="cate_options" v-model="cate_id" />
+                <choose class="choose" label="公司" :options="cate_options" v-model="cate_id" />
                 <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <choose class="choose" label="线路状态" :options="status_options" v-model="status_id" />
+                <choose class="choose" label="线路名称" :options="name_options" v-model="name_id" />
                 <button class="search-btn">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
+                <BiCheckBox label="综合信息" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
                     <i class="icon-switch"></i>
                     <span>导出数据</span>
@@ -24,7 +23,6 @@
 </template>
 
 <script>
-// TODO
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
@@ -33,15 +31,18 @@ const data = Mock.mock({
     'list|11': [
         {
             id: '01',
-            cate: '常规公交',
+            company: '西咸公司',
             station: '场站1',
-            name: '880',
-            start: '泾河新城管委会',
-            start_time: '07:00:00-19:00:00',
-            end: '后卫寨地铁站',
-            end_time: '07:00:00-19:00:00',
-            fleet: '1号车队',
-            statue: '运营'
+            area: '544',
+            position: '东单头',
+            size: '大型',
+            distributed: '1,2,3号位',
+            people: '455',
+            master: '55',
+            premaster: '22',
+            parking: '400',
+            total: '666',
+            energysize: '45'
         }
     ]
 })
@@ -58,15 +59,18 @@ export default {
             page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'cate', label: '公交分类' },
+                { prop: 'company', label: '公司' },
                 { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'start', label: '上车发行站点' },
-                { prop: 'start_time', label: '运营时间' },
-                { prop: 'end', label: '下车发行站点' },
-                { prop: 'end_time', label: '运营时间' },
-                { prop: 'fleet', label: '所属车队' },
-                { prop: 'statue', label: '线路状态' }
+                { prop: 'area', label: '场地面积' },
+                { prop: 'position', label: '场地位置' },
+                { prop: 'size', label: '场地规模' },
+                { prop: 'distributed', label: '场地分布' },
+                { prop: 'people', label: '场站人员' },
+                { prop: 'master', label: '车辆车长' },
+                { prop: 'premaster', label: '见习车长' },
+                { prop: 'parking', label: '停泊总数' },
+                { prop: 'total', label: '累计进出量' },
+                { prop: 'energysize', label: '充电桩规模' }
             ],
             list: data.list,
             cate_options: [

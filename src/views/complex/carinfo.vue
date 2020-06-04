@@ -23,7 +23,6 @@
 </template>
 
 <script>
-// TODO
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'

@@ -2,16 +2,16 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公交分类" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
+                <choose class="choose" label="公司" :options="cate_options" v-model="cate_id" />
+                <choose class="choose" label="车队" :options="station_options" v-model="station_id" />
                 <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <choose class="choose" label="线路状态" :options="status_options" v-model="status_id" />
+                <choose class="choose" label="开始时间" :options="status_options" v-model="status_id" />
                 <button class="search-btn">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
+                <BiCheckBox label="营运分析" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
                     <i class="icon-switch"></i>
                     <span>导出数据</span>
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// TODO
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
@@ -33,15 +32,18 @@ const data = Mock.mock({
     'list|11': [
         {
             id: '01',
-            cate: '常规公交',
-            station: '场站1',
-            name: '880',
-            start: '泾河新城管委会',
-            start_time: '07:00:00-19:00:00',
-            end: '后卫寨地铁站',
-            end_time: '07:00:00-19:00:00',
-            fleet: '1号车队',
-            statue: '运营'
+            company: '场站1',
+            line: '880',
+            plancar: '12',
+            car: '12',
+            carloss: '0',
+            plankm: '2224',
+            km: '2224',
+            kmloss: '0',
+            plantimes: '36',
+            times: '36',
+            timesloss: '0',
+            remark: ''
         }
     ]
 })
@@ -58,15 +60,18 @@ export default {
             page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'cate', label: '公交分类' },
-                { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'start', label: '上车发行站点' },
-                { prop: 'start_time', label: '运营时间' },
-                { prop: 'end', label: '下车发行站点' },
-                { prop: 'end_time', label: '运营时间' },
-                { prop: 'fleet', label: '所属车队' },
-                { prop: 'statue', label: '线路状态' }
+                { prop: 'company', label: '公司' },
+                { prop: 'line', label: '线路' },
+                { prop: 'plancar', label: '计划配车' },
+                { prop: 'car', label: '实际出车' },
+                { prop: 'carloss', label: '节亏' },
+                { prop: 'plankm', label: '计划营运公里' },
+                { prop: 'km', label: '实际营运公里' },
+                { prop: 'kmloss', label: '节亏' },
+                { prop: 'plantimes', label: '计划圈次' },
+                { prop: 'times', label: '实际圈次' },
+                { prop: 'timesloss', label: '节亏' },
+                { prop: 'remark', label: '备注' }
             ],
             list: data.list,
             cate_options: [
