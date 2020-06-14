@@ -14,3 +14,8 @@ export default {
     components: { BiHeader }
 }
 </script>
+<style lang="less">
+.app {
+    min-height: 100vh;
+}
+</style>

@@ -1,9 +1,9 @@
 <template>
-    <div class="menu-item">
-        <span class="title" @click="toggleMenu">{{ item.title }}</span>
-        <div :class="[{ 'active': isShow },'menu-item-box']">
+    <div v-if="!item.meta.hidden" class="menu-item">
+        <span class="title" @click="toggleMenu">{{ item.meta.title }}</span>
+        <div v-if="!item.meta.hidden" :class="[{ 'active': isShow },'menu-item-box']">
             <router-link v-for="item in item.children" :key="item.name" :to="item.path" exact>
-                <span class="title">{{ item.title }}</span>
+                <span class="title">{{ item.meta.title }}</span>
             </router-link>
         </div>
     </div>
