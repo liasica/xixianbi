@@ -36,88 +36,246 @@ import energy from '@/views/energy'
 
 Vue.use(VueRouter)
 
-const routes = [
-    { path: '/', name: 'home', component: home },
-    { path: '/online', name: 'online', component: online },
-    { path: '/home/violation', name: 'home/violation', component: violation },
-    { path: '/home/workrate', name: 'home/workrate', component: workrate },
-    { path: '/home/revenue', name: 'home/revenue', component: revenue },
-    { path: '/home/energy', name: 'home/energy', component: homeEnergy },
-    { path: '/home/speed', name: 'home/speed', component: homeSpeed },
-    { path: '/home/mileage', name: 'home/mileage', component: homeMileage },
+export const routes = [
     {
-        path: '/home/worktimes',
-        name: 'home/worktimes',
-        component: homeWorkTimes
-    },
-    { path: '/complex', name: 'complex', component: complex },
-    { path: '/complex/info', name: 'complex/info', component: complexInfo },
-    {
-        path: '/complex/carinfo',
-        name: 'complex/carinfo',
-        component: complexCarInfo
-    },
-    {
-        path: '/complex/workinfo',
-        name: 'complex/workinfo',
-        component: complexWorkInfo
-    },
-    { path: '/station', name: 'station', component: station },
-    { path: '/station/info', name: 'station/info', component: stationInfo },
-    { path: '/maintenance', name: 'maintenance', component: maintenance },
-    {
-        path: '/maintenance/fixplan',
-        name: 'maintenance/fixplan',
-        component: maintenanceFixPlan
-    },
-    {
-        path: '/maintenance/safe',
-        name: 'maintenance/safe',
-        component: maintenanceSafe
-    },
-    { path: '/operation', name: 'operation', component: operation },
-    {
-        path: '/operation/carmaster',
-        name: 'operation/carmaster',
-        component: operationCarMaster
-    },
-    {
-        path: '/operation/dispatchplan',
-        name: 'operation/dispatchplan',
-        component: operationDispatchPlan
-    },
-    {
-        path: '/operation/scheduplan',
-        name: 'operation/scheduplan',
-        component: operationScheduPlan
-    },
-    {
-        path: '/operation/analyse',
-        name: 'operation/analyse',
-        component: operationAnalyse
-    },
-    { path: '/finance', name: 'finance', component: finance },
-    { path: '/finance/info', name: 'finance/info', component: financeInfo },
-    { path: '/supplies', name: 'supplies', component: supplies },
-    {
-        path: '/supplies/stock',
-        name: 'supplies/stock',
-        component: suppliesStock
+        path: '/',
+        name: 'home',
+        title: '首页',
+        children: [
+            {
+                path: '/home',
+                name: 'homeView',
+                title: '首页大屏',
+                component: home
+            },
+            {
+                path: '/online',
+                name: 'online',
+                title: '当日公交上线情况',
+                component: online
+            },
+            {
+                path: '/home/violation',
+                name: 'home/violation',
+                title: '当日车辆违规统计',
+                component: violation
+            },
+            {
+                path: '/home/workrate',
+                name: 'home/workrate',
+                title: '早高峰平均出车率',
+                component: workrate
+            },
+            {
+                path: '/home/revenue',
+                name: 'home/revenue',
+                title: '车辆营收统计时间分布图',
+                component: revenue
+            },
+            {
+                path: '/home/energy',
+                name: 'home/energy',
+                title: '车辆运行能耗比较统计（日）',
+                component: homeEnergy
+            },
+            {
+                path: '/home/speed',
+                name: 'home/speed',
+                title: '当日车辆平均速度',
+                component: homeSpeed
+            },
+            {
+                path: '/home/mileage',
+                name: 'home/mileage',
+                title: '当日营运里程',
+                component: homeMileage
+            },
+            {
+                path: '/home/worktimes',
+                name: 'home/worktimes',
+                title: '当日完成班次数',
+                component: homeWorkTimes
+            }
+        ]
     },
     {
-        path: '/supplies/detail',
-        name: 'supplies/detail',
-        component: suppliesDetail
+        path: '/complex',
+        name: 'complex',
+        title: '综合管理',
+        children: [
+            {
+                path: '/complex',
+                name: 'complexView',
+                title: '综合管理大屏',
+                component: complex
+            },
+            {
+                path: '/complex/info',
+                name: 'complex/info',
+                title: '综合信息',
+                component: complexInfo
+            },
+            {
+                path: '/complex/carinfo',
+                name: 'complex/carinfo',
+                title: '车辆信息',
+                component: complexCarInfo
+            },
+            { path: '/cars', name: 'cars', title: '车辆信息', component: cars },
+            {
+                path: '/complex/workinfo',
+                name: 'complex/workinfo',
+                title: '运行数据',
+                component: complexWorkInfo
+            },
+            {
+                path: '/energy',
+                name: 'energy',
+                title: '耗能数据',
+                component: energy
+            }
+        ]
     },
     {
-        path: '/supplies/allocate',
-        name: 'supplies/allocate',
-        component: suppliesAllocate
+        path: '/station',
+        name: 'station',
+        title: '场站管理',
+        children: [
+            {
+                path: '/station',
+                name: 'stationView',
+                title: '场站管理大屏',
+                component: station
+            },
+            {
+                path: '/station/info',
+                name: 'station/info',
+                title: '场站信息',
+                component: stationInfo
+            }
+        ]
     },
-    { path: '/rule', name: 'rule', component: rule },
-    { path: '/user', name: 'user', component: user },
-    { path: '/cars', name: 'cars', component: cars },
-    { path: '/energy', name: 'energy', component: energy }
+    {
+        path: '/maintenance',
+        name: 'maintenance',
+        title: '机务管理',
+        children: [
+            {
+                path: '/maintenance',
+                name: 'maintenanceView',
+                title: '机务管理',
+                component: maintenance
+            },
+            {
+                path: '/maintenance/fixplan',
+                name: 'maintenance/fixplan',
+                title: '维修计划',
+                component: maintenanceFixPlan
+            },
+            {
+                path: '/maintenance/safe',
+                name: 'maintenance/safe',
+                title: '安全管理',
+                component: maintenanceSafe
+            }
+        ]
+    },
+    {
+        path: '/operation',
+        name: 'operation',
+        title: '营运调度',
+        children: [
+            {
+                path: '/operation',
+                name: 'operationView',
+                title: '营运调度大屏',
+                component: operation
+            },
+            {
+                path: '/operation/carmaster',
+                name: 'operation/carmaster',
+                title: '车长信息',
+                component: operationCarMaster
+            },
+            {
+                path: '/operation/dispatchplan',
+                name: 'operation/dispatchplan',
+                title: '调度计划',
+                component: operationDispatchPlan
+            },
+            {
+                path: '/operation/scheduplan',
+                name: 'operation/scheduplan',
+                title: '排班计划',
+                component: operationScheduPlan
+            },
+            {
+                path: '/operation/analyse',
+                name: 'operation/analyse',
+                title: '营运分析',
+                component: operationAnalyse
+            }
+        ]
+    },
+    {
+        path: '/finance',
+        name: 'finance',
+        title: '财务管理',
+        children: [
+            {
+                path: '/finance',
+                name: 'financeView',
+                title: '财务管理',
+                component: finance
+            },
+            {
+                path: '/finance/info',
+                name: 'finance/info',
+                title: '财务分析',
+                component: financeInfo
+            }
+        ]
+    },
+    {
+        path: '/supplies',
+        name: 'supplies',
+        title: '物资管理',
+        children: [
+            {
+                path: '/supplies',
+                name: 'suppliesView',
+                title: '物资管理',
+                component: supplies
+            },
+            {
+                path: '/supplies/stock',
+                name: 'supplies/stock',
+                title: '物资入库',
+                component: suppliesStock
+            },
+            {
+                path: '/supplies/detail',
+                name: 'supplies/detail',
+                title: '详细',
+                component: suppliesDetail
+            },
+            {
+                path: '/supplies/allocate',
+                name: 'supplies/allocate',
+                title: '物资调拨',
+                component: suppliesAllocate
+            }
+        ]
+    },
+    {
+        path: '/permission',
+        name: 'permission',
+        title: '权限管理',
+        children: [
+            { path: '/rule', name: 'rule', title: '角色管理', component: rule },
+            { path: '/user', name: 'user', title: '用户列表', component: user }
+        ]
+    }
 ]
 
 const router = new VueRouter({
