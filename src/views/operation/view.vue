@@ -19,7 +19,7 @@
             <choose
                 label="司机"
                 :value="1"
-                :options="[{id: 1, label: '张三'}, {id: 2, label: '李四'}, {id: 2, label: '王五'}]"
+                :options="[{id: 1, label: '李经西'}, {id: 2, label: '杨建国'}, {id: 3, label: '曹建民'}]"
             />
         </div>
         <div class="left">
