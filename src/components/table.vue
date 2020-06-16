@@ -14,7 +14,7 @@
                         :style="`text-align:${t.align}; max-width: ${t.width}px`"
                     >
                         <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
-                        <span v-else>{{ item[t.prop] }}</span>
+                        <span v-else>{{ item[t.prop] || '-' }}</span>
                     </td>
                 </tr>
             </tbody>

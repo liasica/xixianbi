@@ -7,7 +7,7 @@
                     @init="choosed => filterData = choosed"
                     style="margin-right: 40px; margin-bottom: 0"
                 />
-                <button class="search-btn">
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
@@ -19,80 +19,63 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
-import Mock from 'mockjs'
-
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import RelationChoose from '@/components/relationChoose'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            station: '场站1',
-            carteam: '第一车队',
-            name: '880',
-            car_no: '陕A24324',
-            time: '2018-10-31',
-            total: '4343公里',
-            line_total: '433公里',
-            speed: '23.32'
-        }
-    ]
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
         RelationChoose
     },
     data () {
         return {
             filterData: {
-                company: '', // 公司
-                station: '', // 场站
-                line: '' // 线路
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
             },
-            total: 150,
-            page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'station', label: '场站' },
+                { prop: 'groupName', label: '场站' },
                 { prop: 'carteam', label: '车队' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'car_no', label: '车辆牌照' },
-                { prop: 'time', label: '线路时间' },
+                { prop: 'lineNo', label: '线路名称' },
+                { prop: 'busNoChar', label: '车辆牌照' },
+                { prop: 'lineTime', label: '线路时间' },
                 { prop: 'total', label: '总里程' },
-                { prop: 'line_total', label: '线路里程' },
-                { prop: 'speed', label: '平均速度' }
+                { prop: 'lineLen', label: '线路里程' },
+                { prop: 'lineSpeed', label: '平均速度' }
             ],
-            list: data.list,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
+            source: [],
+            list: [],
             isShowToday: false
         }
     },
-    created () {},
+    created () {
+        this.getDate()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getDate () {
+            try {
+                const data = await this.$axios.get('home/speed', {
+                    params: {
+                        line: this.filterData.lineNo
+                    }
+                })
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            this.getDate()
         }
     }
 }
