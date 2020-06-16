@@ -2,9 +2,12 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <button class="search-btn">
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px; margin-bottom: 0"
+                />
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
@@ -16,77 +19,66 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            station: '场站1',
-            carteam: '第一车队',
-            name: '880',
-            car_no: '陕A24324',
-            time: '2018-10-31',
-            total: '4343公里',
-            op_total: '433公里',
-            nop_total: '433公里',
-            gps: '433公里',
-            plan: '433公里',
-            def: '433公里'
-        }
-    ]
-})
+import RelationChoose from '@/components/relationChoose'
 
 export default {
     components: {
         BiTable,
-        BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
+            },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'station', label: '场站' },
+                { prop: 'groupName', label: '场站' },
                 { prop: 'carteam', label: '车队' },
-                { prop: 'name', label: '线路名称' },
+                { prop: 'lineNo', label: '线路名称' },
                 { prop: 'car_no', label: '车辆牌照' },
-                { prop: 'time', label: '线路时间' },
-                { prop: 'total', label: '总里程' },
-                { prop: 'op_total', label: '运营里程' },
-                { prop: 'nop_total', label: '非运营里程' },
-                { prop: 'gps', label: 'GPS里程' },
+                { prop: 'allotTime', label: '线路时间' },
+                { prop: 'totalDis', label: '总里程' },
+                { prop: 'distance', label: '运营里程' },
+                { prop: 'noRunDistance', label: '非运营里程' },
+                { prop: 'runDistance', label: 'GPS里程' },
                 { prop: 'plan', label: '计划里程' },
                 { prop: 'def', label: '额定里程' }
             ],
-            list: data.list,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
+            source: [],
+            list: [],
             isShowToday: false
         }
     },
-    created () {},
+    created () {
+        this.getDate()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getDate () {
+            try {
+                const data = await this.$axios.get('home/distance', {
+                    params: {
+                        line: this.filterData.lineNo
+                    }
+                })
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            this.getDate()
         }
     }
 }
