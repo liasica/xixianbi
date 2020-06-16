@@ -1,20 +1,18 @@
 <template>
-    <div class="container operation-container">
+    <div class="container operation-container" v-if="lines.length > 0">
         <div class="filter">
-            <choose
-                label="公司"
-                :value="1"
-                :options="[{id: 1, label: '西咸公交集团'}, {id: 2, label: '西咸公交子公司'}]"
-            />
+            <choose label="公司" v-model="choosed.company" value-index :options="lines" />
             <choose
                 label="场站"
-                :value="1"
-                :options="[{id: 1, label: '场站一'}, {id: 2, label: '场站二'}, {id: 3, label: '场站三'}]"
+                value-index
+                v-model="choosed.station"
+                :options="lines[choosed.company].children"
             />
             <choose
                 label="线路"
-                :value="1"
-                :options="[{id: 1, label: '880'}, {id: 2, label: '600'}, {id: 3, label: '1101'}]"
+                value-index
+                v-model="choosed.line"
+                :options="lines[choosed.company].children[choosed.station].children"
             />
             <choose
                 label="司机"
@@ -89,6 +87,18 @@ import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 
+import {
+    driver,
+    scheduColumns,
+    scheduData,
+    orderColumns,
+    orderData,
+    columns1,
+    list1,
+    columns2,
+    list2
+} from './mock'
+
 export default {
     components: {
         TieText,
@@ -97,204 +107,40 @@ export default {
     },
     data () {
         return {
-            driver: [
-                { label: '车牌号', value: '陕AV9267' },
-                { label: '物理卡号', value: '2D5A0531' },
-                { label: '司机工号', value: 'XIA000001' },
-                { label: '打卡时间', value: '2019-07-23 12:32:34' }
-            ],
-            scheduColumns: [
-                { prop: 'plan', label: '800摆渡车计划' },
-                { prop: 'up', label: '上行方向' },
-                { prop: 'down', label: '下行方向' }
-            ],
-            scheduData: [
-                { plan: '车牌号', up: '上行', down: '下行' },
-                { plan: '开始时间点', up: '08:05', down: '08:10' },
-                { plan: '发车间隔', up: '10', down: '10' },
-                { plan: '间隔班次', up: '50', down: '51' },
-                { plan: '总班次', up: '50', down: '51' },
-                { plan: '单程时间', up: '43', down: '43' }
-            ],
-            orderColumns: [
-                { prop: 'timeup', label: '时间点' },
-                { prop: 'up', label: '开往上行' },
-                { prop: 'timedown', label: '时间点' },
-                { prop: 'down', label: '开往下行' }
-            ],
-            orderData: [
-                {
-                    timeup: '08:00',
-                    up: '泾河新城管委会',
-                    timedown: '08:05',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '08:10',
-                    up: '泾河新城管委会',
-                    timedown: '08:15',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '08:20',
-                    up: '泾河新城管委会',
-                    timedown: '08:25',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '08:30',
-                    up: '泾河新城管委会',
-                    timedown: '08:35',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '08:40',
-                    up: '泾河新城管委会',
-                    timedown: '08:45',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '08:50',
-                    up: '泾河新城管委会',
-                    timedown: '08:55',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '09:00',
-                    up: '泾河新城管委会',
-                    timedown: '09:05',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '09:10',
-                    up: '泾河新城管委会',
-                    timedown: '09:15',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '09:20',
-                    up: '泾河新城管委会',
-                    timedown: '09:25',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    timeup: '09:30',
-                    up: '泾河新城管委会',
-                    timedown: '09:35',
-                    down: '后卫寨地铁站'
-                }
-            ],
-            columns1: [
-                { prop: 'plan', label: '800摆渡车计划', align: 'left' },
-                { prop: 'up', label: '上行方向' },
-                { prop: 'down', label: '下行方向' }
-            ],
-            list1: [
-                {
-                    plan: '是否上下行',
-                    up: '上行',
-                    down: '下行'
-                },
-                {
-                    plan: '开始时间点',
-                    up: '08:05',
-                    down: '08:10'
-                },
-                {
-                    plan: '发车间隔',
-                    up: '10',
-                    down: '10'
-                },
-                {
-                    plan: '间隔班次',
-                    up: '50',
-                    down: '51'
-                },
-                {
-                    plan: '总班次',
-                    up: '50',
-                    down: '51'
-                },
-                {
-                    plan: '单程时间',
-                    up: '43',
-                    down: '43'
-                }
-            ],
-            columns2: [
-                { prop: 'uptime', label: '时间点' },
-                { prop: 'up', label: '开往上行' },
-                { prop: 'downtime', label: '时间点' },
-                { prop: 'down', label: '开往下行' }
-            ],
-            list2: [
-                {
-                    uptime: '08:00',
-                    up: '泾河新城管委会',
-                    downtime: '08:05',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '08:10',
-                    up: '泾河新城管委会',
-                    downtime: '08:15',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '08:20',
-                    up: '泾河新城管委会',
-                    downtime: '08:25',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '08:30',
-                    up: '泾河新城管委会',
-                    downtime: '08:35',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '08:40',
-                    up: '泾河新城管委会',
-                    downtime: '08:45',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '08:50',
-                    up: '泾河新城管委会',
-                    downtime: '08:55',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '09:00',
-                    up: '泾河新城管委会',
-                    downtime: '09:05',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '09:10',
-                    up: '泾河新城管委会',
-                    downtime: '09:15',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '09:20',
-                    up: '泾河新城管委会',
-                    downtime: '09:25',
-                    down: '后卫寨地铁站'
-                },
-                {
-                    uptime: '09:30',
-                    up: '泾河新城管委会',
-                    downtime: '09:35',
-                    down: '后卫寨地铁站'
-                }
-            ],
+            lines: [],
+            choosed: {
+                company: 0, // 公司
+                station: 0, // 场站
+                line: 0 // 线路
+            },
+            driver,
+            scheduColumns,
+            scheduData,
+            orderColumns,
+            orderData,
+            columns1,
+            list1,
+            columns2,
+            list2,
             total: 150,
             page: 1
         }
     },
     methods: {
         handleChange (value) {}
+    },
+    async created () {
+        const { lines } = await this.$axios.get('apiv1/basic/line')
+        this.lines = lines
+    },
+    watch: {
+        'choosed.company' () {
+            this.$set(this.choosed, 'station', 0)
+            this.$set(this.choosed, 'line', 0)
+        },
+        'choosed.station' () {
+            this.$set(this.choosed, 'line', 0)
+        }
     }
 }
 </script>

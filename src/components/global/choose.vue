@@ -7,9 +7,10 @@
                 <s-btn class="v-popover" v-if="show">
                     <ul class="options" :style="`width: ${this.width}px;`">
                         <li
-                            @click="onChoose(option.id)"
-                            v-for="option in options"
+                            @click="onChoose(index)"
+                            v-for="(option, index) in options"
                             :key="option.id"
+                            :class="{ active: valueIndex ? index === value : option.id === value }"
                         >{{ option.label }}</li>
                     </ul>
                 </s-btn>
@@ -26,7 +27,8 @@ export default {
         label: { type: String },
         options: { type: Array, default: () => [] },
         value: { type: [String, Number] },
-        width: { type: Number, default: 180 }
+        width: { type: Number, default: 180 },
+        valueIndex: { type: Boolean, default: false }
     },
     model: {
         prop: 'value',
@@ -34,10 +36,14 @@ export default {
     },
     computed: {
         valueLabel () {
-            for (let i = 0; i < this.options.length; i++) {
-                const o = this.options[i]
-                if (o.id === this.value) {
-                    return o.label
+            if (this.valueIndex) {
+                return this.options[this.value].label
+            } else {
+                for (let i = 0; i < this.options.length; i++) {
+                    const o = this.options[i]
+                    if (o.id === this.value) {
+                        return o.label
+                    }
                 }
             }
             return ''
@@ -55,8 +61,9 @@ export default {
         onLabelClick () {
             this.show = !this.show
         },
-        onChoose (id) {
-            this.$emit('update', id)
+        onChoose (index) {
+            const value = this.valueIndex ? index : this.options[index].id
+            this.$emit('update', value)
         }
     }
 }
@@ -112,10 +119,15 @@ export default {
             background: #121c25;
             z-index: 9;
             li {
+                @li-color: #ffffff;
                 padding: 0 10px;
                 margin: 4px 0;
                 cursor: pointer;
                 width: 100%;
+                color: fade(@li-color, 50%);
+                &.active {
+                    color: @li-color;
+                }
             }
         }
     }

@@ -94,7 +94,6 @@
 import ProgressBar from '@/components/progressBar'
 
 export default {
-    // title: '机务管理',
     components: { ProgressBar },
     data () {
         return {
