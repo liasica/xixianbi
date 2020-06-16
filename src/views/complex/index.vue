@@ -66,7 +66,7 @@ export default {
         }
     },
     async created () {
-        const { info } = await this.$axios.get('apiv1/complex')
+        const { info } = await this.$axios.get('complex')
         for (const k in info) {
             this.$set(this.info[k], 'value', info[k] || '-')
         }

@@ -19,33 +19,21 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
+            <BiPagination
+                v-if="total > 0"
+                :total="total"
+                :page.sync="page"
+                @pagination="handleChange"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import Mock from 'mockjs'
-
 import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            station: '场站1',
-            carteam: '第一车队',
-            name: '880',
-            time: '2018-10-31',
-            times: '11',
-            etimes: '11',
-            rate: '100%'
-        }
-    ]
-})
 
 export default {
     components: {
@@ -61,23 +49,35 @@ export default {
                 station: '', // 场站
                 line: '' // 线路
             },
-            total: 150,
+            total: 0,
             page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'station', label: '公司' },
-                { prop: 'carteam', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'time', label: '日期' },
-                { prop: 'times', label: '总班次' },
-                { prop: 'etimes', label: '准点班次' },
-                { prop: 'rate', label: '线路首末班准点率' }
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '场站' },
+                { prop: 'lineNo', label: '线路名称' },
+                { prop: 'startDate', label: '日期' },
+                { prop: 'planTimes', label: '总班次' },
+                { prop: 'ontimeNum', label: '准点班次' },
+                { prop: 'ontimeRatio', label: '线路首末班准点率' }
             ],
-            list: data.list,
+            list: [],
             isShowToday: false
         }
     },
+    created () {
+        this.getDate()
+    },
     methods: {
+        async getDate () {
+            try {
+                const data = await this.$axios.get('home/workrate')
+                this.list = data.items
+                this.total = data.items.length
+            } catch (err) {
+                console.log(err)
+            }
+        },
         async onFilter () {
             console.info(this.filterData)
         },

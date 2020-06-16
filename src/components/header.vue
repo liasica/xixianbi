@@ -50,7 +50,7 @@ export default {
         }, 1000)
 
         const { code, temperature } = await this.$axios.get(
-            'apiv1/guest/weather'
+            'guest/weather'
         )
         this.code = code
         this.temperature = temperature

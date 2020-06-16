@@ -119,7 +119,7 @@ export default {
         }
     },
     async created () {
-        const { distance } = await this.$axios.get('apiv1/maintenance')
+        const { distance } = await this.$axios.get('maintenance')
         this.distance = distance
     }
 }

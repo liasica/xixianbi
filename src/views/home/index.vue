@@ -277,7 +277,7 @@ export default {
         }
     },
     async created () {
-        const data = await this.$axios.get('apiv1/home')
+        const data = await this.$axios.get('home')
         this.home = data
 
         const { avgBusSpeed } = data

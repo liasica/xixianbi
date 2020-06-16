@@ -47,7 +47,7 @@ export default {
         }
     },
     async created () {
-        const { lines } = await this.$axios.get('apiv1/basic/line')
+        const { lines } = await this.$axios.get('basic/line')
         this.lines = lines
         this.$emit('init', this.getChoosed())
     },

@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '@/router'
 
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+    baseURL: '/apiv1/', // url = base url + request url
     timeout: 60 * 10 * 1000 // request timeout
 })
 

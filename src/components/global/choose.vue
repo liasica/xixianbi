@@ -118,6 +118,10 @@ export default {
             padding: 6px 0;
             background: #121c25;
             z-index: 9;
+            .options {
+                overflow: auto;
+                max-height: 180px;
+            }
             li {
                 @li-color: #ffffff;
                 padding: 0 10px;
