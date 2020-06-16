@@ -403,6 +403,17 @@ router.beforeEach((to, from, next) => {
     const prevName = from.name || ''
     document.body.classList.add(`page-${name.toLowerCase()}-body`)
     document.body.classList.remove(`page-${prevName.toLowerCase()}-body`)
+    // set title name
+    const title = ' | 西咸公交BI平台'
+    const nearestWithTitle = to.matched
+        .slice()
+        .reverse()
+        .find(r => r.meta && r.meta.title)
+
+    if (nearestWithTitle) {
+        document.title = nearestWithTitle.meta.title + title
+    }
+
     next()
 })
 

@@ -7,7 +7,7 @@
                     <s-btn
                         class="value"
                         :corner="{leftTop: '#42dfff', leftBottom: '#42dfff', rightTop: '#42dfff', rightBottom: '#42dfff'}"
-                    >42234</s-btn>
+                    >{{ distance }}</s-btn>
                     <span class="unit">KM</span>
                 </div>
             </div>
@@ -94,9 +94,11 @@
 import ProgressBar from '@/components/progressBar'
 
 export default {
+    // title: '机务管理',
     components: { ProgressBar },
     data () {
         return {
+            distance: 0,
             repairs: [
                 { label: '地点', value: '场站一' },
                 { label: '信息', value: 'WXH-19112305' },
@@ -116,6 +118,10 @@ export default {
         getRandomInt (max) {
             return Math.floor(Math.random() * Math.floor(max))
         }
+    },
+    async created () {
+        const { distance } = await this.$axios.get('apiv1/maintenance')
+        this.distance = distance
     }
 }
 </script>
