@@ -2,14 +2,17 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px; margin-bottom: 0"
+                />
                 <button class="search-btn">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日车辆平均速度" :value.sync="isShowToday" />
+                <div></div>
                 <s-btn class="export-btn">
                     <i class="icon-switch"></i>
                     <span>导出数据</span>
@@ -22,10 +25,13 @@
 </template>
 
 <script>
+import Mock from 'mockjs'
+
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
+import RelationChoose from '@/components/relationChoose'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -46,10 +52,16 @@ export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
+            filterData: {
+                company: '', // 公司
+                station: '', // 场站
+                line: '' // 线路
+            },
             total: 150,
             page: 12,
             columns: [
