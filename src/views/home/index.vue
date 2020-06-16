@@ -2,30 +2,30 @@
     <div class="container home-container">
         <div class="left">
             <div class="bi-title">当日公交上线情况</div>
-            <div class="progress-bars" v-if="home.bus_online_today">
+            <div class="progress-bars" v-if="home.busOnline">
                 <progress-bar
                     class="pbar"
                     label="常规公交"
-                    :schedule="[home.bus_online_today.normal, home.bus_online_today.total]"
+                    :schedule="[home.busOnline.normal, home.busOnline.total]"
                 />
                 <progress-bar
                     class="pbar"
                     label="定制公交"
-                    :schedule="[home.bus_online_today.custom, home.bus_online_today.total]"
+                    :schedule="[home.busOnline.custom, home.busOnline.total]"
                     color="#08F0C9"
                 />
                 <progress-bar
                     class="pbar"
                     label="通勤公交"
-                    :schedule="[home.bus_online_today.commute, home.bus_online_today.total]"
+                    :schedule="[home.busOnline.commute, home.busOnline.total]"
                     color="#3C77FF"
                 />
             </div>
-            <div class="tie-items" v-if="home.bus_online_today">
-                <tie-number :number="home.bus_online_today.active" label="活跃车数" />
-                <tie-number :number="home.bus_online_today.inactive" label="非活跃车数" />
+            <div class="tie-items" v-if="home.busOnline">
+                <tie-number :number="home.busOnline.active" label="活跃车数" />
+                <tie-number :number="home.busOnline.inactive" label="非活跃车数" />
             </div>
-            <div class="violation" v-if="home.alarm_today">
+            <div class="violation" v-if="home.alarmToday">
                 <div class="bi-title">当日车辆违规统计</div>
                 <ul>
                     <li class="thin-border border-bottom">
@@ -33,36 +33,36 @@
                             <img :src="require('@images/violation-alert.png')" />
                         </s-btn>
                         <span>本月30内报警数</span>
-                        <div class="value">{{ home.alarm_today.month }}</div>
+                        <div class="value">{{ home.alarmToday.month }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-illegal.png')" />
                         </s-btn>
                         <span>驾驶员违法违规</span>
-                        <div class="value">{{ home.alarm_today.illegal }}</div>
+                        <div class="value">{{ home.alarmToday.illegal }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-accident.png')" />
                         </s-btn>
                         <span>驾驶员事故次数</span>
-                        <div class="value">{{ home.alarm_today.accident }}</div>
+                        <div class="value">{{ home.alarmToday.accident }}</div>
                     </li>
                     <li>
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-insurance.png')" />
                         </s-btn>
                         <span>车辆保险到期</span>
-                        <div class="value">{{ home.alarm_today.insurance }}</div>
+                        <div class="value">{{ home.alarmToday.insurance }}</div>
                     </li>
                 </ul>
             </div>
             <div class="radials">
                 <div class="bi-title">早高峰平均出车率（日）</div>
-                <div class="items" v-if="home.avg_bus_rate">
+                <div class="items" v-if="home.avgBusRate">
                     <s-btn :corner="{ leftTop: '#42DFFF', rightTop: '#42DFFF' }" class="radial">
-                        <radial radial-id="radial1" :schedule="home.avg_bus_rate[0]" />
+                        <radial radial-id="radial1" :schedule="home.avgBusRate[0]" />
                         <div class="radial-label">第一场站</div>
                     </s-btn>
                     <s-btn
@@ -70,7 +70,7 @@
                         bg-color="#08F0C9"
                         class="radial radial2"
                     >
-                        <radial radial-id="radial2" :schedule="home.avg_bus_rate[1]" />
+                        <radial radial-id="radial2" :schedule="home.avgBusRate[1]" />
                         <div class="radial-label">第二场站</div>
                     </s-btn>
                     <s-btn
@@ -78,7 +78,7 @@
                         bg-color="#3C77FF"
                         class="radial radial3"
                     >
-                        <radial radial-id="radial3" :schedule="home.avg_bus_rate[2]" />
+                        <radial radial-id="radial3" :schedule="home.avgBusRate[2]" />
                         <div class="radial-label">第三场站</div>
                     </s-btn>
                 </div>
@@ -88,15 +88,15 @@
             <div class="pile">
                 <div class="income">
                     <div class="title">车辆累计月收入</div>
-                    <div class="value">{{ home.income_month }}</div>
+                    <div class="value">{{ home.incomeMonth }}</div>
                 </div>
                 <div class="count">
                     <div class="title">本月累计发车</div>
-                    <div class="value">{{ home.bustimes_month }}</div>
+                    <div class="value">{{ home.bustimesMonth }}</div>
                 </div>
                 <div class="flow">
                     <div class="title">车辆累计月客流</div>
-                    <div class="value">{{ home.passenger_month }}</div>
+                    <div class="value">{{ home.passengerMonth }}</div>
                 </div>
             </div>
             <div class="charts">
@@ -126,36 +126,36 @@
                     </div>
                 </div>
             </div>
-            <div class="mileage" v-if="home.bus_distance">
+            <div class="mileage" v-if="home.busDistance">
                 <div class="bi-title">当日营运里程</div>
                 <div class="item">
-                    <div class="label">{{ home.bus_distance[0].line }}</div>
+                    <div class="label">{{ home.busDistance[0].line }}</div>
                     <s-btn
                         class="mileage-data"
                         bg-color="#42DFFF"
                         :corner="{leftTop: '#42DFFF', rightTop: '#42DFFF', leftBottom: '#42DFFF', rightBottom: '#42DFFF'}"
                     >
-                        <div style="color:#42DFFF">{{ home.bus_distance[0].distance }} KM</div>
+                        <div style="color:#42DFFF">{{ home.busDistance[0].distance }} KM</div>
                     </s-btn>
                 </div>
                 <div class="item">
-                    <div class="label">{{ home.bus_distance[1].line }}</div>
+                    <div class="label">{{ home.busDistance[1].line }}</div>
                     <s-btn
                         class="mileage-data"
                         bg-color="#08F0C9"
                         :corner="{leftTop: '#08F0C9', rightTop: '#08F0C9', leftBottom: '#08F0C9', rightBottom: '#08F0C9'}"
                     >
-                        <div style="color:#08F0C9">{{ home.bus_distance[1].distance }} KM</div>
+                        <div style="color:#08F0C9">{{ home.busDistance[1].distance }} KM</div>
                     </s-btn>
                 </div>
                 <div class="item">
-                    <div class="label">{{ home.bus_distance[2].line }}</div>
+                    <div class="label">{{ home.busDistance[2].line }}</div>
                     <s-btn
                         class="mileage-data"
                         bg-color="#3C77FF"
                         :corner="{leftTop: '#3C77FF', rightTop: '#3C77FF', leftBottom: '#3C77FF', rightBottom: '#3C77FF'}"
                     >
-                        <div style="color:#3C77FF">{{ home.bus_distance[2].distance }} KM</div>
+                        <div style="color:#3C77FF">{{ home.busDistance[2].distance }} KM</div>
                     </s-btn>
                 </div>
             </div>
@@ -163,7 +163,7 @@
                 <div class="bi-title">当日完成总班数</div>
                 <div class="total-data">
                     <div class="label">总班次</div>
-                    <div class="value">{{ home.bus_times }}</div>
+                    <div class="value">{{ home.busTimes }}</div>
                 </div>
             </div>
         </div>
@@ -280,10 +280,10 @@ export default {
         const data = await this.$axios.get('apiv1/home')
         this.home = data
 
-        const { avg_bus_speed } = data
+        const { avgBusSpeed } = data
 
-        if (avg_bus_speed) {
-            avg_bus_speed.forEach((item, index) => {
+        if (avgBusSpeed) {
+            avgBusSpeed.forEach((item, index) => {
                 this.speedRank[index] = { ...this.speedRank[index], ...item }
             })
         }

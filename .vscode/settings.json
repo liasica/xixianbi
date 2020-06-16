@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Monokai Dark Soda",
+    // "workbench.colorTheme": "Monokai Dark Soda",
     "editor.fontFamily": "Operator Mono, Cascadia Code, Fira Mono for Powerline, Ubuntu Mono derivative Powerline, Menlo, Monaco, 'Courier New', monospace",
     "window.zoomLevel": 0,
     "files.autoSave": "off",

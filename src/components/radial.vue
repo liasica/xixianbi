@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { CircleProgress } from '@/plugins/circle-progress'
+
 export default {
     props: {
         schedule: { type: Number, required: true },

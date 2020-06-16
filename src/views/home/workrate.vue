@@ -2,15 +2,17 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="场站" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="车队" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路名称" :options="name_options" v-model="name_id" />
-                <button class="search-btn">
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px; margin-bottom: 0"
+                />
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="早高峰平均出车率" :value.sync="isShowToday" />
+                <div></div>
                 <s-btn class="export-btn">
                     <i class="icon-switch"></i>
                     <span>导出数据</span>
@@ -23,10 +25,13 @@
 </template>
 
 <script>
+import Mock from 'mockjs'
+
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -46,16 +51,22 @@ export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
+            filterData: {
+                company: '', // 公司
+                station: '', // 场站
+                line: '' // 线路
+            },
             total: 150,
             page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'station', label: '场站' },
-                { prop: 'carteam', label: '车队' },
+                { prop: 'station', label: '公司' },
+                { prop: 'carteam', label: '场站' },
                 { prop: 'name', label: '线路名称' },
                 { prop: 'time', label: '日期' },
                 { prop: 'times', label: '总班次' },
@@ -63,26 +74,13 @@ export default {
                 { prop: 'rate', label: '线路首末班准点率' }
             ],
             list: data.list,
-            cate_options: [
-                { id: 1, label: '场站1' },
-                { id: 2, label: '场站2' }
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '车队一' },
-                { id: 2, label: '车队二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
             isShowToday: false
         }
     },
-    created () {},
     methods: {
+        async onFilter () {
+            console.info(this.filterData)
+        },
         handleChange () {
             console.log(1)
         }

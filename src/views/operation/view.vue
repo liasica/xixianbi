@@ -1,25 +1,11 @@
 <template>
-    <div class="container operation-container" v-if="lines.length > 0">
-        <div class="filter">
-            <choose label="公司" v-model="choosed.company" value-index :options="lines" />
-            <choose
-                label="场站"
-                value-index
-                v-model="choosed.station"
-                :options="lines[choosed.company].children"
-            />
-            <choose
-                label="线路"
-                value-index
-                v-model="choosed.line"
-                :options="lines[choosed.company].children[choosed.station].children"
-            />
-            <choose
-                label="司机"
-                :value="1"
-                :options="[{id: 1, label: '李经西'}, {id: 2, label: '杨建国'}, {id: 3, label: '曹建民'}]"
-            />
-        </div>
+    <div class="container operation-container">
+        <relation-choose
+            @change="choosed => filterData = choosed"
+            with-driver
+            style="margin-right: 40px"
+        />
+        <div class="filter"></div>
         <div class="left">
             <div class="car-info">
                 <div class="bi-title">车长信息</div>
@@ -83,6 +69,7 @@
     </div>
 </template>
 <script>
+import RelationChoose from '@/components/relationChoose'
 import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
@@ -103,15 +90,15 @@ export default {
     components: {
         TieText,
         BiTable,
-        BiPagination
+        BiPagination,
+        RelationChoose
     },
     data () {
         return {
-            lines: [],
-            choosed: {
-                company: 0, // 公司
-                station: 0, // 场站
-                line: 0 // 线路
+            filterData: {
+                company: '', // 公司
+                station: '', // 场站
+                line: '' // 线路
             },
             driver,
             scheduColumns,
@@ -128,31 +115,12 @@ export default {
     },
     methods: {
         handleChange (value) {}
-    },
-    async created () {
-        const { lines } = await this.$axios.get('apiv1/basic/line')
-        this.lines = lines
-    },
-    watch: {
-        'choosed.company' () {
-            this.$set(this.choosed, 'station', 0)
-            this.$set(this.choosed, 'line', 0)
-        },
-        'choosed.station' () {
-            this.$set(this.choosed, 'line', 0)
-        }
     }
 }
 </script>
 <style lang="less">
 .operation-container {
     flex-wrap: wrap;
-    .filter {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin-bottom: 40px;
-    }
     .left {
         width: 310px;
     }
