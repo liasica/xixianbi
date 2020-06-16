@@ -6,7 +6,7 @@
         </div>
         <div class="chart info">
             <div class="bi-title">车辆信息</div>
-            <div v-for="(item, index) in car_info" :key="index" class="item">
+            <div v-for="(item, index) in info" :key="index" class="item">
                 <img :src="require(`./assets/${item.icon}.png`)" />
                 <span>{{ item.label }}</span>
                 <div class="right" :style="`color: ${item.color}`">
@@ -33,36 +33,42 @@
 export default {
     data () {
         return {
-            car_info: [
-                {
+            info: {
+                income: {
                     icon: 'rmb',
                     label: '昨日收入',
                     value: '-',
                     unit: 'RMB',
                     color: '#42DFFF'
                 },
-                {
+                distance: {
                     icon: 'dashboard',
                     label: '累计里程',
                     value: '-',
                     unit: 'KM',
                     color: '#08F0C9'
                 },
-                {
+                passenger: {
                     icon: 'users',
                     label: '当日人次',
                     value: '2401679',
                     unit: '人次',
                     color: '#3C77FF'
                 },
-                {
+                oil: {
                     icon: 'battery',
                     label: '累计耗能',
                     value: '-',
                     unit: '度',
                     color: '#EBEBEB'
                 }
-            ]
+            }
+        }
+    },
+    async created () {
+        const { info } = await this.$axios.get('apiv1/complex')
+        for (const k in info) {
+            this.$set(this.info[k], 'value', info[k] || '-')
         }
     }
 }
