@@ -1,7 +1,7 @@
 <template>
-    <div v-if="!item.meta.hidden" class="menu-item">
+    <div v-if="item.meta && !item.meta.hidden" class="menu-item">
         <span class="title" @click="toggleMenu">{{ item.meta.title }}</span>
-        <div v-if="!item.meta.hidden" :class="[{ 'active': isShow },'menu-item-box']">
+        <div v-if="!item.meta.hidden" :class="[{ 'active': isShow || expand },'menu-item-box']">
             <router-link v-for="item in item.children" :key="item.name" :to="item.path" exact>
                 <span class="title">{{ item.meta.title }}</span>
             </router-link>
@@ -9,10 +9,23 @@
     </div>
 </template>
 <script>
+import { routes } from '@/router'
+
 export default {
     props: {
         item: { default: {} },
-        basePath: { type: String, default: '' }
+        basePath: { type: String, default: '' },
+        index: { type: Number }
+    },
+    computed: {
+        expand () {
+            const index = routes.findIndex(r => {
+                return (
+                    r.children.findIndex(c => c.path === this.$route.path) > -1
+                )
+            })
+            return index === this.index
+        }
     },
     data () {
         return {
@@ -43,6 +56,11 @@ export default {
         color: fade(#d8d8d8, 50);
         &.active,
         &:hover {
+            color: #ffffff;
+        }
+    }
+    .router-link-exact-active {
+        .title {
             color: #ffffff;
         }
     }

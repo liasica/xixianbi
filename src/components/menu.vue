@@ -5,22 +5,13 @@
         </span>
         <div class="menu-box">
             <MenuItem
-                v-for="route in routes"
+                v-for="(route, index) in routes"
                 :key="route.name"
                 :item="route"
                 :base-path="route.path"
+                :index="index"
             ></MenuItem>
         </div>
-        <!-- <router-link to="/" exact>首页</router-link>
-        <router-link to="/complex" exact>综合管理</router-link>
-        <router-link to="/online">公交上线情况</router-link>
-        <router-link to="/energy">耗能数据</router-link>
-        <router-link to="/cars">车辆信息</router-link>
-        <router-link to="/station">场站管理</router-link>
-        <router-link to="/maintenance">机务管理</router-link>
-        <router-link to="/operation">营运管理</router-link>-->
-        <!-- <router-link to="/finance">财务管理</router-link>
-        <router-link to="/supplies">物资管理</router-link>-->
     </div>
 </template>
 <script>
@@ -33,13 +24,7 @@ export default {
         routes () {
             return routes
         }
-    },
-    data () {
-        return {
-            data: ''
-        }
-    },
-    methods: {}
+    }
 }
 </script>
 <style lang="less" scoped>

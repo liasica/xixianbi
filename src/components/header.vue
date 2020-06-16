@@ -35,13 +35,12 @@ export default {
         return {
             now: '',
             code: '0',
-            temperature: '28',
-            menuShow: true
+            temperature: '',
+            menuShow: false
         }
     },
     methods: {
         toggleMenu () {
-            console.info('toggleMenu')
             this.menuShow = !this.menuShow
         }
     },
@@ -58,7 +57,7 @@ export default {
     },
     watch: {
         $route () {
-            // this.menuShow = false
+            this.menuShow = false
         }
     }
 }
