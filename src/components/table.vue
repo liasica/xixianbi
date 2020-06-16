@@ -1,31 +1,60 @@
 <template>
-    <table class="table">
-        <thead>
-            <tr>
-                <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(item, index) in source" :key="index">
-                <td
-                    v-for="t in columns"
-                    :key="t.prop"
-                    :style="`text-align:${t.align}; max-width: ${t.width}px`"
-                >
-                    <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
-                    <span v-else>{{ item[t.prop] }}</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in list" :key="index">
+                    <td
+                        v-for="t in columns"
+                        :key="t.prop"
+                        :style="`text-align:${t.align}; max-width: ${t.width}px`"
+                    >
+                        <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
+                        <span v-else>{{ item[t.prop] }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <BiPagination v-if="total > 0" :total="total" :page.sync="current" />
+    </div>
 </template>
 
 <script>
+import BiPagination from '@/components/pagination'
 export default {
-    props: ['columns', 'source'],
+    components: {
+        BiPagination
+    },
+    props: {
+        columns: { default: [] },
+        source: { default: [] },
+        pagination: {
+            default: () => ({
+                pageSize: 10
+            })
+        }
+    },
+    computed: {
+        total () {
+            return this.source.length
+        },
+        list () {
+            return this.source.slice(
+                (this.current - 1) * this.pagination.pageSize,
+                this.current * this.pagination.pageSize
+            )
+        }
+    },
     data () {
-        return {}
-    }
+        return {
+            current: 1
+        }
+    },
+    methods: {}
 }
 </script>
 <style lang="less">

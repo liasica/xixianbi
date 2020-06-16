@@ -1,17 +1,17 @@
 <template>
     <div class="relation-choose" v-if="lines.length > 0">
-        <choose label="公司" v-model="choosed.company" value-index :options="lines" />
+        <choose label="公司" v-model="choosed.filaName" value-index :options="lines" />
         <choose
             label="场站"
             value-index
-            v-model="choosed.station"
-            :options="lines[choosed.company].children"
+            v-model="choosed.groupName"
+            :options="lines[choosed.filaName].children"
         />
         <choose
             label="线路"
             value-index
-            v-model="choosed.line"
-            :options="lines[choosed.company].children[choosed.station].children"
+            v-model="choosed.lineNo"
+            :options="lines[choosed.filaName].children[choosed.groupName].children"
         />
         <choose
             v-if="withDriver"
@@ -31,19 +31,23 @@ export default {
         return {
             lines: [],
             choosed: {
-                company: 0, // 公司
-                station: 0, // 场站
-                line: 0 // 线路
+                filaName: 0, // 公司
+                groupName: 0, // 场站
+                lineNo: 0 // 线路
             }
         }
     },
     methods: {
         getChoosed () {
-            const { company: c, station: s, line: l } = this.choosed
-            const company = this.lines[c]
-            const station = company.children[s]
-            const line = station.children[l]
-            return { company: company.id, station: station.id, line: line.id }
+            const { filaName: c, groupName: s, lineNo: l } = this.choosed
+            const filaName = this.lines[c]
+            const groupName = filaName.children[s]
+            const lineNo = groupName.children[l]
+            return {
+                filaName: filaName.id,
+                groupName: groupName.id,
+                lineNo: lineNo.id
+            }
         }
     },
     async created () {
@@ -52,22 +56,22 @@ export default {
         this.$emit('init', this.getChoosed())
     },
     watch: {
-        'choosed.company' (v) {
-            const { station, line } = this.choosed
-            if (station === 0 && line === 0) {
+        'choosed.filaName' (v) {
+            const { groupName, lineNo } = this.choosed
+            if (groupName === 0 && lineNo === 0) {
                 this.$emit('change', this.getChoosed())
             }
-            this.$set(this.choosed, 'line', 0)
-            this.$set(this.choosed, 'station', 0)
+            this.$set(this.choosed, 'lineNo', 0)
+            this.$set(this.choosed, 'groupName', 0)
         },
-        'choosed.station' (v) {
-            const { line } = this.choosed
-            if (line === 0) {
+        'choosed.groupName' (v) {
+            const { lineNo } = this.choosed
+            if (lineNo === 0) {
                 this.$emit('change', this.getChoosed())
             }
-            this.$set(this.choosed, 'line', 0)
+            this.$set(this.choosed, 'lineNo', 0)
         },
-        'choosed.line' (v) {
+        'choosed.lineNo' (v) {
             this.$emit('change', this.getChoosed())
         }
     }

@@ -19,12 +19,6 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination
-                v-if="total > 0"
-                :total="total"
-                :page.sync="page"
-                @pagination="handleChange"
-            />
         </div>
     </div>
 </template>
@@ -32,25 +26,21 @@
 <script>
 import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
         RelationChoose
     },
     data () {
         return {
             filterData: {
-                company: '', // 公司
-                station: '', // 场站
-                line: '' // 线路
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
             },
-            total: 0,
-            page: 12,
             columns: [
                 { prop: 'id', label: '序号' },
                 { prop: 'filaName', label: '公司' },
@@ -61,6 +51,7 @@ export default {
                 { prop: 'ontimeNum', label: '准点班次' },
                 { prop: 'ontimeRatio', label: '线路首末班准点率' }
             ],
+            source: [],
             list: [],
             isShowToday: false
         }
@@ -72,17 +63,21 @@ export default {
         async getDate () {
             try {
                 const data = await this.$axios.get('home/workrate')
+                this.source = data.items
                 this.list = data.items
-                this.total = data.items.length
             } catch (err) {
                 console.log(err)
             }
         },
         async onFilter () {
-            console.info(this.filterData)
-        },
-        handleChange () {
-            console.log(1)
+            const list = this.source.filter(item => {
+                let result = false
+                for (const key in this.filterData) {
+                    result = item[key] === this.filterData[key]
+                }
+                return result
+            })
+            this.list = list
         }
     }
 }

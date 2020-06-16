@@ -1,16 +1,16 @@
 <template>
     <div class="pagination">
         <ul>
-            <li @click="onPrev">
+            <li class="item" @click="onPrev">
                 <span class="icon-left-arrow"></span>
             </li>
             <li
                 v-for="(item, index) in list"
                 :key="index"
-                :class="['item', { active: page === index + 1}]"
+                :class="[{item: item !== '...' }, { active: page === item}]"
                 @click="onChange(item)"
             >{{ item }}</li>
-            <li @click="onNext">
+            <li class="item" @click="onNext">
                 <span class="icon-right-arrow"></span>
             </li>
         </ul>
@@ -27,12 +27,13 @@ export default {
     props: {
         total: { type: Number, default: 1 },
         page: { type: Number, default: 1 },
+        pageSize: { type: Number, default: 10 },
         jump: { type: Boolean, default: true },
         showTotal: { type: Boolean, default: true }
     },
     computed: {
         totalPage () {
-            return Math.ceil(this.total / 10)
+            return Math.ceil(this.total / this.pageSize)
         },
         list () {
             let list = []
@@ -44,14 +45,17 @@ export default {
                 return list
             }
             list.push(1)
-            if (this.page <= 3) {
+            if (this.page < 3) {
                 list = list.concat([2, 3])
                 list.push('...')
-                list.push(this.totalPage)
+                let diff = 3
+                while (diff--) {
+                    list.push(this.totalPage - diff)
+                }
             } else if (this.page > this.totalPage - 3) {
+                list = list.concat([2, 3])
                 list.push('...')
-                let diff = this.totalPage - this.page
-                list.push(this.page)
+                let diff = 3
                 while (diff--) {
                     list.push(this.totalPage - diff)
                 }
@@ -74,12 +78,30 @@ export default {
     },
     methods: {
         onJump () {
-            console.log(this.jumpNum)
+            if (!isNaN(this.jumpNum)) {
+                let page = this.jumpNum
+                if (this.jumpNum < 1) {
+                    page = 1
+                } else if (this.jumpNum > this.totalPage) {
+                    page = this.pageSize
+                }
+                this.$emit('update:page', +page)
+            }
         },
-        onPrev () {},
-        onNext () {},
+        onPrev () {
+            if (this.page > 1) {
+                this.$emit('update:page', this.page - 1)
+            }
+        },
+        onNext () {
+            if (this.page < this.totalPage) {
+                this.$emit('update:page', this.page + 1)
+            }
+        },
         onChange (value) {
-            this.$emit('update:page', value)
+            if (!isNaN(value)) {
+                this.$emit('update:page', value)
+            }
         }
     }
 }
