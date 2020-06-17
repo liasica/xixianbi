@@ -2,7 +2,7 @@
     <div class="relation-choose" v-if="lines.length > 0">
         <choose label="公司" v-model="choosed.filaName" value-index :options="lines" />
         <choose
-            label="场站"
+            label="车队"
             value-index
             v-model="choosed.groupName"
             :options="lines[choosed.filaName].children"
@@ -32,7 +32,7 @@ export default {
             lines: [],
             choosed: {
                 filaName: 0, // 公司
-                groupName: 0, // 场站
+                groupName: 0, // 车队
                 lineNo: 0 // 线路
             }
         }
@@ -54,6 +54,7 @@ export default {
         const { lines } = await this.$axios.get('basic/line')
         this.lines = lines
         this.$emit('init', this.getChoosed())
+        this.$emit('change', this.getChoosed())
     },
     watch: {
         'choosed.filaName' (v) {

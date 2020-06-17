@@ -19,7 +19,13 @@
                 </tr>
             </tbody>
         </table>
-        <BiPagination v-if="total > 0" :total="total" :page.sync="current" />
+        <BiPagination
+            v-if="pagination && total > 0"
+            :total="total"
+            :page.sync="current"
+            :jump="pagination && pagination.jump"
+            :showTotal="pagination && pagination.showTotal"
+        />
     </div>
 </template>
 
@@ -34,7 +40,9 @@ export default {
         source: { default: [] },
         pagination: {
             default: () => ({
-                pageSize: 10
+                pageSize: 10,
+                jump: true,
+                showTotal: true
             })
         }
     },
@@ -43,10 +51,13 @@ export default {
             return this.source.length
         },
         list () {
-            return this.source.slice(
-                (this.current - 1) * this.pagination.pageSize,
-                this.current * this.pagination.pageSize
-            )
+            if (this.pagination) {
+                return this.source.slice(
+                    (this.current - 1) * this.pagination.pageSize,
+                    this.current * this.pagination.pageSize
+                )
+            }
+            return this.source
         }
     },
     data () {

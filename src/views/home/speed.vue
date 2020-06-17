@@ -38,13 +38,13 @@ export default {
         return {
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
+                groupName: '', // 车队
                 lineNo: '' // 线路
             },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'groupName', label: '场站' },
-                { prop: 'carteam', label: '车队' },
+                { prop: 'filaName', label: '场站' },
+                { prop: 'groupName', label: '车队' },
                 { prop: 'lineNo', label: '线路名称' },
                 { prop: 'busNoChar', label: '车辆牌照' },
                 { prop: 'lineTime', label: '线路时间' },

@@ -21,10 +21,10 @@ export const scheduData = [
 ]
 
 export const orderColumns = [
-    { prop: 'timeup', label: '时间点' },
-    { prop: 'up', label: '开往上行' },
-    { prop: 'timedown', label: '时间点' },
-    { prop: 'down', label: '开往下行' }
+    { prop: 'up', label: '时间点' },
+    { prop: 'upStations', label: '开往上行' },
+    { prop: 'down', label: '时间点' },
+    { prop: 'downStations', label: '开往下行' }
 ]
 
 export const orderData = [

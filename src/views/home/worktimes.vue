@@ -2,9 +2,12 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <button class="search-btn">
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px; margin-bottom: 0"
+                />
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
@@ -16,75 +19,68 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            station: '场站1',
-            catteam: '第一车队',
-            name: '880',
-            car_no: '陕A24324',
-            line_time: '2018-10-31',
-            time: '06:00-07:00',
-            plan_times: '43',
-            times: '40',
-            schedule: '100%',
-            ontime: '90%'
-        }
-    ]
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
+            },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'station', label: '场站' },
-                { prop: 'catteam', label: '车队' },
-                { prop: 'name', label: '线路名称' },
+                { prop: 'filaName', label: '场站' },
+                { prop: 'groupName', label: '车队' },
+                { prop: 'lineNo', label: '线路名称' },
                 { prop: 'car_no', label: '车辆牌照' },
-                { prop: 'line_time', label: '线路发车日期' },
+                { prop: 'startTime', label: '线路发车日期' },
                 { prop: 'time', label: '发车时间' },
-                { prop: 'plan_times', label: '计划完成趟次' },
-                { prop: 'times', label: '实际完成趟次' },
+                { prop: 'planTimes', label: '计划完成趟次' },
+                { prop: 'realTimes', label: '实际完成趟次' },
                 { prop: 'schedule', label: '计划正班率' },
                 { prop: 'ontime', label: '计划正点率' }
             ],
-            list: data.list,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
+            source: [],
+            list: [],
             isShowToday: false
         }
     },
-    created () {},
+    created () {
+        this.getDate()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getDate () {
+            try {
+                const data = await this.$axios.get('home/times')
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            const list = this.source.filter(item => {
+                let result = false
+                for (const key in this.filterData) {
+                    result = item[key] === this.filterData[key]
+                }
+                return result
+            })
+            this.list = list
         }
     }
 }

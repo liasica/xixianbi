@@ -2,6 +2,7 @@
     <div class="container operation-container">
         <relation-choose
             @change="choosed => filterData = choosed"
+            @init="choosed => filterData = choosed"
             with-driver
             style="margin-right: 40px"
         />
@@ -25,7 +26,7 @@
             </div>
             <div class="bottom">
                 <div class="bi-title">调度计划</div>
-                <BiTable :columns="columns1" :source="list1" />
+                <BiTable :columns="columns1" :source="list1" :pagination="false" />
             </div>
         </div>
         <div class="mid">
@@ -45,13 +46,11 @@
                             </div>
                         </div>
                     </div>
-                    <BiTable :columns="columns2" :source="list2" class="s-table" />
-                    <BiPagination
-                        :total="total"
-                        :page.sync="page"
-                        @pagination="handleChange"
-                        :jump="false"
-                        :showTotal="false"
+                    <BiTable
+                        :columns="orderColumns"
+                        :source="orderData"
+                        class="s-table"
+                        :pagination="{pageSize: 10, jump: false, showTotal: false}"
                     />
                 </div>
             </div>
@@ -72,49 +71,59 @@
 import RelationChoose from '@/components/relationChoose'
 import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 
 import {
     driver,
     scheduColumns,
     scheduData,
     orderColumns,
-    orderData,
     columns1,
-    list1,
-    columns2,
-    list2
+    list1
 } from './mock'
 
 export default {
     components: {
         TieText,
         BiTable,
-        BiPagination,
         RelationChoose
     },
     data () {
         return {
             filterData: {
-                company: '', // 公司
-                station: '', // 场站
-                line: '' // 线路
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
             },
             driver,
             scheduColumns,
             scheduData,
             orderColumns,
-            orderData,
+            orderSource: [],
+            orderData: [],
             columns1,
-            list1,
-            columns2,
-            list2,
-            total: 150,
-            page: 1
+            list1
         }
     },
+    created () {
+        this.getDate()
+    },
     methods: {
-        handleChange (value) {}
+        async getDate () {
+            try {
+                const data = await this.$axios.get('operation', {
+                    params: {
+                        line: this.filterData.lineNo
+                    }
+                })
+                this.orderSource = data.items
+                this.orderData = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            this.getDate()
+        }
     }
 }
 </script>

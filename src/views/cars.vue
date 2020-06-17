@@ -3,7 +3,7 @@
         <div class="content">
             <div class="filter-box">
                 <choose class="choose" label="公司" :options="company_options" v-model="company_id" />
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
+                <choose class="choose" label="车队" :options="station_options" v-model="station_id" />
                 <choose class="choose" label="车辆类型" :options="cate_options" v-model="cate_id" />
                 <choose class="choose" label="车龄" :options="age_options" v-model="age_id" />
                 <button class="search-btn">

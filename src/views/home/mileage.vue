@@ -43,8 +43,8 @@ export default {
             },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'groupName', label: '场站' },
-                { prop: 'carteam', label: '车队' },
+                { prop: 'filaName', label: '场站' },
+                { prop: 'groupName', label: '车队' },
                 { prop: 'lineNo', label: '线路名称' },
                 { prop: 'car_no', label: '车辆牌照' },
                 { prop: 'allotTime', label: '线路时间' },
