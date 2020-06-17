@@ -1,8 +1,7 @@
 <template>
     <div class="container station-container">
         <div class="bi-title">场站信息</div>
-        <!-- <TieText class="sub-title">场站一</TieText> -->
-        <choose class="station-choose" :options="stations" v-model="station_id" />
+        <choose class="station-choose" :options="companies" v-model="station" />
         <div class="violation">
             <div class="bi-title">当日车辆违规统计</div>
             <ul>
@@ -30,11 +29,11 @@
             <progress-bar class="pbar" label="通勤公交" :schedule="[2, 29]" color="#3C77FF" />
         </div>
         <div class="bi-title">充电桩规模</div>
-        <div class="charge-places">
+        <div class="charge-places" v-if="chargingPosts">
             <img src="./assets/charge-places.png" alt />
-            <p>电桩类别：10/公交 20/公共</p>
-            <p>所属运营商： BYD</p>
-            <p>累计充电时间： 44.5小时</p>
+            <p>电桩类别: {{ Object.keys(chargingPosts.type).map(key => key + '/' + chargingPosts.type[key]).join(' ') }}</p>
+            <p>所属运营商: {{ chargingPosts.operator.join('/') }}</p>
+            <p>累计充电时间: {{ (chargingPosts.time / 60).toFixed(2) }}小时</p>
         </div>
     </div>
 </template>
@@ -49,17 +48,27 @@ export default {
     },
     data () {
         return {
-            station_id: 1,
-            stations: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-                { id: 3, label: '场站三' }
-            ]
+            station: '',
+            companies: [],
+            chargingPosts: null
         }
     },
     methods: {
         getRandomInt (max) {
             return Math.floor(Math.random() * Math.floor(max))
+        }
+    },
+    async created () {
+        const { companies } = await this.$axios.get('basic/company')
+        this.companies = companies
+        this.station = companies[0].id
+    },
+    watch: {
+        async station (v) {
+            const { chargingPosts } = await this.$axios.get(
+                `station?station=${v}`
+            )
+            this.chargingPosts = chargingPosts
         }
     }
 }
