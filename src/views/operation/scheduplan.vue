@@ -89,7 +89,6 @@ export default {
                         plan.isUpDown ? '下行' : '上行'
                     } - ${plan.toStation}`
                 })
-                console.info(plans)
                 return { filaName, groupName, lineNo, projectName, ...plans }
             })
         },
