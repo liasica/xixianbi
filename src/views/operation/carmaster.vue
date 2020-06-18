@@ -14,10 +14,17 @@
             </div>
             <div class="filter-box">
                 <BiCheckBox label="车长信息" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
-                    <span>导出数据</span>
-                </s-btn>
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch"></i>
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -34,6 +41,15 @@ export default {
         BiTable,
         BiCheckBox,
         RelationChoose
+    },
+    fields () {
+        const fields = {}
+        this.columns.forEach(column => {
+            if (column.label !== '序号') {
+                fields[column.label] = column.prop
+            }
+        })
+        return fields
     },
     data () {
         return {
@@ -63,11 +79,7 @@ export default {
     methods: {
         async getData () {
             try {
-                const data = await this.$axios.get('operation/drivers', {
-                    params: {
-                        line: this.filterData.lineNo
-                    }
-                })
+                const data = await this.$axios.get('operation/drivers')
                 this.source = data.items
                 this.list = data.items
             } catch (err) {
@@ -75,7 +87,9 @@ export default {
             }
         },
         async onFilter () {
-            this.getData()
+            this.list = this.source.filter(item => {
+                return item.lineNo === this.filterData.lineNo
+            })
         }
     }
 }
