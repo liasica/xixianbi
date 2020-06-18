@@ -5,7 +5,7 @@ const env = process.env.NODE_ENV
 console.info(`env: ${env}`)
 // const publicPath = env === 'production' ? '/vr' : '/'
 const publicPath = '/'
-const proxyTarget = process.env.VUE_APP_BASE_API
+// const proxyTarget = process.env.VUE_APP_BASE_API
 
 module.exports = {
     assetsDir: 'assets',
@@ -53,16 +53,16 @@ module.exports = {
     },
     devServer: {
         // host: '127.0.0.1',
-        port: 6010,
-        proxy: {
-            '/apiv1': {
-                target: proxyTarget,
-                changeOrigin: true,
-                secure: false,
-                onProxyReq: request => {
-                    request.setHeader('origin', proxyTarget)
-                }
-            }
-        }
+        port: 6010
+        // proxy: {
+        //     '/apiv1': {
+        //         target: proxyTarget,
+        //         changeOrigin: true,
+        //         secure: false,
+        //         onProxyReq: request => {
+        //             request.setHeader('origin', proxyTarget)
+        //         }
+        //     }
+        // }
     }
 }
