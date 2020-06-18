@@ -61,10 +61,10 @@ export default {
         }
     },
     created () {
-        this.getDate()
+        this.getData()
     },
     methods: {
-        async getDate () {
+        async getData () {
             try {
                 const data = await this.$axios.get('home/distance', {
                     params: {
@@ -78,7 +78,7 @@ export default {
             }
         },
         async onFilter () {
-            this.getDate()
+            this.getData()
         }
     }
 }

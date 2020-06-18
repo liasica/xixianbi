@@ -57,10 +57,10 @@ export default {
         }
     },
     created () {
-        this.getDate()
+        this.getData()
     },
     methods: {
-        async getDate () {
+        async getData () {
             try {
                 const data = await this.$axios.get('home/workrate')
                 this.source = data.items
