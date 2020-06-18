@@ -2,11 +2,13 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公司" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="线路" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="车号" :options="name_options" v-model="name_id" />
-                <choose class="choose" label="司机姓名" :options="status_options" v-model="status_id" />
-                <button class="search-btn">
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    with-driver
+                    style="margin-right: 40px"
+                />
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
@@ -18,79 +20,62 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            cate: '西咸公司',
-            station: '880',
-            name: '1070',
-            start: '张三',
-            start_time: '2D5A0531',
-            end: '陕AV9276',
-            end_time: '2019-07-23 12:32:34'
-        }
-    ]
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
+            },
             columns: [
                 { prop: 'id', label: '序号' },
                 { prop: 'cate', label: '公司' },
                 { prop: 'station', label: '线路' },
                 { prop: 'name', label: '车号' },
-                { prop: 'start', label: '司机姓名' },
-                { prop: 'start_time', label: '物理卡号' },
-                { prop: 'end', label: '司机工号' },
+                { prop: 'employeeName', label: '司机姓名' },
+                { prop: 'cardNo', label: '物理卡号' },
+                { prop: 'opNo', label: '司机工号' },
                 { prop: 'end_time', label: '打卡时间' }
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' }
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' }
-            ],
-            status_id: 1,
+            source: [],
+            list: [],
             isShowToday: false
         }
     },
-    created () {},
+    created () {
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('operation/drivers', {
+                    params: {
+                        line: this.filterData.lineNo
+                    }
+                })
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            this.getData()
         }
     }
 }

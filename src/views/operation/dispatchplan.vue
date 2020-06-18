@@ -2,16 +2,12 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="方案名称" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="分公司" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <choose
-                    class="choose"
-                    label="发车点当/次日"
-                    :options="status_options"
-                    v-model="status_id"
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px"
                 />
-                <button class="search-btn">
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
@@ -23,89 +19,63 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            planname: 'E16摆渡车计划',
-            company: '场站1',
-            name: '880',
-            defplan: '是',
-            iscancel: '否',
-            isupdown: '上行',
-            time: '08:05',
-            space: '15',
-            spaceturn: '47',
-            totalturn: '47',
-            singletime: '10',
-            drivetime: '当日'
-        }
-    ]
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 车队
+                lineNo: '' // 线路
+            },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'planname', label: '方案名称' },
-                { prop: 'company', label: '分公司' },
-                { prop: 'name', label: '线路' },
-                { prop: 'defplan', label: '默认方案' },
-                { prop: 'iscancel', label: '是否作废' },
+                { prop: 'projectName', label: '方案名称' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'lineNo', label: '线路' },
+                { prop: 'isDefault', label: '默认方案' },
+                { prop: 'isBlank', label: '是否作废' },
                 { prop: 'isupdown', label: '是否上下行' },
                 { prop: 'time', label: '开始时间点' },
                 { prop: 'space', label: '发车间隔' },
-                { prop: 'spaceturn', label: '间隔班次' },
-                { prop: 'totalturn', label: '总班次' },
+                { prop: 'motorcadeSum', label: '间隔班次' },
+                { prop: 'planTimes', label: '总班次' },
                 { prop: 'singletime', label: '单程时间' },
                 { prop: 'drivetime', label: '发车点当/次日' }
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' }
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' }
-            ],
-            status_id: 1,
+            source: [],
+            list: [],
             isShowToday: false
         }
     },
-    created () {},
+    created () {
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('operation/dispatch')
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            this.getData()
         }
     }
 }

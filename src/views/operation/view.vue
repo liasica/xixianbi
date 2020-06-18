@@ -1,8 +1,8 @@
 <template>
     <div class="container operation-container">
         <relation-choose
-            @change="choosed => filterData = choosed"
-            @init="choosed => filterData = choosed"
+            @change="onFilter"
+            @init="onFilter"
             with-driver
             style="margin-right: 40px"
         />
@@ -110,18 +110,26 @@ export default {
     methods: {
         async getData () {
             try {
-                const data = await this.$axios.get('operation', {
+                const data = await this.$axios.get('operation/planlist', {
                     params: {
                         line: this.filterData.lineNo
                     }
                 })
-                this.orderSource = data.items
-                this.orderData = data.items
+                const list = data.items.map(item => {
+                    return {
+                        ...item,
+                        upStations: data.upStations[1],
+                        downStations: data.downStations[1]
+                    }
+                })
+                this.orderSource = list
+                this.orderData = list
             } catch (err) {
                 console.log(err)
             }
         },
-        async onFilter () {
+        async onFilter (choosed) {
+            this.filterData = choosed
             this.getData()
         }
     }

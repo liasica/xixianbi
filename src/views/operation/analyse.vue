@@ -2,11 +2,12 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公司" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="车队" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
-                <choose class="choose" label="开始时间" :options="status_options" v-model="status_id" />
-                <button class="search-btn">
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px"
+                />
+                <button class="search-btn" @click="onFilter">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
@@ -18,89 +19,63 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '场站1',
-            line: '880',
-            plancar: '12',
-            car: '12',
-            carloss: '0',
-            plankm: '2224',
-            km: '2224',
-            kmloss: '0',
-            plantimes: '36',
-            times: '36',
-            timesloss: '0',
-            remark: ''
-        }
-    ]
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
-        BiCheckBox
+        BiCheckBox,
+        RelationChoose
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 车队
+                lineNo: '' // 线路
+            },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'company', label: '公司' },
-                { prop: 'line', label: '线路' },
-                { prop: 'plancar', label: '计划配车' },
-                { prop: 'car', label: '实际出车' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'lineNo', label: '线路' },
+                { prop: 'planBus', label: '计划配车' },
+                { prop: 'realBus', label: '实际出车' },
                 { prop: 'carloss', label: '节亏' },
-                { prop: 'plankm', label: '计划营运公里' },
-                { prop: 'km', label: '实际营运公里' },
+                { prop: 'planDis', label: '计划营运公里' },
+                { prop: 'realDis', label: '实际营运公里' },
                 { prop: 'kmloss', label: '节亏' },
-                { prop: 'plantimes', label: '计划圈次' },
+                { prop: 'planTimes', label: '计划圈次' },
                 { prop: 'times', label: '实际圈次' },
                 { prop: 'timesloss', label: '节亏' },
                 { prop: 'remark', label: '备注' }
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' }
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' }
-            ],
-            status_id: 1,
+            source: [],
+            list: [],
             isShowToday: false
         }
     },
-    created () {},
+    created () {
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('operation/anlysis')
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter () {
+            this.getData()
         }
     }
 }
