@@ -2,28 +2,31 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="分公司" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="线路号" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="方案名称" :options="name_options" v-model="name_id" />
-                <choose
+                <relation-choose
+                    @change="choosed => filterData = choosed"
+                    @init="choosed => filterData = choosed"
+                    style="margin-right: 40px; margin-bottom: 0"
+                />
+                <!-- <choose
                     class="choose"
                     label="发车点当/次日"
                     :options="status_options"
                     v-model="status_id"
-                />
+                />-->
                 <button class="search-btn">
                     <i class="icon-search"></i>查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="排班计划" :value.sync="isShowToday" />
+                <div></div>
                 <s-btn class="export-btn">
                     <i class="icon-switch"></i>
                     <span>导出数据</span>
                 </s-btn>
             </div>
             <div class="scroll-table">
-                <BiTable :columns="columns" :source="list" />
+                <BiTable :columns="columns" :source="items" v-if="items.length > 0" />
+                <div v-else>该线路暂无调度排班计划</div>
             </div>
         </div>
     </div>
@@ -32,85 +35,28 @@
 <script>
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
-import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '场站1',
-            line: '880',
-            planname: '1121',
-            no: '1',
-            time1: '13:00',
-            direction1: '下行-秦汉中学',
-            time2: '13:00',
-            direction2: '上行-秦汉中学',
-            time3: '13:00',
-            direction3: '下行-秦汉中学',
-            time4: '13:00',
-            direction4: '上行-秦汉中学',
-            time5: '13:00',
-            direction5: '下行-秦汉中学',
-            time6: '13:00',
-            direction6: '上行-秦汉中学',
-            time7: '13:00',
-            direction7: '下行-秦汉中学',
-            time8: '13:00',
-            direction8: '上行-秦汉中学'
-        }
-    ]
-})
+import RelationChoose from '@/components/relationChoose'
 
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        RelationChoose
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '' // 线路
+            },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'company', label: '分公司' },
-                { prop: 'line', label: '线路' },
-                { prop: 'planname', label: '方案名称' },
-                { prop: 'no', label: '部位号' },
-                { prop: 'time1', label: '时间点1' },
-                { prop: 'direction1', label: '开往方向1' },
-                { prop: 'time2', label: '时间点2' },
-                { prop: 'direction2', label: '开往方向2' },
-                { prop: 'time3', label: '时间点3' },
-                { prop: 'direction3', label: '开往方向3' },
-                { prop: 'time4', label: '时间点4' },
-                { prop: 'direction4', label: '开往方向4' },
-                { prop: 'time5', label: '时间点5' },
-                { prop: 'direction5', label: '开往方向5' },
-                { prop: 'time6', label: '时间点6' },
-                { prop: 'direction6', label: '开往方向6' },
-                { prop: 'time7', label: '时间点7' },
-                { prop: 'direction7', label: '开往方向7' },
-                { prop: 'time8', label: '时间点8' },
-                { prop: 'direction8', label: '开往方向8' }
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '车队' },
+                { prop: 'lineNo', label: '线路' }
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' }
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' }
-            ],
-            name_id: 1,
+            items: [],
             status_options: [
                 { id: 1, label: '运营' },
                 { id: 2, label: '停运' }
@@ -119,10 +65,41 @@ export default {
             isShowToday: false
         }
     },
-    created () {},
     methods: {
+        async getPlans () {
+            const { items, max } = await this.$axios.get(
+                `operation/plan?line=${this.filterData.lineNo}`
+            )
+            for (let i = 1; i <= max; i++) {
+                this.columns.push({
+                    prop: `time-${i}`,
+                    label: `时间${i}`
+                })
+                this.columns.push({
+                    prop: `direction-${i}`,
+                    label: `开往方向${i}`
+                })
+            }
+            this.items = items.map(item => {
+                const { filaName, groupName, lineNo, projectName } = item
+                const plans = {}
+                item.plans.forEach((plan, i) => {
+                    plans[`time-${i + 1}`] = plan.planTime
+                    plans[`direction-${i + 1}`] = `${
+                        plan.isUpDown ? '下行' : '上行'
+                    } - ${plan.toStation}`
+                })
+                console.info(plans)
+                return { filaName, groupName, lineNo, projectName, ...plans }
+            })
+        },
         handleChange () {
             console.log(1)
+        }
+    },
+    watch: {
+        async 'filterData.lineNo' () {
+            await this.getPlans()
         }
     }
 }
@@ -201,6 +178,20 @@ export default {
                 background-size: cover;
                 margin-right: 20px;
             }
+        }
+    }
+}
+
+.scroll-table {
+    table {
+        position: relative;
+        th {
+            padding: 0 20px;
+        }
+        .fix-head {
+            position: absolute;
+            left: 0;
+            width: 100px;
         }
     }
 }

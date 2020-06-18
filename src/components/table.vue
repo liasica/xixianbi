@@ -33,6 +33,7 @@
 
 <script>
 import BiPagination from '@/components/pagination'
+
 export default {
     components: {
         BiPagination
