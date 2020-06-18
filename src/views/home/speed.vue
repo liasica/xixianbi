@@ -1,16 +1,10 @@
 <template>
     <div class="container">
         <div class="content">
-            <div class="filter-box">
-                <relation-choose
-                    @change="choosed => filterData = choosed"
-                    @init="choosed => filterData = choosed"
-                    style="margin-right: 40px; margin-bottom: 0"
-                />
-                <button class="search-btn" @click="onFilter">
-                    <i class="icon-search"></i>查询
-                </button>
-            </div>
+            <relation-choose
+                @change="choosed => filterData = choosed"
+                @init="choosed => filterData = choosed"
+            />
             <div class="filter-box">
                 <div></div>
                 <s-btn class="export-btn">
@@ -43,9 +37,9 @@ export default {
             },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'filaName', label: '场站' },
+                { prop: 'filaName', label: '公司' },
                 { prop: 'groupName', label: '车队' },
-                { prop: 'lineNo', label: '线路名称' },
+                { prop: 'lineNo', label: '线路' },
                 { prop: 'busNoChar', label: '车辆牌照' },
                 { prop: 'lineTime', label: '线路时间' },
                 { prop: 'total', label: '总里程' },
@@ -57,11 +51,8 @@ export default {
             isShowToday: false
         }
     },
-    created () {
-        this.getDate()
-    },
     methods: {
-        async getDate () {
+        async getData () {
             try {
                 const data = await this.$axios.get('home/speed', {
                     params: {
@@ -73,9 +64,11 @@ export default {
             } catch (err) {
                 console.log(err)
             }
-        },
-        async onFilter () {
-            this.getDate()
+        }
+    },
+    watch: {
+        async 'filterData.lineNo' () {
+            await this.getData()
         }
     }
 }
