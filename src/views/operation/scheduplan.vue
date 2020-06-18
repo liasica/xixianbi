@@ -22,8 +22,9 @@
                     <span>导出数据</span>
                 </s-btn>
             </div>
-            <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
+            <div class="scroll-table">
+                <BiTable :columns="columns" :source="list" />
+            </div>
         </div>
     </div>
 </template>
@@ -128,8 +129,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .container {
-    display: flex;
-    // min-height: calc(100vh - 130px);
     .sidebar {
         min-height: 100%;
         width: 121px;
@@ -161,6 +160,7 @@ export default {
     }
     .content {
         flex: 1;
+        width: 100%;
         height: 100%;
         margin-left: 20px;
     }

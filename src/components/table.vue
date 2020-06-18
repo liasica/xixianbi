@@ -1,24 +1,26 @@
 <template>
     <div class="table-container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item, index) in list" :key="index">
-                    <td
-                        v-for="t in columns"
-                        :key="t.prop"
-                        :style="`text-align:${t.align}; max-width: ${t.width}px`"
-                    >
-                        <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
-                        <span v-else>{{ item[t.prop] || '-' }}</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-entity">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in list" :key="index">
+                        <td
+                            v-for="t in columns"
+                            :key="t.prop"
+                            :style="`text-align:${t.align}; max-width: ${t.width}px`"
+                        >
+                            <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
+                            <span v-else>{{ item[t.prop] || '-' }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <BiPagination
             v-if="pagination && total > 0"
             :total="total"
