@@ -68,6 +68,7 @@ export default {
 <style lang="less" scoped>
 .s-btn {
     position: relative;
+    cursor: pointer;
     .bg {
         position: absolute;
         left: 0;
