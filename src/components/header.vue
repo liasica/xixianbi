@@ -12,7 +12,8 @@
             <router-link to="/" class="logo" />
             <div class="wrapper">
                 <!-- <search /> -->
-                <switch-table />
+                <!-- <switch-table /> -->
+                {{ $route.meta.title || '西咸BI平台' }}
             </div>
             <transition name="menu">
                 <bi-menu v-if="menuShow" />
@@ -49,9 +50,7 @@ export default {
             this.now = moment().format('YYYY-MM-DD HH:mm:ss')
         }, 1000)
 
-        const { code, temperature } = await this.$axios.get(
-            'guest/weather'
-        )
+        const { code, temperature } = await this.$axios.get('guest/weather')
         this.code = code
         this.temperature = temperature
     },

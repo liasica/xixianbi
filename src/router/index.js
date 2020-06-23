@@ -33,6 +33,9 @@ import rule from '@/views/rule/index'
 import user from '@/views/rule/user'
 import cars from '@/views/cars'
 import energy from '@/views/energy'
+
+import settingEnergy from '@/views/setting/energy'
+
 import layout from '@/components/layout'
 
 Vue.use(VueRouter)
@@ -384,6 +387,15 @@ export const routes = [
                 },
                 component: user
             }
+        ]
+    },
+    {
+        path: '/setting',
+        name: 'setting',
+        meta: { title: '系统设置' },
+        component: layout,
+        children: [
+            { path: '/setting/energy', name: 'setting-energy', meta: { title: '充电桩设置' }, component: settingEnergy }
         ]
     },
     {
