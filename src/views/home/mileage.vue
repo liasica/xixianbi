@@ -13,10 +13,17 @@
             </div>
             <div class="filter-box">
                 <BiCheckBox label="当日营运里程" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
-                    <span>导出数据</span>
-                </s-btn>
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch"></i>
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -33,6 +40,17 @@ export default {
         BiTable,
         BiCheckBox,
         RelationChoose
+    },
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        }
     },
     data () {
         return {
