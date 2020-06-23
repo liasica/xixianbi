@@ -19,10 +19,17 @@
             </div>
             <div class="filter-box">
                 <div></div>
-                <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
-                    <span>导出数据</span>
-                </s-btn>
+                <export-excel
+                    :data="items"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch"></i>
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <div class="scroll-table">
                 <BiTable :columns="columns" :source="items" v-if="items.length > 0" />
@@ -42,6 +49,17 @@ export default {
         BiTable,
         BiPagination,
         RelationChoose
+    },
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        }
     },
     data () {
         return {
