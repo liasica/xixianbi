@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import { getToken } from '@/utils/auth'
+
 import login from '@/views/login'
 
 import home from '@/views/home/index'
@@ -435,7 +437,11 @@ router.beforeEach((to, from, next) => {
         document.title = nearestWithTitle.meta.title + title
     }
 
-    next()
+    if (!getToken() && name !== 'login') {
+        next('/login')
+    } else {
+        next()
+    }
 })
 
 export default router

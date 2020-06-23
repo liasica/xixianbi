@@ -36,14 +36,12 @@ export default {
     },
     methods: {
         async submit () {
-            const { token } = await this.$http.post('user/login', this.form)
+            const { token } = await this.$axios.post('login', this.form)
             if (token) {
                 setToken(token)
                 // 跳转
                 const { redirect } = this.$route.query
-                if (redirect) {
-                    return this.$router.replace({ path: redirect })
-                }
+                return this.$router.replace({ path: redirect || '/' })
             }
         }
     }
@@ -56,6 +54,7 @@ export default {
     justify-content: center;
     display: flex;
     height: 100%;
+    margin-top: -130px;
 }
 .panel {
     position: relative;

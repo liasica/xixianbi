@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="container">
+        <div class="container" v-if="logged">
             <div class="wrapper">
                 <button class="menu" @click="toggleMenu"></button>
                 <s-btn class="now">{{ now }}</s-btn>
@@ -25,6 +25,8 @@
 <script>
 import moment from 'moment'
 
+import { getToken } from '@/utils/auth'
+
 import BiMenu from '@/components/menu'
 import SwitchTable from '@/components/switchTable'
 import Search from '@/components/search'
@@ -37,7 +39,8 @@ export default {
             now: '',
             code: '0',
             temperature: '',
-            menuShow: false
+            menuShow: false,
+            logged: false
         }
     },
     methods: {
@@ -46,6 +49,8 @@ export default {
         }
     },
     async created () {
+        this.logged = getToken()
+
         setInterval(() => {
             this.now = moment().format('YYYY-MM-DD HH:mm:ss')
         }, 1000)
@@ -57,6 +62,7 @@ export default {
     watch: {
         $route () {
             this.menuShow = false
+            this.logged = getToken()
         }
     }
 }
