@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import axios from 'axios'
+
 import router from '@/router'
 
 const service = axios.create({
@@ -31,9 +33,10 @@ service.interceptors.response.use(
         const { path } = router.currentRoute
         const res = response.data
 
+        const { $notify } = Vue.prototype
+
         if (res.code !== 0x1000) {
             if (res.code === 0x1001) {
-                console.info('需要登录')
                 source.cancel('需要登录')
                 source = CancelToken.source()
                 if (path !== '/login') {
@@ -43,6 +46,7 @@ service.interceptors.response.use(
                     })
                 }
             }
+            $notify.error({ message: res.message })
             // Message({ message: res.message || 'Error', type: 'error', duration: 5 * 1000 })
         }
         return res.data || {}
