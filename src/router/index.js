@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+import login from '@/views/login'
+
 import home from '@/views/home/index'
 import online from '@/views/home/online'
 import violation from '@/views/home/violation'
@@ -397,6 +400,12 @@ export const routes = [
         children: [
             { path: '/setting/energy', name: 'setting-energy', meta: { title: '充电桩设置' }, component: settingEnergy }
         ]
+    },
+    {
+        path: '/login',
+        name: 'login',
+        meta: { hidden: true },
+        component: login
     },
     {
         path: '*',
