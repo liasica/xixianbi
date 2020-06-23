@@ -82,7 +82,7 @@ export const routes = [
                 path: '/home/revenue',
                 name: 'home/revenue',
                 meta: {
-                    title: '车辆营收统计时间分布图'
+                    title: '车辆营收统计时间分布'
                 },
                 component: revenue
             },

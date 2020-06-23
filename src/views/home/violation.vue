@@ -15,7 +15,6 @@
                 </s-btn>
             </div>
             <BiTable :columns="columns1" :source="list1" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>

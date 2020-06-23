@@ -41,14 +41,16 @@ export default {
         BiCheckBox,
         RelationChoose
     },
-    fields () {
-        const fields = {}
-        this.columns.forEach(column => {
-            if (column.label !== '序号') {
-                fields[column.label] = column.prop
-            }
-        })
-        return fields
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        }
     },
     data () {
         return {

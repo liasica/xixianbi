@@ -35,7 +35,7 @@
                 <div class="schedu-plan">
                     <div class="title-box">
                         <span class="name">排班表</span>
-                        <div>
+                        <!-- <div>
                             <div class="item">
                                 方案名称
                                 <span>1121</span>
@@ -44,7 +44,7 @@
                                 部位号
                                 <span>12</span>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <BiTable
                         :columns="orderColumns"
