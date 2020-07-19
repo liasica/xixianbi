@@ -12,7 +12,7 @@
             </div>
             <div class="content-box">
                 <div class="left">
-                    <div class="bi-title" style="margin:0">当日驾驶员警告排名</div>
+                    <div class="bi-title" style="margin:0; width: 320px">当日驾驶员警告排名 [ {{ today }} ]</div>
                     <div class="driver-rank">
                         <div class="title">
                             <span>排名</span>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <div class="bi-title">{{ title }}</div>
+                    <div class="bi-title" style="width: 320px">{{ title }} [ {{ today }} - {{ lastMonthDay }} ]</div>
                     <alarm-parallel v-show="current==='week'" :items="week" />
                     <alarm-parallel v-show="current==='month'" :items="month" />
                     <month-parallel v-show="current==='compare'" :items="compare" />
@@ -90,6 +90,23 @@ export default {
                 rank: '前十名线路30日告警排名',
             }
             return list[this.current]
+        },
+        today () {
+            const now = new Date()
+            let month = now.getMonth() + 1
+            month = month > 9 ? month : `0${month}`
+            let day = now.getDate()
+            day = day > 9 ? day : `0${day}`
+            return `${month}/${day}`
+        },
+        lastMonthDay () {
+            const now = new Date()
+            let month = now.getMonth()
+            month = month === 0 ? 12 : month
+            month = month > 9 ? month : `0${month}`
+            let day = now.getDate()
+            day = day > 9 ? day : `0${day}`
+            return `${month}/${day}`
         },
     },
     created () {
