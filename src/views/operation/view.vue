@@ -56,13 +56,13 @@
             </div>
         </div>
         <div class="right">
-            <div>
+            <div class="side-chart">
                 <div class="bi-title">营运分析</div>
-                <img :src="require('@images/demo/14.png')">
+                <v-chart :options="busChart" />
             </div>
-            <div class="bottom">
-                <div class="bi-title">营运分析</div>
-                <img :src="require('@images/demo/16.png')">
+            <div class="bottom side-chart">
+                <div class="bi-title">营运里程</div>
+                <v-chart :options="mileageChart" />
             </div>
         </div>
     </div>
@@ -95,6 +95,86 @@ export default {
             orderSource: [],
             orderData: [],
             list1: [],
+            busChart: {},
+            mileageChart: {},
+            chartOptions: {
+                legend: {},
+                tooltip: {},
+                grid: {
+                    width: 240,
+                    left: 10,
+                    right: 0,
+                },
+                dataset: {
+                    source: [
+                        // ['月份', '实际发车数', '实际趟数'],
+                        // ['2020-01', 1647, 7794],
+                    ],
+                },
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 0,
+                        end: 50,
+                    },
+                    {
+                        type: 'slider',
+                        show: true,
+                        realtime: true,
+                        start: 0,
+                        end: 50,
+                        height: 16,
+                    },
+                ],
+                xAxis: {
+                    type: 'category',
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                    },
+                },
+                yAxis: {
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        show: false,
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                        formatter: value => (value > 0 ? value : null),
+                    },
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'bar',
+                        barWidth: 8,
+                        itemStyle: {
+                            color: '#2177FF',
+                        },
+                    },
+                    {
+                        name: '',
+                        type: 'bar',
+                        barWidth: 8,
+                        itemStyle: {
+                            color: '#00F4C7',
+                        },
+                    },
+                ],
+            },
         }
     },
     computed: {
@@ -118,8 +198,21 @@ export default {
     created () {
         this.getData()
         this.getLineplan()
+        this.getPageData()
     },
     methods: {
+        async getPageData () {
+            const { analysis } = await this.$axios.get('operation')
+            const busChart = JSON.parse(JSON.stringify(this.chartOptions))
+            const mileageChart = JSON.parse(JSON.stringify(this.chartOptions))
+            busChart.dataset.source = [['月份', '实际发车数', '实际趟数']]
+            analysis.forEach(a => {
+                busChart.dataset.source.push([a.month, parseInt(a.realBus, 10), parseInt(a.times, 10)])
+                mileageChart.dataset.source.push([a.month, parseInt(a.planDis, 10), parseInt(a.realDis, 10)])
+            })
+            this.busChart = busChart
+            this.mileageChart = mileageChart
+        },
         async getData () {
             try {
                 const data = await this.$axios.get('operation/planlist', {
@@ -297,6 +390,14 @@ export default {
                 padding: 6px 0;
             }
         }
+    }
+    .side-chart {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .echarts {
+        width: 320px;
     }
 }
 </style>
