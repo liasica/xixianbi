@@ -2,18 +2,18 @@
     <div class="container">
         <div class="alam-chart">
             <!-- 七日报警总数 -->
-            <alarmweek :items="week" />
+            <alarm-parallel :items="week" />
             <!-- 30日内报警总数 [ 03/20 — 04/20 ]  -->
-            <alarmweek :items="month" />
+            <alarm-parallel :items="month" />
         </div>
     </div>
 </template>
 
 <script>
-import alarmweek from '@/views/home/alarmweek'
+import alarmParallel from '@/views/home/alarmParallel'
 
 export default {
-    components: { alarmweek },
+    components: { alarmParallel },
     data () {
         return {
             compare: [],
