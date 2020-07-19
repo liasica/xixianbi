@@ -5,7 +5,7 @@
 <script>
 export default {
     props: {
-        week: { type: Array, default: () => [] },
+        items: { type: Array, default: () => [] },
     },
     computed: {
         options () {
@@ -13,7 +13,7 @@ export default {
             const count = []
             const month = []
             const year = []
-            this.week.forEach(w => {
+            this.items.forEach(w => {
                 date.push(w.date)
                 count.push(w.warnCount)
                 month.push(w.monthOnMonth)
@@ -127,10 +127,3 @@ export default {
     },
 }
 </script>
-
-<style lang="less" scoped>
-.alarm-week {
-    width: 832px;
-    height: 682px;
-}
-</style>

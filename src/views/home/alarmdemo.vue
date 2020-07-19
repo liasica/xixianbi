@@ -1,7 +1,10 @@
 <template>
     <div class="container">
         <div class="alam-chart">
-            <alarmweek :week="week" />
+            <!-- 七日报警总数 -->
+            <alarmweek :items="week" />
+            <!-- 30日内报警总数 [ 03/20 — 04/20 ]  -->
+            <alarmweek :items="month" />
         </div>
     </div>
 </template>
