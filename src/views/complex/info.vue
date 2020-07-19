@@ -78,7 +78,6 @@ export default {
             total: 150,
             page: 12,
             columns: [
-                { prop: 'id', label: '序号' },
                 { prop: 'company', label: '公司' },
                 { prop: 'station', label: '场站' },
                 { prop: 'total', label: '总里程' },

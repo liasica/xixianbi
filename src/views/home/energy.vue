@@ -70,7 +70,6 @@ export default {
             total: 150,
             page: 12,
             columns: [
-                { prop: 'id', label: '序号' },
                 { prop: 'company', label: '公交分类' },
                 { prop: 'station', label: '场站' },
                 { prop: 'carteam', label: '车队' },

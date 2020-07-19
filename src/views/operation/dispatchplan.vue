@@ -49,7 +49,6 @@ export default {
                 lineNo: '', // 线路
             },
             columns: [
-                { prop: 'id', label: '序号' },
                 { prop: 'projectName', label: '方案名称' },
                 { prop: 'filaName', label: '公司' },
                 { prop: 'lineNo', label: '线路' },

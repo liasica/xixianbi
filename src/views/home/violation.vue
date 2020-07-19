@@ -100,7 +100,6 @@ export default {
             total: 150,
             page: 12,
             columns1: [
-                { prop: 'id', label: '序号' },
                 { prop: 'cate', label: '分类' },
                 { prop: 'no', label: '违法违规处罚编号' },
                 { prop: 'time', label: '处理日期' },
@@ -114,7 +113,6 @@ export default {
             ],
             list1: data1.list,
             columns2: [
-                { prop: 'id', label: '序号' },
                 { prop: 'cate', label: '分类' },
                 { prop: 'no', label: '事故编号' },
                 { prop: 'borrow_no', label: '借款人编号' },
@@ -129,7 +127,6 @@ export default {
             ],
             list2: data2.list,
             columns3: [
-                { prop: 'id', label: '序号' },
                 { prop: 'cate', label: '分类' },
                 { prop: 'no', label: '车号' },
                 { prop: 'car_no', label: '牌照号' },

@@ -49,7 +49,6 @@ export default {
                 lineNo: '', // 线路
             },
             columns: [
-                { prop: 'id', label: '序号' },
                 { prop: 'filaName', label: '场站' },
                 { prop: 'groupName', label: '车队' },
                 { prop: 'lineNo', label: '线路名称' },
