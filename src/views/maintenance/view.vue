@@ -51,7 +51,30 @@
         <div class="right">
             <div>
                 <div class="bi-title">延迟信息</div>
+                <div class="repair-item">
+                    <span class="label">发车方向</span>
+                    <s-btn class="value">西咸</s-btn>
+                </div>
                 <img :src="require('@images/demo/9.png')" />
+            </div>
+            <div class="deviate-info">
+                <div class="bi-title">偏线信息</div>
+                <ul>
+                    <li class="thin-border border-bottom">
+                        <s-btn class="icon" :corner="true">
+                            <img :src="require('./assets/dash.png')" />
+                        </s-btn>
+                        <span>偏线里程</span>
+                        <div class="value">46 KM</div>
+                    </li>
+                    <li class="thin-border border-bottom">
+                        <s-btn class="icon" :corner="true">
+                            <img :src="require('./assets/warning.png')" />
+                        </s-btn>
+                        <span>报警时长</span>
+                        <div class="value">{{ offline.time }} s</div>
+                    </li>
+                </ul>
             </div>
             <div class="bottom">
                 <div class="bi-title">超速信息</div>
@@ -221,6 +244,32 @@ export default {
     }
     .icon-user {
         background-image: url('./assets/user.png');
+    }
+}
+.deviate-info {
+    .icon {
+        width: 42px;
+        height: 42px;
+        margin-right: 12px;
+        img {
+            width: 42px;
+            height: 42px;
+        }
+    }
+    li {
+        display: flex;
+        align-items: center;
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+        .value {
+            flex: 1;
+            text-align: right;
+            opacity: 0.9;
+            font-size: 28px;
+        }
+        span {
+            opacity: 0.8;
+        }
     }
 }
 </style>
