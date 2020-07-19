@@ -9,6 +9,7 @@ import home from '@/views/home/index'
 import online from '@/views/home/online'
 import violation from '@/views/home/violation'
 import alarm from '@/views/home/alarm'
+import alarmdemo from '@/views/home/alarmdemo'
 import workrate from '@/views/home/workrate'
 import revenue from '@/views/home/revenue'
 import homeEnergy from '@/views/home/energy'
@@ -86,6 +87,14 @@ export const routes = [
                     title: '安全报警管理',
                 },
                 component: alarm,
+            },
+            {
+                path: '/home/alarmdemo',
+                name: 'home/alarmdemo',
+                meta: {
+                    title: '安全报警管理',
+                },
+                component: alarmdemo,
             },
             {
                 path: '/home/workrate',

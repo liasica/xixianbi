@@ -98,11 +98,16 @@ export default {
             busChart: {},
             mileageChart: {},
             chartOptions: {
-                legend: {},
+                legend: {
+                    textStyle: {
+                        color: '#fff',
+                        fontFamily: 'BDZongYi',
+                    },
+                },
                 tooltip: {},
                 grid: {
                     width: 240,
-                    left: 10,
+                    left: 70,
                     right: 0,
                 },
                 dataset: {
@@ -145,15 +150,20 @@ export default {
                     splitLine: { show: false },
                     axisTick: { show: false },
                     axisLine: {
+                        // show: false,
                         lineStyle: {
                             color: '#42DFFF',
                         },
                     },
                     axisLabel: {
-                        show: false,
+                        // show: false,
+                        // inside: true,
                         color: '#ffffff',
                         fontFamily: 'BDZongYi',
                         formatter: value => (value > 0 ? value : null),
+                        textStyle: {
+                            baseline: 'bottom',
+                        },
                     },
                 },
                 series: [
@@ -206,6 +216,7 @@ export default {
             const busChart = JSON.parse(JSON.stringify(this.chartOptions))
             const mileageChart = JSON.parse(JSON.stringify(this.chartOptions))
             busChart.dataset.source = [['月份', '实际发车数', '实际趟数']]
+            mileageChart.dataset.source = [['月份', '计划里程', '实际里程']]
             analysis.forEach(a => {
                 busChart.dataset.source.push([a.month, parseInt(a.realBus, 10), parseInt(a.times, 10)])
                 mileageChart.dataset.source.push([a.month, parseInt(a.planDis, 10), parseInt(a.realDis, 10)])
