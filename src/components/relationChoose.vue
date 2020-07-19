@@ -63,6 +63,9 @@ export default {
         'choosed.lineNo': function () {
             this.$emit('change', this.getChoosed())
         },
+        'choosed.driver': function () {
+            this.$emit('change', this.getChoosed())
+        },
     },
     async created () {
         const { lines } = await this.$axios.get('basic/line')
