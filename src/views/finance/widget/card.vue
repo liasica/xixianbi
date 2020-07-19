@@ -10,9 +10,9 @@ export default {
     props: {
         type: { type: Number, default: 1 },
         label: { type: String, default: '' },
-        value: { type: Number },
-        color: { type: String, default: '' }
-    }
+        value: { type: Number, default: 0 },
+        color: { type: String, default: '' },
+    },
 }
 </script>
 

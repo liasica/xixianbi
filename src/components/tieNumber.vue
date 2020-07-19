@@ -1,11 +1,11 @@
 <template>
     <div class="tie-number">
         <s-btn class="data">
-            <div class="label" v-html="label" v-if="label"></div>
+            <div v-if="label" class="label" v-html="label" />
             <count-up
                 class="number"
                 :delay="delay"
-                :endVal="number"
+                :end-val="number"
                 :options="options"
                 @ready="onReady"
             />
@@ -14,30 +14,31 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
 import CountUp from 'vue-countup-v2'
 
 export default {
-    props: {
-        label: { type: String },
-        number: { type: Number, required: true }
-    },
     components: { CountUp },
+    props: {
+        label: { type: String, default: '' },
+        number: { type: Number, required: true },
+    },
     data () {
         return {
             delay: 0,
             options: {
                 useEasing: true,
                 useGrouping: false,
-                duration: 1
-            }
+                duration: 1,
+            },
         }
     },
     methods: {
-        onReady (instance, CountUp) {
+        onReady (instance) {
             const that = this
             instance.update(that.number)
-        }
-    }
+        },
+    },
 }
 </script>
 

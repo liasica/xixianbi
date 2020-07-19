@@ -1,17 +1,17 @@
 <template>
     <div class="container operation-container">
         <relation-choose
-            @change="onFilter"
-            @init="onFilter"
             with-driver
             style="margin-right: 40px"
+            @change="onFilter"
+            @init="onFilter"
         />
-        <div class="filter"></div>
+        <div class="filter" />
         <div class="left">
             <div class="car-info">
                 <div class="bi-title">车长信息</div>
                 <div class="car-user">
-                    <img src="./assets/user.png" alt />
+                    <img src="./assets/user.png" alt>
                     <TieText>
                         <div class="user-name">
                             <span class="title">姓名</span>
@@ -58,11 +58,11 @@
         <div class="right">
             <div>
                 <div class="bi-title">营运分析</div>
-                <img :src="require('@images/demo/14.png')" />
+                <img :src="require('@images/demo/14.png')">
             </div>
             <div class="bottom">
                 <div class="bi-title">营运分析</div>
-                <img :src="require('@images/demo/16.png')" />
+                <img :src="require('@images/demo/16.png')">
             </div>
         </div>
     </div>
@@ -78,24 +78,14 @@ export default {
     components: {
         TieText,
         BiTable,
-        RelationChoose
-    },
-    computed: {
-        columns1 () {
-            const list = [
-                { prop: 'plan', label: '800摆渡车计划', align: 'left' },
-                { prop: 'up', label: '上行方向' },
-                { prop: 'down', label: '下行方向' }
-            ]
-            return list
-        }
+        RelationChoose,
     },
     data () {
         return {
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
-                lineNo: '' // 线路
+                lineNo: '', // 线路
             },
             driver,
             scheduColumns,
@@ -103,8 +93,18 @@ export default {
             orderColumns,
             orderSource: [],
             orderData: [],
-            list1: []
+            list1: [],
         }
+    },
+    computed: {
+        columns1 () {
+            const list = [
+                { prop: 'plan', label: '800摆渡车计划', align: 'left' },
+                { prop: 'up', label: '上行方向' },
+                { prop: 'down', label: '下行方向' },
+            ]
+            return list
+        },
     },
     created () {
         this.getData()
@@ -116,16 +116,14 @@ export default {
             try {
                 const data = await this.$axios.get('operation/planlist', {
                     params: {
-                        line: this.filterData.lineNo
-                    }
+                        line: this.filterData.lineNo,
+                    },
                 })
-                const list = data.items.map(item => {
-                    return {
-                        ...item,
-                        upStations: data.upStations[1],
-                        downStations: data.downStations[1]
-                    }
-                })
+                const list = data.items.map(item => ({
+                    ...item,
+                    upStations: data.upStations[1],
+                    downStations: data.downStations[1],
+                }))
                 this.orderSource = list
                 this.orderData = list
             } catch (err) {
@@ -136,8 +134,8 @@ export default {
             try {
                 const data = await this.$axios.get('operation/drivers', {
                     params: {
-                        line: this.filterData.lineNo
-                    }
+                        line: this.filterData.lineNo,
+                    },
                 })
                 console.log(data)
             } catch (err) {
@@ -148,8 +146,8 @@ export default {
             try {
                 const data = await this.$axios.get('operation/lineplan', {
                     params: {
-                        lineNo: this.filterData.lineNo
-                    }
+                        lineNo: this.filterData.lineNo,
+                    },
                 })
                 const list = data.items
                 let rlt = []
@@ -158,33 +156,33 @@ export default {
                         {
                             plan: '是否上下行',
                             up: list[0].isUpDown === 0 ? '上行' : '下行',
-                            down: list[1].isUpDown === 0 ? '上行' : '下行'
+                            down: list[1].isUpDown === 0 ? '上行' : '下行',
                         },
                         {
                             plan: '开始时间点',
                             up: list[0].firstBusTime,
-                            down: list[1].firstBusTime
+                            down: list[1].firstBusTime,
                         },
                         {
                             plan: '发车间隔',
                             up: '-',
-                            down: '-'
+                            down: '-',
                         },
                         {
                             plan: '间隔班次',
                             up: list[0].sendPlanNum,
-                            down: list[1].sendPlanNum
+                            down: list[1].sendPlanNum,
                         },
                         {
                             plan: '总班次',
                             up: list[0].motorcadeSum,
-                            down: list[1].motorcadeSum
+                            down: list[1].motorcadeSum,
                         },
                         {
                             plan: '单程时间',
                             up: '-',
-                            down: '-'
-                        }
+                            down: '-',
+                        },
                     ]
                 }
                 this.list1 = rlt
@@ -197,8 +195,8 @@ export default {
             this.getData()
             this.getDriverInfo()
             this.getLineplan()
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less">

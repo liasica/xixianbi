@@ -1,12 +1,17 @@
 <template>
     <s-btn corner="#42DFFF">
         <div class="searcher">
-            <div class="placeholder" v-if="!focus" @click="onPlaceHolderClick">
+            <div v-if="!focus" class="placeholder" @click="onPlaceHolderClick">
                 搜索公交编号、
-                <br />公交线路
+                <br>公交线路
             </div>
-            <input ref="input" type="search" v-if="focus" @blur="onBlur" />
-            <button class="btn-search"></button>
+            <input
+                v-if="focus"
+                ref="input"
+                type="search"
+                @blur="onBlur"
+            >
+            <button class="btn-search" />
         </div>
     </s-btn>
 </template>
@@ -15,7 +20,7 @@
 export default {
     data () {
         return {
-            focus: false
+            focus: false,
         }
     },
     methods: {
@@ -25,7 +30,7 @@ export default {
         },
         onBlur () {
             this.focus = false
-        }
-    }
+        },
+    },
 }
 </script>

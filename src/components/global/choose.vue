@@ -1,16 +1,16 @@
 <template>
     <label class="choose">
-        <span v-html="label"></span>
-        <s-btn class="wrapper" :style="`width: ${this.width}px;`">
-            <div class="value" v-click-outside="onHide" @click="onLabelClick">{{ valueLabel }}</div>
+        <span v-html="label" />
+        <s-btn class="wrapper" :style="`width: ${width}px;`">
+            <div v-click-outside="onHide" class="value" @click="onLabelClick">{{ valueLabel }}</div>
             <transition name="fade">
-                <s-btn class="v-popover" v-if="show">
-                    <ul class="options" :style="`width: ${this.width}px;`">
+                <s-btn v-if="show" class="v-popover">
+                    <ul class="options" :style="`width: ${width}px;`">
                         <li
-                            @click="onChoose(index)"
                             v-for="(option, index) in options"
                             :key="option.id"
                             :class="{ active: valueIndex ? index === value : option.id === value }"
+                            @click="onChoose(index)"
                         >{{ option.label }}</li>
                     </ul>
                 </s-btn>
@@ -23,36 +23,36 @@
 // options: [{id:xxx, label:xxxx}]
 
 export default {
-    props: {
-        label: { type: String },
-        options: { type: Array, default: () => [] },
-        value: { type: [String, Number] },
-        width: { type: Number, default: 180 },
-        valueIndex: { type: Boolean, default: false }
-    },
     model: {
         prop: 'value',
-        event: 'update'
+        event: 'update',
+    },
+    props: {
+        label: { type: String, default: '' },
+        options: { type: Array, default: () => [] },
+        value: { type: [String, Number, null], default: null },
+        width: { type: Number, default: 180 },
+        valueIndex: { type: Boolean, default: false },
+    },
+    data () {
+        return {
+            show: false,
+        }
     },
     computed: {
         valueLabel () {
             if (this.valueIndex) {
                 return this.options[this.value].label
-            } else {
-                for (let i = 0; i < this.options.length; i++) {
-                    const o = this.options[i]
-                    if (o.id === this.value) {
-                        return o.label
-                    }
+            }
+            for (let i = 0; i < this.options.length; i += 1) {
+                const o = this.options[i]
+                if (o.id === this.value) {
+                    return o.label
                 }
             }
+
             return ''
-        }
-    },
-    data () {
-        return {
-            show: false
-        }
+        },
     },
     methods: {
         onHide () {
@@ -64,8 +64,8 @@ export default {
         onChoose (index) {
             const value = this.valueIndex ? index : this.options[index].id
             this.$emit('update', value)
-        }
-    }
+        },
+    },
 }
 </script>
 

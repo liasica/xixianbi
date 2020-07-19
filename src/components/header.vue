@@ -1,11 +1,11 @@
 <template>
     <div class="header">
-        <div class="container" v-if="logged">
+        <div v-if="logged" class="container">
             <div class="wrapper">
-                <button class="menu" @click="toggleMenu"></button>
+                <button class="menu" @click="toggleMenu" />
                 <s-btn class="now">{{ now }}</s-btn>
                 <div v-if="code && temperature" class="weather">
-                    <img v-if="code" :src="require(`@images/weather/${code}@2x.png`)" />
+                    <img v-if="code" :src="require(`@images/weather/${code}@2x.png`)">
                     <span>{{ temperature }}℃</span>
                 </div>
             </div>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
 import moment from 'moment'
 
 import { getToken } from '@/utils/auth'
@@ -40,13 +41,14 @@ export default {
             code: '0',
             temperature: '',
             menuShow: false,
-            logged: false
+            logged: false,
         }
     },
-    methods: {
-        toggleMenu () {
-            this.menuShow = !this.menuShow
-        }
+    watch: {
+        $route () {
+            this.menuShow = false
+            this.logged = getToken()
+        },
     },
     async created () {
         this.logged = getToken()
@@ -59,11 +61,10 @@ export default {
         this.code = code
         this.temperature = temperature
     },
-    watch: {
-        $route () {
-            this.menuShow = false
-            this.logged = getToken()
-        }
-    }
+    methods: {
+        toggleMenu () {
+            this.menuShow = !this.menuShow
+        },
+    },
 }
 </script>

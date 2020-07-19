@@ -3,13 +3,18 @@
         <div class="panel">
             <div class="head">登 录</div>
             <div class="body">
-                <el-form class="login-form" ref="form" :model="form" @keyup.enter.native="submit">
+                <el-form
+                    ref="form"
+                    class="login-form"
+                    :model="form"
+                    @keyup.enter.native="submit"
+                >
                     <el-form-item>
-                        <el-input placeholder="用户名" v-model="form.username"></el-input>
+                        <el-input v-model="form.username" placeholder="用户名" />
                     </el-form-item>
 
                     <el-form-item>
-                        <el-input placeholder="密码" type="password" v-model="form.password"></el-input>
+                        <el-input v-model="form.password" placeholder="密码" type="password" />
                     </el-form-item>
 
                     <el-form-item style="text-align:center">
@@ -30,8 +35,8 @@ export default {
         return {
             form: {
                 username: '',
-                password: ''
-            }
+                password: '',
+            },
         }
     },
     methods: {
@@ -41,10 +46,10 @@ export default {
                 setToken(token)
                 // 跳转
                 const { redirect } = this.$route.query
-                return this.$router.replace({ path: redirect || '/' })
+                this.$router.replace({ path: redirect || '/' })
             }
-        }
-    }
+        },
+    },
 }
 </script>
 
@@ -77,7 +82,8 @@ export default {
     width: 360px;
     height: 120px;
     border-radius: 4px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    box-shadow:
+        0 4px 20px 0 rgba(0, 0, 0, 0.14),
         0 7px 10px -5px rgba(76, 175, 80, 0.4);
     // left: 20px;
     // top: -20px;

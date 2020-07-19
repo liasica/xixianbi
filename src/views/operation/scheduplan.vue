@@ -3,9 +3,9 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    style="margin-right: 40px; margin-bottom: 0"
                     @change="choosed => filterData = choosed"
                     @init="choosed => filterData = choosed"
-                    style="margin-right: 40px; margin-bottom: 0"
                 />
                 <!-- <choose
                     class="choose"
@@ -14,11 +14,11 @@
                     v-model="status_id"
                 />-->
                 <button class="search-btn">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <div></div>
+                <div />
                 <export-excel
                     :data="items"
                     :fields="fields"
@@ -26,13 +26,13 @@
                     :name="`${$route.meta.title}.xlsx`"
                 >
                     <s-btn class="export-btn">
-                        <i class="icon-switch"></i>
+                        <i class="icon-switch" />
                         <span>导出数据</span>
                     </s-btn>
                 </export-excel>
             </div>
             <div class="scroll-table">
-                <BiTable :columns="columns" :source="items" v-if="items.length > 0" />
+                <BiTable v-if="items.length > 0" :columns="columns" :source="items" />
                 <div v-else>该线路暂无调度排班计划</div>
             </div>
         </div>
@@ -48,7 +48,29 @@ export default {
     components: {
         BiTable,
         BiPagination,
-        RelationChoose
+        RelationChoose,
+    },
+    data () {
+        return {
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '', // 线路
+            },
+            columns: [
+                { prop: 'id', label: '序号' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '车队' },
+                { prop: 'lineNo', label: '线路' },
+            ],
+            items: [],
+            status_options: [
+                { id: 1, label: '运营' },
+                { id: 2, label: '停运' },
+            ],
+            status_id: 1,
+            isShowToday: false,
+        }
     },
     computed: {
         fields () {
@@ -59,43 +81,26 @@ export default {
                 }
             })
             return fields
-        }
+        },
     },
-    data () {
-        return {
-            filterData: {
-                filaName: '', // 公司
-                groupName: '', // 场站
-                lineNo: '' // 线路
-            },
-            columns: [
-                { prop: 'id', label: '序号' },
-                { prop: 'filaName', label: '公司' },
-                { prop: 'groupName', label: '车队' },
-                { prop: 'lineNo', label: '线路' }
-            ],
-            items: [],
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' }
-            ],
-            status_id: 1,
-            isShowToday: false
-        }
+    watch: {
+        'filterData.lineNo': async function () {
+            await this.getPlans()
+        },
     },
     methods: {
         async getPlans () {
             const { items, max } = await this.$axios.get(
-                `operation/plan?line=${this.filterData.lineNo}`
+                `operation/plan?line=${this.filterData.lineNo}`,
             )
-            for (let i = 1; i <= max; i++) {
+            for (let i = 1; i <= max; i += 1) {
                 this.columns.push({
                     prop: `time-${i}`,
-                    label: `时间${i}`
+                    label: `时间${i}`,
                 })
                 this.columns.push({
                     prop: `direction-${i}`,
-                    label: `开往方向${i}`
+                    label: `开往方向${i}`,
                 })
             }
             this.items = items.map(item => {
@@ -112,13 +117,8 @@ export default {
         },
         handleChange () {
             console.log(1)
-        }
+        },
     },
-    watch: {
-        async 'filterData.lineNo' () {
-            await this.getPlans()
-        }
-    }
 }
 </script>
 <style lang="less" scoped>

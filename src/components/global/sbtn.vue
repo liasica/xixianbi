@@ -1,11 +1,11 @@
 <template>
     <div class="s-btn">
         <slot />
-        <div class="bg" :style="bgStyle"></div>
-        <div class="corner left-top" v-if="leftTop.show" :style="leftTop.style"></div>
-        <div class="corner left-bottom" v-if="leftBottom.show" :style="leftBottom.style"></div>
-        <div class="corner right-top" v-if="rightTop.show" :style="rightTop.style"></div>
-        <div class="corner right-bottom" v-if="rightBottom.show" :style="rightBottom.style"></div>
+        <div class="bg" :style="bgStyle" />
+        <div v-if="leftTop.show" class="corner left-top" :style="leftTop.style" />
+        <div v-if="leftBottom.show" class="corner left-bottom" :style="leftBottom.style" />
+        <div v-if="rightTop.show" class="corner right-top" :style="rightTop.style" />
+        <div v-if="rightBottom.show" class="corner right-bottom" :style="rightBottom.style" />
     </div>
 </template>
 
@@ -13,7 +13,7 @@
 export default {
     props: {
         bgColor: { type: String, default: '#7afff2' },
-        corner: { type: [String, Boolean, Object], default: false }
+        corner: { type: [String, Boolean, Object], default: false },
     },
     computed: {
         bgStyle () {
@@ -27,42 +27,42 @@ export default {
         leftTop () {
             return {
                 show:
-                    this.corner === true ||
-                    typeof this.corner === 'string' ||
-                    this.corner.leftTop,
+                    this.corner === true
+                    || typeof this.corner === 'string'
+                    || this.corner.leftTop,
                 style:
                     typeof this.corner === 'boolean'
                         ? ''
-                        : `border-color: ${this.corner.leftTop || this.corner}`
+                        : `border-color: ${this.corner.leftTop || this.corner}`,
             }
         },
         leftBottom () {
             const style = this.corner.leftBottom || ''
             return {
                 show: style !== '',
-                style: `border-color: ${style}`
+                style: `border-color: ${style}`,
             }
         },
         rightTop () {
             const style = this.corner.rightTop || ''
             return {
                 show: style !== '',
-                style: `border-color: ${style}`
+                style: `border-color: ${style}`,
             }
         },
         rightBottom () {
             return {
                 show:
-                    this.corner === true ||
-                    typeof this.corner === 'string' ||
-                    this.corner.rightBottom,
+                    this.corner === true
+                    || typeof this.corner === 'string'
+                    || this.corner.rightBottom,
                 style:
                     typeof this.corner === 'boolean'
                         ? ''
-                        : `border-color: ${this.corner.leftTop || this.corner}`
+                        : `border-color: ${this.corner.leftTop || this.corner}`,
             }
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

@@ -6,7 +6,7 @@
                 @init="choosed => filterData = choosed"
             />
             <div class="filter-box">
-                <div></div>
+                <div />
                 <export-excel
                     :data="list"
                     :fields="fields"
@@ -14,7 +14,7 @@
                     :name="`${$route.meta.title}.xlsx`"
                 >
                     <s-btn class="export-btn">
-                        <i class="icon-switch"></i>
+                        <i class="icon-switch" />
                         <span>导出数据</span>
                     </s-btn>
                 </export-excel>
@@ -31,25 +31,14 @@ import RelationChoose from '@/components/relationChoose'
 export default {
     components: {
         BiTable,
-        RelationChoose
-    },
-    computed: {
-        fields () {
-            const fields = {}
-            this.columns.forEach(column => {
-                if (column.label !== '序号') {
-                    fields[column.label] = column.prop
-                }
-            })
-            return fields
-        }
+        RelationChoose,
     },
     data () {
         return {
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 车队
-                lineNo: '' // 线路
+                lineNo: '', // 线路
             },
             columns: [
                 { prop: 'id', label: '序号' },
@@ -61,12 +50,28 @@ export default {
                 { prop: 'downStation', label: '下车发行站点' },
                 { prop: 'downTime', label: '运营时间' },
                 { prop: 'groupNo', label: '所属车队' },
-                { prop: 'lineState', label: '线路状态' }
+                { prop: 'lineState', label: '线路状态' },
             ],
             source: [],
             list: [],
-            isShowToday: false
+            isShowToday: false,
         }
+    },
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
+    },
+    watch: {
+        'filterData.lineNo': async function () {
+            await this.getData()
+        },
     },
     created () {},
     methods: {
@@ -74,21 +79,16 @@ export default {
             try {
                 const data = await this.$axios.get('online', {
                     params: {
-                        line: this.filterData.lineNo
-                    }
+                        line: this.filterData.lineNo,
+                    },
                 })
                 this.source = data.items
                 this.list = data.items
             } catch (err) {
                 console.log(err)
             }
-        }
+        },
     },
-    watch: {
-        async 'filterData.lineNo' () {
-            await this.getData()
-        }
-    }
 }
 </script>
 <style lang="less" scoped>

@@ -1,8 +1,8 @@
 <template>
     <div :class="['progress-wrapper', { 'no-border': noBorder }]">
-        <div class="label" v-html="label" v-if="label"></div>
-        <div class="progress-bar" :style="`border-color: ${this.color};`">
-            <div class="progress" :style="style"></div>
+        <div v-if="label" class="label" v-html="label" />
+        <div class="progress-bar" :style="`border-color: ${color};`">
+            <div class="progress" :style="style" />
         </div>
         <div class="schedule" :style="`color: ${color}`">{{ parseInt(target) }} {{ rightText }}</div>
     </div>
@@ -15,18 +15,18 @@ export default {
         schedule: { type: [Number, Array], default: 0 },
         color: { type: String, default: '#42DFFF' },
         rightText: { type: String, default: '' },
-        noBorder: { type: Boolean, default: false }
-    },
-    computed: {
-        style () {
-            return `width: ${this.width}%; background-image: linear-gradient(270deg, rgba(66,223,255,0.05) 0%, ${this.color} 100%);`
-        }
+        noBorder: { type: Boolean, default: false },
     },
     data () {
         return {
             width: 0,
-            target: 0
+            target: 0,
         }
+    },
+    computed: {
+        style () {
+            return `width: ${this.width}%; background-image: linear-gradient(270deg, rgba(66,223,255,0.05) 0%, ${this.color} 100%);`
+        },
     },
     created () {
         this.width = 0
@@ -40,7 +40,7 @@ export default {
                 this.target = num
             }
         }, 1)
-    }
+    },
 }
 </script>
 
@@ -64,11 +64,10 @@ export default {
         height: 100%;
         width: 20%;
         transform: rotate(-180deg);
-        background-image: linear-gradient(
-            270deg,
-            rgba(66, 223, 255, 0.05) 0%,
-            #42dfff 100%
-        );
+        background-image:
+            linear-gradient(
+                270deg,rgba(66, 223, 255, 0.05) 0%,#42dfff 100%
+            );
     }
     .label {
         margin-right: 10px;

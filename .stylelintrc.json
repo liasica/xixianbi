@@ -1,0 +1,16 @@
+{ 
+   "rules": {
+      "indentation": 4,
+      "function-comma-newline-after": "never-multi-line",
+      "declaration-empty-line-before": "never",
+      "value-list-comma-newline-after": "always-multi-line",
+      "declaration-colon-newline-after": "always-multi-line",
+      "max-nesting-depth": 6,
+      "selector-class-pattern": ".*",
+      "declaration-property-value-blacklist": {
+         "/^border/": [""]
+      },
+      "selector-max-id": 2,
+      "declaration-block-semicolon-newline-after": "always-multi-line"
+   }
+}

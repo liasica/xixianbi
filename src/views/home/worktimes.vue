@@ -3,12 +3,12 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    style="margin-right: 40px; margin-bottom: 0"
                     @change="choosed => filterData = choosed"
                     @init="choosed => filterData = choosed"
-                    style="margin-right: 40px; margin-bottom: 0"
                 />
                 <button class="search-btn" @click="onFilter">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
@@ -20,7 +20,7 @@
                     :name="`${$route.meta.title}.xlsx`"
                 >
                     <s-btn class="export-btn">
-                        <i class="icon-switch"></i>
+                        <i class="icon-switch" />
                         <span>导出数据</span>
                     </s-btn>
                 </export-excel>
@@ -39,25 +39,14 @@ export default {
     components: {
         BiTable,
         BiCheckBox,
-        RelationChoose
-    },
-    computed: {
-        fields () {
-            const fields = {}
-            this.columns.forEach(column => {
-                if (column.label !== '序号') {
-                    fields[column.label] = column.prop
-                }
-            })
-            return fields
-        }
+        RelationChoose,
     },
     data () {
         return {
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
-                lineNo: '' // 线路
+                lineNo: '', // 线路
             },
             columns: [
                 { prop: 'id', label: '序号' },
@@ -70,12 +59,23 @@ export default {
                 { prop: 'planTimes', label: '计划完成趟次' },
                 { prop: 'realTimes', label: '实际完成趟次' },
                 { prop: 'schedule', label: '计划正班率' },
-                { prop: 'ontime', label: '计划正点率' }
+                { prop: 'ontime', label: '计划正点率' },
             ],
             source: [],
             list: [],
-            isShowToday: false
+            isShowToday: false,
         }
+    },
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
     },
     created () {
         this.getData()
@@ -93,14 +93,14 @@ export default {
         async onFilter () {
             const list = this.source.filter(item => {
                 let result = false
-                for (const key in this.filterData) {
+                Object.keys(this.filterData).forEach(key => {
                     result = item[key] === this.filterData[key]
-                }
+                })
                 return result
             })
             this.list = list
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

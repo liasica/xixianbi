@@ -1,7 +1,7 @@
 <template>
     <div class="tie-text">
         <s-btn class="content">
-            <slot></slot>
+            <slot />
         </s-btn>
     </div>
 </template>

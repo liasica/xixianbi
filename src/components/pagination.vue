@@ -2,34 +2,42 @@
     <div class="pagination">
         <ul>
             <li class="item" @click="onPrev">
-                <span class="icon-left-arrow"></span>
+                <span class="icon-left-arrow" />
             </li>
             <li
                 v-for="(item, index) in list"
                 :key="index"
                 :class="[{item: item !== '...' }, { active: page === item}]"
                 @click="onChange(item)"
-            >{{ item }}</li>
+            >
+                {{ item }}
+            </li>
             <li class="item" @click="onNext">
-                <span class="icon-right-arrow"></span>
+                <span class="icon-right-arrow" />
             </li>
         </ul>
         <div v-if="jump" class="jump">
             跳转至
-            <input v-model="jumpNum" type="text" />
+            <input v-model="jumpNum" type="text">
             <span @click="onJump">确定</span>
         </div>
         <div v-if="showTotal" class="total">共{{ totalPage }}页/{{ total }}条数据</div>
     </div>
 </template>
 <script>
+/* eslint-disable no-cond-assign */
 export default {
     props: {
         total: { type: Number, default: 1 },
         page: { type: Number, default: 1 },
         pageSize: { type: Number, default: 10 },
         jump: { type: Boolean, default: true },
-        showTotal: { type: Boolean, default: true }
+        showTotal: { type: Boolean, default: true },
+    },
+    data () {
+        return {
+            jumpNum: '',
+        }
     },
     computed: {
         totalPage () {
@@ -39,7 +47,7 @@ export default {
             let list = []
             let len = this.totalPage
             if (this.totalPage <= 5) {
-                while (len--) {
+                while (len -= 1) {
                     list.push(this.totalPage - len)
                 }
                 return list
@@ -49,14 +57,14 @@ export default {
                 list = list.concat([2, 3])
                 list.push('...')
                 let diff = 3
-                while (diff--) {
+                while (diff -= 1) {
                     list.push(this.totalPage - diff)
                 }
             } else if (this.page > this.totalPage - 3) {
                 list = list.concat([2, 3])
                 list.push('...')
                 let diff = 3
-                while (diff--) {
+                while (diff -= 1) {
                     list.push(this.totalPage - diff)
                 }
             } else {
@@ -69,15 +77,11 @@ export default {
             }
 
             return list
-        }
-    },
-    data () {
-        return {
-            jumpNum: ''
-        }
+        },
     },
     methods: {
         onJump () {
+            // eslint-disable-next-line no-restricted-globals
             if (!isNaN(this.jumpNum)) {
                 let page = this.jumpNum
                 if (this.jumpNum < 1) {
@@ -99,11 +103,12 @@ export default {
             }
         },
         onChange (value) {
+            // eslint-disable-next-line no-restricted-globals
             if (!isNaN(value)) {
                 this.$emit('update:page', value)
             }
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less">

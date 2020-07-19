@@ -1,22 +1,22 @@
 <template>
     <div class="container station-container">
         <div class="bi-title">场站信息</div>
-        <choose class="station-choose" :options="companies" v-model="station" />
+        <choose v-model="station" class="station-choose" :options="companies" />
         <div class="violation">
             <div class="bi-title">当日车辆违规统计</div>
             <ul>
                 <li class="thin-border border-bottom">
-                    <img class="icon-users" :src="require('./assets/users.png')" />
+                    <img class="icon-users" :src="require('./assets/users.png')">
                     <span>本月30内报警数</span>
                     <div class="value">20</div>
                 </li>
                 <li class="thin-border border-bottom">
-                    <img class="icon-driver" :src="require('./assets/driver.png')" />
+                    <img class="icon-driver" :src="require('./assets/driver.png')">
                     <span>驾驶员违法违规</span>
                     <div class="value">0</div>
                 </li>
                 <li class="thin-border border-bottom">
-                    <img class="icon-user" :src="require('./assets/user.png')" />
+                    <img class="icon-user" :src="require('./assets/user.png')">
                     <span>驾驶员事故次数</span>
                     <div class="value">0</div>
                 </li>
@@ -25,12 +25,22 @@
         <div class="bi-title">累计进出量</div>
         <div class="progress-bars">
             <progress-bar class="pbar" label="常规公交" :schedule="[12, 370]" />
-            <progress-bar class="pbar" label="定制公交" :schedule="[3, 22]" color="#08F0C9" />
-            <progress-bar class="pbar" label="通勤公交" :schedule="[2, 29]" color="#3C77FF" />
+            <progress-bar
+                class="pbar"
+                label="定制公交"
+                :schedule="[3, 22]"
+                color="#08F0C9"
+            />
+            <progress-bar
+                class="pbar"
+                label="通勤公交"
+                :schedule="[2, 29]"
+                color="#3C77FF"
+            />
         </div>
         <div class="bi-title">充电桩规模</div>
-        <div class="charge-places" v-if="chargingPosts">
-            <img src="./assets/charge-places.png" alt />
+        <div v-if="chargingPosts" class="charge-places">
+            <img src="./assets/charge-places.png" alt>
             <p>电桩类别: {{ Object.keys(chargingPosts.type).map(key => key + '/' + chargingPosts.type[key]).join(' ') }}</p>
             <p>所属运营商: {{ chargingPosts.operator.join('/') }}</p>
             <p>累计充电时间: {{ (chargingPosts.time / 60).toFixed(2) }}小时</p>
@@ -44,33 +54,33 @@ import ProgressBar from '@/components/progressBar'
 export default {
     components: {
         TieText,
-        ProgressBar
+        ProgressBar,
     },
     data () {
         return {
             station: '',
             companies: [],
-            chargingPosts: null
+            chargingPosts: null,
         }
     },
-    methods: {
-        getRandomInt (max) {
-            return Math.floor(Math.random() * Math.floor(max))
-        }
+    watch: {
+        async station (v) {
+            const { chargingPosts } = await this.$axios.get(
+                `station?station=${v}`,
+            )
+            this.chargingPosts = chargingPosts
+        },
     },
     async created () {
         const { companies } = await this.$axios.get('basic/company')
         this.companies = companies
         this.station = companies[0].id
     },
-    watch: {
-        async station (v) {
-            const { chargingPosts } = await this.$axios.get(
-                `station?station=${v}`
-            )
-            this.chargingPosts = chargingPosts
-        }
-    }
+    methods: {
+        getRandomInt (max) {
+            return Math.floor(Math.random() * Math.floor(max))
+        },
+    },
 }
 </script>
 

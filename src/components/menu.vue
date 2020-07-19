@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar">
         <span class="title">
-            <i class="icon-platform"></i>西咸BI
+            <i class="icon-platform" />西咸BI
         </span>
         <div class="menu-box">
             <MenuItem
@@ -10,21 +10,21 @@
                 :item="route"
                 :base-path="route.path"
                 :index="index"
-            ></MenuItem>
+            />
         </div>
     </div>
 </template>
 <script>
 import { routes } from '@/router'
-import MenuItem from '@/components/menuItem.vue'
+import MenuItem from '@/components/menuItem'
 
 export default {
     components: { MenuItem },
     computed: {
         routes () {
             return routes
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

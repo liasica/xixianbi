@@ -7,13 +7,15 @@
                     <s-btn
                         class="value"
                         :corner="{leftTop: '#42dfff', leftBottom: '#42dfff', rightTop: '#42dfff', rightBottom: '#42dfff'}"
-                    >{{ distance }}</s-btn>
+                    >
+                        {{ distance }}
+                    </s-btn>
                     <span class="unit">KM</span>
                 </div>
             </div>
             <div class="bottom">
                 <div class="bi-title">维修次数</div>
-                <img :src="require('@images/demo/10.png')" />
+                <img :src="require('@images/demo/10.png')">
             </div>
         </div>
         <div class="mid">
@@ -31,11 +33,11 @@
                     >
                         <span>二级维护</span>
                         <div class="repair-list">
-                            <i class="icon-repair"></i>
-                            <i class="icon-repair"></i>
-                            <i class="icon-repair"></i>
-                            <i class="icon-repair"></i>
-                            <i class="icon-repair"></i>
+                            <i class="icon-repair" />
+                            <i class="icon-repair" />
+                            <i class="icon-repair" />
+                            <i class="icon-repair" />
+                            <i class="icon-repair" />
                         </div>
                     </s-btn>
                 </div>
@@ -43,7 +45,7 @@
             <div class="bottom">
                 <div class="bi-title">出厂信息</div>
                 <div v-for="(item, index) in factory" :key="index" class="factory-item">
-                    <i :class="'icon icon-' + item.icon"></i>
+                    <i :class="'icon icon-' + item.icon" />
                     <s-btn class="value">{{ item.value }}</s-btn>
                 </div>
             </div>
@@ -55,21 +57,21 @@
                     <span class="label">发车方向</span>
                     <s-btn class="value">西咸</s-btn>
                 </div>
-                <img :src="require('@images/demo/9.png')" />
+                <img :src="require('@images/demo/9.png')">
             </div>
             <div class="deviate-info">
                 <div class="bi-title">偏线信息</div>
                 <ul>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
-                            <img :src="require('./assets/dash.png')" />
+                            <img :src="require('./assets/dash.png')">
                         </s-btn>
                         <span>偏线里程</span>
                         <div class="value">46 KM</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
-                            <img :src="require('./assets/warning.png')" />
+                            <img :src="require('./assets/warning.png')">
                         </s-btn>
                         <span>报警时长</span>
                         <div class="value">{{ offline.time }} s</div>
@@ -85,8 +87,8 @@
                         class="pbar"
                         :label="`${item.time}秒`"
                         :schedule="item.speed"
-                        rightText="km/h"
-                        :noBorder="true"
+                        right-text="km/h"
+                        :no-border="true"
                     />
                 </div>
             </div>
@@ -102,7 +104,7 @@ export default {
         return {
             distance: 0,
             offline: {
-                time: ''
+                time: '',
             },
             overspeed: [],
             repairs: [
@@ -111,13 +113,13 @@ export default {
                 { label: '车牌号', value: '陕AV9276' },
                 { label: '维修点', value: '西咸汽车维修点' },
                 { label: '维修时间', value: '2019-11-23' },
-                { label: '维修人员', value: '杨建国' }
+                { label: '维修人员', value: '杨建国' },
             ],
             factory: [
                 { icon: 'time', value: '2018-09-24 12:00:00' },
                 { icon: 'number', value: '00123' },
-                { icon: 'user', value: '王涛' }
-            ]
+                { icon: 'user', value: '王涛' },
+            ],
         }
     },
     async created () {
@@ -127,7 +129,7 @@ export default {
         async getData () {
             // 获取机务信息
             const { distance, offline, overspeed } = await this.$axios.get(
-                'maintenance'
+                'maintenance',
             )
             this.distance = distance
             this.offline = offline
@@ -135,8 +137,8 @@ export default {
         },
         getRandomInt (max) {
             return Math.floor(Math.random() * Math.floor(max))
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

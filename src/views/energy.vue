@@ -8,7 +8,7 @@
             <div class="summery-box">
                 <div class="left-box">
                     <div v-for="(item,index) in car_info" :key="index" class="item">
-                        <i :class="'icon icon-'+item.icon"></i>
+                        <i :class="'icon icon-'+item.icon" />
                         <div class="num-box">
                             <s-btn class="num">
                                 <span class="title">{{ item.label }}</span>
@@ -26,7 +26,9 @@
                                 class="item-box"
                                 :style="{color: item.fontColor}"
                                 :corner="{leftTop: item.color, leftBottom: item.color, rightTop: item.color, rightBottom: item.color}"
-                            >{{ item.value }}</s-btn>
+                            >
+                                {{ item.value }}
+                            </s-btn>
                             <span class="item-unit" :style="{color: item.fontColor}">{{ item.unit }}</span>
                         </div>
                     </div>
@@ -43,6 +45,7 @@ import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import Mock from 'mockjs'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -61,16 +64,16 @@ const data = Mock.mock({
             charge_total_time: '54',
             charge_total_price: '555.00',
             energe_status: '充电',
-            warning_reason: ''
-        }
-    ]
+            warning_reason: '',
+        },
+    ],
 })
 
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
     },
     data () {
         return {
@@ -92,13 +95,13 @@ export default {
                 { prop: 'charge_total_time', label: '充电累计时间' },
                 { prop: 'charge_total_price', label: '充电累计金额' },
                 { prop: 'energe_status', label: '电源状态' },
-                { prop: 'warning_reason', label: '告警原因' }
+                { prop: 'warning_reason', label: '告警原因' },
             ],
             list: data.list,
             car_info: [
                 { label: '线路', value: '808', icon: 'bus' },
                 { label: '驾驶员', value: '王伟', icon: 'driver' },
-                { label: '时间', value: '2020-05-23', icon: 'time' }
+                { label: '时间', value: '2020-05-23', icon: 'time' },
             ],
             energy_info: [
                 {
@@ -106,45 +109,45 @@ export default {
                     value: '0',
                     unit: 'RMB',
                     color: '#42DFFF',
-                    fontColor: '#42DFFF'
+                    fontColor: '#42DFFF',
                 },
                 {
                     label: '昨日里程',
                     value: '230',
                     unit: 'KM',
                     color: '#3C77FF',
-                    fontColor: '#3C77FF'
+                    fontColor: '#3C77FF',
                 },
                 {
                     label: 'GPS车速',
                     value: '36',
                     unit: 'KM/H',
                     color: '#C9C9C9',
-                    fontColor: '#FFFFFF'
+                    fontColor: '#FFFFFF',
                 },
                 {
                     label: '当前电量',
                     value: '82.32',
                     unit: '度',
                     color: '#08F0C9',
-                    fontColor: '#08F0C9'
+                    fontColor: '#08F0C9',
                 },
                 {
                     label: 'GPS里程',
                     value: '34',
                     unit: 'KM/H',
                     color: '#C9C9C9',
-                    fontColor: '#FFFFFF'
-                }
-            ]
+                    fontColor: '#FFFFFF',
+                },
+            ],
         }
     },
     created () {},
     methods: {
         handleChange () {
             console.log(1)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less">

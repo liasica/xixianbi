@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 
@@ -24,5 +25,5 @@ Vue.$axios = axios
 new Vue({
     router,
     store,
-    render: h => h(App)
+    render: h => h(App),
 }).$mount('#app')

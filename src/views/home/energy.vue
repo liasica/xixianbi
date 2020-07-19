@@ -2,17 +2,32 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公司" :options="company_options" v-model="company_id" />
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
+                <choose
+                    v-model="company_id"
+                    class="choose"
+                    label="公司"
+                    :options="company_options"
+                />
+                <choose
+                    v-model="station_id"
+                    class="choose"
+                    label="场站"
+                    :options="station_options"
+                />
+                <choose
+                    v-model="name_id"
+                    class="choose"
+                    label="线路"
+                    :options="name_options"
+                />
                 <button class="search-btn">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
                 <BiCheckBox label="车辆运行能耗比较统计" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
+                    <i class="icon-switch" />
                     <span>导出数据</span>
                 </s-btn>
             </div>
@@ -26,6 +41,7 @@ import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import Mock from 'mockjs'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -38,16 +54,16 @@ const data = Mock.mock({
             car_no: '陕A24324',
             time: '06:00-07:00',
             total: '40度',
-            amount: '4000.00'
-        }
-    ]
+            amount: '4000.00',
+        },
+    ],
 })
 
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
     },
     data () {
         return {
@@ -63,33 +79,33 @@ export default {
                 { prop: 'car_no', label: '车辆牌照' },
                 { prop: 'time', label: '时间' },
                 { prop: 'total', label: '能耗数量' },
-                { prop: 'amount', label: '能耗金额' }
+                { prop: 'amount', label: '能耗金额' },
             ],
             list: data.list,
             company_options: [
                 { id: 1, label: '西咸公司' },
-                { id: 2, label: '东咸公司' }
+                { id: 2, label: '东咸公司' },
             ],
             company_id: 1,
             station_options: [
                 { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
+                { id: 2, label: '场站二' },
             ],
             station_id: 1,
             name_options: [
                 { id: 1, label: '880' },
-                { id: 2, label: '930' }
+                { id: 2, label: '930' },
             ],
             name_id: 1,
-            isShowToday: false
+            isShowToday: false,
         }
     },
     created () {},
     methods: {
         handleChange () {
             console.log(1)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>
