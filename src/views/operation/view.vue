@@ -111,7 +111,7 @@ export default {
                 { label: '车牌号', value: this.driver.busNoChar },
                 { label: '物理卡号', value: this.driver.cardNo },
                 { label: '司机工号', value: this.driver.opNo },
-                { label: '打卡时间', value: '-' },
+                { label: '打卡时间', value: this.driver.startTime },
             ]
         },
     },
