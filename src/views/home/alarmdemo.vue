@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="chart-container">
+        <div class="alam-chart">
             <alarmweek :week="week" />
         </div>
     </div>
@@ -32,7 +32,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.chart-container {
+.alam-chart /deep/ .echarts {
     width: 832px;
+    height: 682px;
 }
 </style>
