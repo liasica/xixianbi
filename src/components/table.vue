@@ -42,7 +42,7 @@ export default {
         columns: { type: Array, default: () => [] },
         source: { type: Array, default: () => [] },
         pagination: {
-            type: Object,
+            type: [Object, Boolean],
             default: () => ({
                 pageSize: 10,
                 jump: true,
