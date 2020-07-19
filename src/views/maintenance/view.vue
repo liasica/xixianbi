@@ -57,7 +57,7 @@
                     <span class="label">发车方向</span>
                     <s-btn class="value">西咸</s-btn>
                 </div>
-                <img :src="require('@images/demo/18.png')" />
+                <img :src="require('@images/demo/18.png')">
             </div>
             <div class="deviate-info">
                 <div class="bi-title">偏线信息</div>
