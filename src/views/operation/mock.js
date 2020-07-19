@@ -96,39 +96,6 @@ export const columns1 = [
     { prop: 'down', label: '下行方向' },
 ]
 
-export const list1 = [
-    {
-        plan: '是否上下行',
-        up: '上行',
-        down: '下行',
-    },
-    {
-        plan: '开始时间点',
-        up: '08:05',
-        down: '08:10',
-    },
-    {
-        plan: '发车间隔',
-        up: '10',
-        down: '10',
-    },
-    {
-        plan: '间隔班次',
-        up: '50',
-        down: '51',
-    },
-    {
-        plan: '总班次',
-        up: '50',
-        down: '51',
-    },
-    {
-        plan: '单程时间',
-        up: '43',
-        down: '43',
-    },
-]
-
 export const columns2 = [
     { prop: 'uptime', label: '时间点' },
     { prop: 'up', label: '开往上行' },

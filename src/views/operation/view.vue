@@ -15,11 +15,11 @@
                     <TieText>
                         <div class="user-name">
                             <span class="title">姓名</span>
-                            <span>徐卫峰</span>
+                            <span>{{ driver.employeeName }}</span>
                         </div>
                     </TieText>
                 </div>
-                <div v-for="(item, index) in driver" :key="index" class="item">
+                <div v-for="(item, index) in driverInfo" :key="index" class="item">
                     <span class="label">{{ item.label }}</span>
                     <s-btn class="value">{{ item.value }}</s-btn>
                 </div>
@@ -72,7 +72,7 @@ import RelationChoose from '@/components/relationChoose'
 import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
 
-import { driver, scheduColumns, scheduData, orderColumns } from './mock'
+import { scheduColumns, scheduData, orderColumns } from './mock'
 
 export default {
     components: {
@@ -86,8 +86,9 @@ export default {
                 filaName: '', // 公司
                 groupName: '', // 场站
                 lineNo: '', // 线路
+                driver: '', // 司机
             },
-            driver,
+            driver: {},
             scheduColumns,
             scheduData,
             orderColumns,
@@ -99,16 +100,23 @@ export default {
     computed: {
         columns1 () {
             const list = [
-                { prop: 'plan', label: '800摆渡车计划', align: 'left' },
+                { prop: 'plan', label: `${this.filterData.lineNo}摆渡车计划`, align: 'left' },
                 { prop: 'up', label: '上行方向' },
                 { prop: 'down', label: '下行方向' },
             ]
             return list
         },
+        driverInfo () {
+            return [
+                { label: '车牌号', value: this.driver.busNoChar },
+                { label: '物理卡号', value: this.driver.cardNo },
+                { label: '司机工号', value: this.driver.opNo },
+                { label: '打卡时间', value: '-' },
+            ]
+        },
     },
     created () {
         this.getData()
-        this.getDriverInfo()
         this.getLineplan()
     },
     methods: {
@@ -132,12 +140,12 @@ export default {
         },
         async getDriverInfo () {
             try {
-                const data = await this.$axios.get('operation/drivers', {
+                const data = await this.$axios.get('basic/driver', {
                     params: {
-                        line: this.filterData.lineNo,
+                        id: this.filterData.driver,
                     },
                 })
-                console.log(data)
+                this.driver = data.driver
             } catch (err) {
                 console.log(err)
             }

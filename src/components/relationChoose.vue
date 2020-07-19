@@ -20,9 +20,10 @@
         />
         <choose
             v-if="withDriver"
+            v-model="choosed.driver"
             label="司机"
-            :value="1"
-            :options="[{id: 1, label: '李经西'}, {id: 2, label: '杨建国'}, {id: 3, label: '曹建民'}]"
+            value-index
+            :options="lines[choosed.filaName].children[choosed.groupName].children[choosed.lineNo].children"
         />
     </div>
 </template>
@@ -39,6 +40,7 @@ export default {
                 filaName: 0, // 公司
                 groupName: 0, // 车队
                 lineNo: 0, // 线路
+                driver: 0,
             },
         }
     },
@@ -70,14 +72,16 @@ export default {
     },
     methods: {
         getChoosed () {
-            const { filaName: c, groupName: s, lineNo: l } = this.choosed
+            const { filaName: c, groupName: s, lineNo: l, driver: d } = this.choosed
             const filaName = this.lines[c]
             const groupName = filaName.children[s]
             const lineNo = groupName.children[l]
+            const driver = lineNo.children[d]
             return {
                 filaName: filaName.id,
                 groupName: groupName.id,
                 lineNo: lineNo.id,
+                driver: driver.id,
             }
         },
     },
