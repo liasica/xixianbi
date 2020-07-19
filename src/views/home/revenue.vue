@@ -2,16 +2,26 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路" :options="name_options" v-model="name_id" />
+                <choose
+                    v-model="station_id"
+                    class="choose"
+                    label="场站"
+                    :options="station_options"
+                />
+                <choose
+                    v-model="name_id"
+                    class="choose"
+                    label="线路"
+                    :options="name_options"
+                />
                 <button class="search-btn">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
                 <BiCheckBox label="车辆营收统计时间分布" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
+                    <i class="icon-switch" />
                     <span>导出数据</span>
                 </s-btn>
             </div>
@@ -25,6 +35,7 @@ import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import Mock from 'mockjs'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -33,16 +44,16 @@ const data = Mock.mock({
             carteam: '第一车队',
             name: '880',
             time: '06:00-07:00',
-            amount: '4000.00'
-        }
-    ]
+            amount: '4000.00',
+        },
+    ],
 })
 
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
     },
     data () {
         return {
@@ -54,28 +65,28 @@ export default {
                 { prop: 'carteam', label: '车队' },
                 { prop: 'name', label: '线路名称' },
                 { prop: 'time', label: '时间' },
-                { prop: 'amount', label: '时段收入' }
+                { prop: 'amount', label: '时段收入' },
             ],
             list: data.list,
             station_options: [
                 { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
+                { id: 2, label: '场站二' },
             ],
             station_id: 1,
             name_options: [
                 { id: 1, label: '880' },
-                { id: 2, label: '930' }
+                { id: 2, label: '930' },
             ],
             name_id: 1,
-            isShowToday: false
+            isShowToday: false,
         }
     },
     created () {},
     methods: {
         handleChange () {
             console.log(1)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

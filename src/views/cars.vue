@@ -2,18 +2,38 @@
     <div class="container cars-container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公司" :options="company_options" v-model="company_id" />
-                <choose class="choose" label="车队" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="车辆类型" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="车龄" :options="age_options" v-model="age_id" />
+                <choose
+                    v-model="company_id"
+                    class="choose"
+                    label="公司"
+                    :options="company_options"
+                />
+                <choose
+                    v-model="station_id"
+                    class="choose"
+                    label="车队"
+                    :options="station_options"
+                />
+                <choose
+                    v-model="cate_id"
+                    class="choose"
+                    label="车辆类型"
+                    :options="cate_options"
+                />
+                <choose
+                    v-model="age_id"
+                    class="choose"
+                    label="车龄"
+                    :options="age_options"
+                />
                 <button class="search-btn">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
                 <BiCheckBox label="车辆信息" :value.sync="showCarInfo" />
                 <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
+                    <i class="icon-switch" />
                     <span>导出数据</span>
                 </s-btn>
             </div>
@@ -27,6 +47,7 @@ import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import Mock from 'mockjs'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -41,16 +62,16 @@ const data = Mock.mock({
             total_ways: '65',
             stations: '20个',
             time: '6:00-10:00',
-            cars: '80/110'
-        }
-    ]
+            cars: '80/110',
+        },
+    ],
 })
 
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
     },
     data () {
         return {
@@ -72,41 +93,39 @@ export default {
                 {
                     prop: 'oprate',
                     label: '操作',
-                    render: () => {
-                        return '<button class="btn">车辆能耗</button>'
-                    }
-                }
+                    render: () => '<button class="btn">车辆能耗</button>',
+                },
             ],
             list: data.list,
             company_options: [
                 { id: 1, label: '西咸公交' },
-                { id: 2, label: '东咸公交' }
+                { id: 2, label: '东咸公交' },
             ],
             company_id: 1,
             station_options: [
                 { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
+                { id: 2, label: '场站二' },
             ],
             station_id: 1,
             cate_options: [
                 { id: 1, label: '纯电动' },
-                { id: 2, label: '汽车' }
+                { id: 2, label: '汽车' },
             ],
             cate_id: 1,
             age_options: [
                 { id: 1, label: '5年以下' },
-                { id: 2, label: '5年以上' }
+                { id: 2, label: '5年以上' },
             ],
             age_id: 1,
-            showCarInfo: false
+            showCarInfo: false,
         }
     },
     created () {},
     methods: {
         handleChange () {
             console.log(1)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less">

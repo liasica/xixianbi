@@ -30,10 +30,30 @@
         <div class="finance-box">
             <div class="bi-title">财务分析</div>
             <div class="list">
-                <Card :type="1" label="IC卡人次" :value="0" color="#42DFFF" />
-                <Card :type="2" label="IC卡金额" :value="0" color="#3C77FF" />
-                <Card :type="3" label="IC卡人次" :value="0" color="#08F0C9" />
-                <Card :type="4" label="投币收入" :value="0" color="#F2F2F2" />
+                <Card
+                    :type="1"
+                    label="IC卡人次"
+                    :value="0"
+                    color="#42DFFF"
+                />
+                <Card
+                    :type="2"
+                    label="IC卡金额"
+                    :value="0"
+                    color="#3C77FF"
+                />
+                <Card
+                    :type="3"
+                    label="IC卡人次"
+                    :value="0"
+                    color="#08F0C9"
+                />
+                <Card
+                    :type="4"
+                    label="投币收入"
+                    :value="0"
+                    color="#F2F2F2"
+                />
             </div>
         </div>
         <div class="icnum-box">
@@ -44,10 +64,11 @@
 
 <script>
 import Card from './widget/card'
+
 export default {
     components: {
-        Card
-    }
+        Card,
+    },
 }
 </script>
 

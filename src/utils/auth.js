@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Cookies from 'js-cookie'
 
 const TokenKey = 'XXBI-Admin-Token'

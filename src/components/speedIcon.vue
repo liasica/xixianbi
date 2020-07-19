@@ -1,4 +1,6 @@
 <template>
+    <!-- eslint-disable max-len -->
+    <!-- eslint-disable vue/max-len -->
     <svg
         width="48px"
         height="48px"
@@ -24,7 +26,7 @@
 export default {
     props: {
         bgColor: { type: String, default: '#033651' },
-        color: { type: String, default: '#42DFFF' }
-    }
+        color: { type: String, default: '#42DFFF' },
+    },
 }
 </script>

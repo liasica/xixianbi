@@ -2,7 +2,7 @@
     <div class="container home-container">
         <div class="left">
             <div class="bi-title">当日公交上线情况</div>
-            <div class="progress-bars" v-if="home.busOnline">
+            <div v-if="home.busOnline" class="progress-bars">
                 <progress-bar
                     class="pbar"
                     label="常规公交"
@@ -21,37 +21,37 @@
                     color="#3C77FF"
                 />
             </div>
-            <div class="tie-items" v-if="home.busOnline">
+            <div v-if="home.busOnline" class="tie-items">
                 <tie-number :number="home.busOnline.active" label="活跃车数" />
                 <tie-number :number="home.busOnline.inactive" label="非活跃车数" />
             </div>
-            <div class="violation" v-if="home.alarmToday">
+            <div v-if="home.alarmToday" class="violation">
                 <div class="bi-title">当日车辆违规统计</div>
                 <ul>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
-                            <img :src="require('@images/violation-alert.png')" />
+                            <img :src="require('@images/violation-alert.png')">
                         </s-btn>
                         <span>本月30内报警数</span>
                         <div class="value">{{ home.alarmToday.month }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
-                            <img :src="require('@images/violation-illegal.png')" />
+                            <img :src="require('@images/violation-illegal.png')">
                         </s-btn>
                         <span>驾驶员违法违规</span>
                         <div class="value">{{ home.alarmToday.illegal }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
-                            <img :src="require('@images/violation-accident.png')" />
+                            <img :src="require('@images/violation-accident.png')">
                         </s-btn>
                         <span>驾驶员事故次数</span>
                         <div class="value">{{ home.alarmToday.accident }}</div>
                     </li>
                     <li>
                         <s-btn class="icon" :corner="true">
-                            <img :src="require('@images/violation-insurance.png')" />
+                            <img :src="require('@images/violation-insurance.png')">
                         </s-btn>
                         <span>车辆保险到期</span>
                         <div class="value">{{ home.alarmToday.insurance }}</div>
@@ -60,7 +60,7 @@
             </div>
             <div class="radials">
                 <div class="bi-title">早高峰平均出车率（日）</div>
-                <div class="items" v-if="home.avgBusRate">
+                <div v-if="home.avgBusRate" class="items">
                     <s-btn :corner="{ leftTop: '#42DFFF', rightTop: '#42DFFF' }" class="radial">
                         <radial radial-id="radial1" :schedule="home.avgBusRate[0]" />
                         <div class="radial-label">第一场站</div>
@@ -114,7 +114,7 @@
             <div class="bus-speed">
                 <div class="bi-title">当日车辆平均速度</div>
                 <div class="items">
-                    <div class="speed-item" v-for="(item, index) in speedRank" :key="index">
+                    <div v-for="(item, index) in speedRank" :key="index" class="speed-item">
                         <speed-icon :bg-color="item.bgColor" :color="item.color" />
                         <div class="speed-body">
                             <div class="speed">{{ item.speed.toFixed(2) }}km/h</div>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mileage" v-if="home.busDistance">
+            <div v-if="home.busDistance" class="mileage">
                 <div class="bi-title">当日营运里程</div>
                 <div class="item">
                     <div class="label">{{ home.busDistance[0].line }}</div>
@@ -190,16 +190,16 @@ export default {
                     left: '54px',
                     bottom: '16px',
                     right: '10px',
-                    top: '20px'
+                    top: '20px',
                 },
                 xAxis: {
                     show: false,
                     type: 'category',
                     axisLine: {
                         lineStyle: {
-                            color: '#42DFFF'
-                        }
-                    }
+                            color: '#42DFFF',
+                        },
+                    },
                 },
                 yAxis: {
                     splitLine: { show: false },
@@ -207,16 +207,14 @@ export default {
                     axisLine: {
                         show: false,
                         lineStyle: {
-                            color: '#42DFFF'
-                        }
+                            color: '#42DFFF',
+                        },
                     },
                     axisLabel: {
                         color: '#ffffff',
                         fontFamily: 'BDZongYi',
-                        formatter: value => {
-                            return value > 0 ? value : null
-                        }
-                    }
+                        formatter: value => (value > 0 ? value : null),
+                    },
                 },
                 series: [
                     {
@@ -225,55 +223,50 @@ export default {
                         barWidth: 12,
                         itemStyle: {
                             barBorderRadius: 6,
-                            color: '#42DFFF'
+                            color: '#42DFFF',
                         },
-                        data: []
-                    }
-                ]
+                        data: [],
+                    },
+                ],
             },
             speedRank: [
                 {
                     color: '#42DFFF',
                     bgColor: '#0A2E41',
                     busline: '',
-                    speed: 0
+                    speed: 0,
                 },
                 {
                     color: '#F4BE45',
                     bgColor: '#3B2E17',
                     busline: '',
-                    speed: 0
+                    speed: 0,
                 },
                 {
                     color: '#F06060',
                     bgColor: '#3F1E22',
                     busline: '',
-                    speed: 0
+                    speed: 0,
                 },
                 {
                     color: '#08F0C9',
                     bgColor: '#045648',
                     busline: '',
-                    speed: 0
+                    speed: 0,
                 },
                 {
                     color: '#3C77FF',
                     bgColor: '#0C2357',
                     busline: '',
-                    speed: 0
+                    speed: 0,
                 },
                 {
                     color: '#FFFFFF',
                     bgColor: '#393A3B',
                     busline: '',
-                    speed: 0
-                }
-            ]
-        }
-    },
-    methods: {
-        getRandomInt (max) {
-            return Math.floor(Math.random() * Math.floor(max))
+                    speed: 0,
+                },
+            ],
         }
     },
     async created () {
@@ -317,7 +310,12 @@ export default {
         //         series: [energySeries]
         //     }
         // }
-    }
+    },
+    methods: {
+        getRandomInt (max) {
+            return Math.floor(Math.random() * Math.floor(max))
+        },
+    },
 }
 </script>
 

@@ -3,12 +3,12 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    style="margin-right: 40px"
                     @change="choosed => filterData = choosed"
                     @init="choosed => filterData = choosed"
-                    style="margin-right: 40px"
                 />
                 <button class="search-btn" @click="onFilter">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
@@ -20,7 +20,7 @@
                     :name="`${$route.meta.title}.xlsx`"
                 >
                     <s-btn class="export-btn">
-                        <i class="icon-switch"></i>
+                        <i class="icon-switch" />
                         <span>导出数据</span>
                     </s-btn>
                 </export-excel>
@@ -39,7 +39,29 @@ export default {
     components: {
         BiTable,
         BiCheckBox,
-        RelationChoose
+        RelationChoose,
+    },
+    data () {
+        return {
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '', // 线路
+            },
+            columns: [
+                { prop: 'id', label: '序号' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'lineName', label: '线路' },
+                { prop: 'busNoChar', label: '车号' },
+                { prop: 'employeeName', label: '司机姓名' },
+                { prop: 'cardNo', label: '物理卡号' },
+                { prop: 'opNo', label: '司机工号' },
+                { prop: 'startTime', label: '打卡时间' },
+            ],
+            source: [],
+            list: [],
+            isShowToday: false,
+        }
     },
     computed: {
         fields () {
@@ -50,29 +72,7 @@ export default {
                 }
             })
             return fields
-        }
-    },
-    data () {
-        return {
-            filterData: {
-                filaName: '', // 公司
-                groupName: '', // 场站
-                lineNo: '' // 线路
-            },
-            columns: [
-                { prop: 'id', label: '序号' },
-                { prop: 'filaName', label: '公司' },
-                { prop: 'lineName', label: '线路' },
-                { prop: 'busNoChar', label: '车号' },
-                { prop: 'employeeName', label: '司机姓名' },
-                { prop: 'cardNo', label: '物理卡号' },
-                { prop: 'opNo', label: '司机工号' },
-                { prop: 'startTime', label: '打卡时间' }
-            ],
-            source: [],
-            list: [],
-            isShowToday: false
-        }
+        },
     },
     created () {
         this.getData()
@@ -88,11 +88,9 @@ export default {
             }
         },
         async onFilter () {
-            this.list = this.source.filter(item => {
-                return item.lineNo === this.filterData.lineNo
-            })
-        }
-    }
+            this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

@@ -1,0 +1,8 @@
+!./.eslintrc.js
+jsconfig.json
+build/**
+dist/**
+public/**
+node_modules/
+!svg.js
+src/plugins/circle-progress/

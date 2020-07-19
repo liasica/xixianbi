@@ -11,9 +11,10 @@
 import BiHeader from '@/components/header'
 
 export default {
-    components: { BiHeader }
+    components: { BiHeader },
 }
 </script>
+
 <style lang="less">
 .app {
     min-height: 100vh;

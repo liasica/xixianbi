@@ -2,18 +2,38 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="公司" :options="cate_options" v-model="cate_id" />
-                <choose class="choose" label="场站" :options="station_options" v-model="station_id" />
-                <choose class="choose" label="线路计划编号" :options="name_options" v-model="name_id" />
-                <choose class="choose" label="车辆牌照" :options="status_options" v-model="status_id" />
+                <choose
+                    v-model="cate_id"
+                    class="choose"
+                    label="公司"
+                    :options="cate_options"
+                />
+                <choose
+                    v-model="station_id"
+                    class="choose"
+                    label="场站"
+                    :options="station_options"
+                />
+                <choose
+                    v-model="name_id"
+                    class="choose"
+                    label="线路计划编号"
+                    :options="name_options"
+                />
+                <choose
+                    v-model="status_id"
+                    class="choose"
+                    label="车辆牌照"
+                    :options="status_options"
+                />
                 <button class="search-btn">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
                 <BiCheckBox label="维修计划" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
+                    <i class="icon-switch" />
                     <span>导出数据</span>
                 </s-btn>
             </div>
@@ -27,6 +47,7 @@ import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import Mock from 'mockjs'
+
 const data = Mock.mock({
     'list|11': [
         {
@@ -46,15 +67,15 @@ const data = Mock.mock({
             loguser: '张三',
             outtime: '2019-07-23 12:32:34',
             userno: '001',
-            outuser: '李三'
-        }
-    ]
+            outuser: '李三',
+        },
+    ],
 })
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
     },
     data () {
         return {
@@ -77,38 +98,38 @@ export default {
                 { prop: 'loguser', label: '进厂登记人' },
                 { prop: 'outtime', label: '出厂时间' },
                 { prop: 'userno', label: '交接员编号' },
-                { prop: 'outuser', label: '出厂司机' }
+                { prop: 'outuser', label: '出厂司机' },
             ],
             list: data.list,
             cate_options: [
                 { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' }
+                { id: 2, label: '双层公交' },
             ],
             cate_id: 1,
             station_options: [
                 { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' }
+                { id: 2, label: '场站二' },
             ],
             station_id: 1,
             name_options: [
                 { id: 1, label: '880' },
-                { id: 2, label: '930' }
+                { id: 2, label: '930' },
             ],
             name_id: 1,
             status_options: [
                 { id: 1, label: '运营' },
-                { id: 2, label: '停运' }
+                { id: 2, label: '停运' },
             ],
             status_id: 1,
-            isShowToday: false
+            isShowToday: false,
         }
     },
     created () {},
     methods: {
         handleChange () {
             console.log(1)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>

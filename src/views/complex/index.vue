@@ -2,12 +2,12 @@
     <div class="container complex-container">
         <div class="chart age">
             <div class="bi-title">场站车龄</div>
-            <img :src="require('@images/demo/1.png')" />
+            <img :src="require('@images/demo/1.png')">
         </div>
         <div class="chart info">
             <div class="bi-title">车辆信息</div>
             <div v-for="(item, index) in info" :key="index" class="item">
-                <img :src="require(`./assets/${item.icon}.png`)" />
+                <img :src="require(`./assets/${item.icon}.png`)">
                 <span>{{ item.label }}</span>
                 <div class="right" :style="`color: ${item.color}`">
                     <span>{{ item.value }}</span>
@@ -17,15 +17,15 @@
         </div>
         <div class="chart job">
             <div class="bi-title">岗位占比</div>
-            <img :src="require('@images/demo/3.png')" />
+            <img :src="require('@images/demo/3.png')">
         </div>
         <div class="chart age-cars">
             <div class="bi-title">场站车龄</div>
-            <img :src="require('@images/demo/4.png')" />
+            <img :src="require('@images/demo/4.png')">
         </div>
         <div class="chart energy">
             <div class="bi-title">车辆耗能</div>
-            <img :src="require('@images/demo/5.png')" />
+            <img :src="require('@images/demo/5.png')">
         </div>
     </div>
 </template>
@@ -39,38 +39,38 @@ export default {
                     label: '昨日收入',
                     value: '-',
                     unit: 'RMB',
-                    color: '#42DFFF'
+                    color: '#42DFFF',
                 },
                 distance: {
                     icon: 'dashboard',
                     label: '累计里程',
                     value: '-',
                     unit: 'KM',
-                    color: '#08F0C9'
+                    color: '#08F0C9',
                 },
                 passenger: {
                     icon: 'users',
                     label: '当日人次',
                     value: '2401679',
                     unit: '人次',
-                    color: '#3C77FF'
+                    color: '#3C77FF',
                 },
                 oil: {
                     icon: 'battery',
                     label: '累计耗能',
                     value: '-',
                     unit: '度',
-                    color: '#EBEBEB'
-                }
-            }
+                    color: '#EBEBEB',
+                },
+            },
         }
     },
     async created () {
         const { info } = await this.$axios.get('complex')
-        for (const k in info) {
+        Object.keys(info).forEach(k => {
             this.$set(this.info[k], 'value', info[k] || '-')
-        }
-    }
+        })
+    },
 }
 </script>
 <style lang="less" scoped>

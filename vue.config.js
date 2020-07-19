@@ -36,24 +36,24 @@ module.exports = {
                     new CompressionPlugin({
                         test: /\.js$|\.html$|\.css/,
                         threshold: 10240,
-                        deleteOriginalAssets: false
-                    })
-                ]
+                        deleteOriginalAssets: false,
+                    }),
+                ],
             }
         }
         // return plugins
     },
-    css: {
-        loaderOptions: {
-            less: {
-                // data: `@import "@less/_variables.less";@import "@less/_mixins.less";`,
-                javascriptEnabled: true
-            }
-        }
-    },
+    // css: {
+    //     loaderOptions: {
+    //         less: {
+    //             // data: `@import "@less/_variables.less";@import "@less/_mixins.less";`,
+    //             javascriptEnabled: true,
+    //         },
+    //     },
+    // },
     devServer: {
         host: '127.0.0.1',
-        port: 6010
+        port: 6010,
         // proxy: {
         //     '/apiv1': {
         //         target: proxyTarget,
@@ -64,5 +64,5 @@ module.exports = {
         //         }
         //     }
         // }
-    }
+    },
 }

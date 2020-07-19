@@ -50,7 +50,7 @@ export const routes = [
         path: '/',
         name: 'home',
         meta: {
-            title: '首页'
+            title: '首页',
         },
         component: layout,
         children: [
@@ -58,81 +58,81 @@ export const routes = [
                 path: '/',
                 name: 'homeView',
                 meta: {
-                    title: '首页大屏'
+                    title: '首页大屏',
                 },
-                component: home
+                component: home,
             },
             {
                 path: '/online',
                 name: 'online',
                 meta: {
-                    title: '当日公交上线情况'
+                    title: '当日公交上线情况',
                 },
-                component: online
+                component: online,
             },
             {
                 path: '/home/violation',
                 name: 'home/violation',
                 meta: {
-                    title: '当日车辆违规统计'
+                    title: '当日车辆违规统计',
                 },
-                component: violation
+                component: violation,
             },
             {
                 path: '/home/workrate',
                 name: 'home/workrate',
                 meta: {
-                    title: '早高峰平均出车率'
+                    title: '早高峰平均出车率',
                 },
-                component: workrate
+                component: workrate,
             },
             {
                 path: '/home/revenue',
                 name: 'home/revenue',
                 meta: {
-                    title: '车辆营收统计时间分布'
+                    title: '车辆营收统计时间分布',
                 },
-                component: revenue
+                component: revenue,
             },
             {
                 path: '/home/energy',
                 name: 'home/energy',
                 meta: {
-                    title: '车辆运行能耗比较统计（日）'
+                    title: '车辆运行能耗比较统计（日）',
                 },
-                component: homeEnergy
+                component: homeEnergy,
             },
             {
                 path: '/home/speed',
                 name: 'home/speed',
                 meta: {
-                    title: '当日车辆平均速度'
+                    title: '当日车辆平均速度',
                 },
-                component: homeSpeed
+                component: homeSpeed,
             },
             {
                 path: '/home/mileage',
                 name: 'home/mileage',
                 meta: {
-                    title: '当日营运里程'
+                    title: '当日营运里程',
                 },
-                component: homeMileage
+                component: homeMileage,
             },
             {
                 path: '/home/worktimes',
                 name: 'home/worktimes',
                 meta: {
-                    title: '当日完成班次数'
+                    title: '当日完成班次数',
                 },
-                component: homeWorkTimes
-            }
-        ]
+                component: homeWorkTimes,
+            },
+        ],
     },
     {
         path: '/complex',
         name: 'complex',
         meta: {
-            title: '综合管理'
+            title: '综合管理',
         },
         component: layout,
         children: [
@@ -140,58 +140,58 @@ export const routes = [
                 path: '/complex',
                 name: 'complexView',
                 meta: {
-                    title: '综合管理大屏'
+                    title: '综合管理大屏',
                 },
-                component: complex
+                component: complex,
             },
             {
                 path: '/complex/info',
                 name: 'complex/info',
                 meta: {
-                    title: '综合信息'
+                    title: '综合信息',
                 },
-                component: complexInfo
+                component: complexInfo,
             },
             {
                 path: '/complex/carinfo',
                 name: 'complex/carinfo',
                 meta: {
-                    title: '车辆信息'
+                    title: '车辆信息',
                 },
-                component: complexCarInfo
+                component: complexCarInfo,
             },
             {
                 path: '/cars',
                 name: 'cars',
                 meta: {
                     title: '车辆信息',
-                    hidden: true
+                    hidden: true,
                 },
-                component: cars
+                component: cars,
             },
             {
                 path: '/complex/workinfo',
                 name: 'complex/workinfo',
                 meta: {
-                    title: '运行数据'
+                    title: '运行数据',
                 },
-                component: complexWorkInfo
+                component: complexWorkInfo,
             },
             {
                 path: '/energy',
                 name: 'energy',
                 meta: {
-                    title: '耗能数据'
+                    title: '耗能数据',
                 },
-                component: energy
-            }
-        ]
+                component: energy,
+            },
+        ],
     },
     {
         path: '/station',
         name: 'station',
         meta: {
-            title: '场站管理'
+            title: '场站管理',
         },
         component: layout,
         children: [
@@ -199,25 +199,25 @@ export const routes = [
                 path: '/station',
                 name: 'stationView',
                 meta: {
-                    title: '场站管理大屏'
+                    title: '场站管理大屏',
                 },
-                component: station
+                component: station,
             },
             {
                 path: '/station/info',
                 name: 'station/info',
                 meta: {
-                    title: '场站信息'
+                    title: '场站信息',
                 },
-                component: stationInfo
-            }
-        ]
+                component: stationInfo,
+            },
+        ],
     },
     {
         path: '/maintenance',
         name: 'maintenance',
         meta: {
-            title: '机务管理'
+            title: '机务管理',
         },
         component: layout,
         children: [
@@ -225,33 +225,33 @@ export const routes = [
                 path: '/maintenance',
                 name: 'maintenanceView',
                 meta: {
-                    title: '机务管理'
+                    title: '机务管理',
                 },
-                component: maintenance
+                component: maintenance,
             },
             {
                 path: '/maintenance/fixplan',
                 name: 'maintenance/fixplan',
                 meta: {
-                    title: '维修计划'
+                    title: '维修计划',
                 },
-                component: maintenanceFixPlan
+                component: maintenanceFixPlan,
             },
             {
                 path: '/maintenance/safe',
                 name: 'maintenance/safe',
                 meta: {
-                    title: '安全管理'
+                    title: '安全管理',
                 },
-                component: maintenanceSafe
-            }
-        ]
+                component: maintenanceSafe,
+            },
+        ],
     },
     {
         path: '/operation',
         name: 'operation',
         meta: {
-            title: '营运调度'
+            title: '营运调度',
         },
         component: layout,
         children: [
@@ -259,50 +259,50 @@ export const routes = [
                 path: '/operation',
                 name: 'operationView',
                 meta: {
-                    title: '营运调度大屏'
+                    title: '营运调度大屏',
                 },
-                component: operation
+                component: operation,
             },
             {
                 path: '/operation/carmaster',
                 name: 'operation/carmaster',
                 meta: {
-                    title: '车长信息'
+                    title: '车长信息',
                 },
-                component: operationCarMaster
+                component: operationCarMaster,
             },
             {
                 path: '/operation/dispatchplan',
                 name: 'operation/dispatchplan',
                 meta: {
-                    title: '调度计划'
+                    title: '调度计划',
                 },
-                component: operationDispatchPlan
+                component: operationDispatchPlan,
             },
             {
                 path: '/operation/scheduplan',
                 name: 'operation/scheduplan',
                 meta: {
-                    title: '排班计划'
+                    title: '排班计划',
                 },
-                component: operationScheduPlan
+                component: operationScheduPlan,
             },
             {
                 path: '/operation/analyse',
                 name: 'operation/analyse',
                 meta: {
-                    title: '营运分析'
+                    title: '营运分析',
                 },
-                component: operationAnalyse
-            }
-        ]
+                component: operationAnalyse,
+            },
+        ],
     },
     {
         path: '/finance',
         name: 'finance',
         meta: {
             title: '财务管理',
-            hidden: true
+            hidden: true,
         },
         component: layout,
         children: [
@@ -310,26 +310,26 @@ export const routes = [
                 path: '/finance',
                 name: 'financeView',
                 meta: {
-                    title: '财务管理'
+                    title: '财务管理',
                 },
-                component: finance
+                component: finance,
             },
             {
                 path: '/finance/info',
                 name: 'finance/info',
                 meta: {
-                    title: '财务分析'
+                    title: '财务分析',
                 },
-                component: financeInfo
-            }
-        ]
+                component: financeInfo,
+            },
+        ],
     },
     {
         path: '/supplies',
         name: 'supplies',
         meta: {
             title: '物资管理',
-            hidden: true
+            hidden: true,
         },
         component: layout,
         children: [
@@ -337,42 +337,42 @@ export const routes = [
                 path: '/supplies',
                 name: 'suppliesView',
                 meta: {
-                    title: '物资管理'
+                    title: '物资管理',
                 },
-                component: supplies
+                component: supplies,
             },
             {
                 path: '/supplies/stock',
                 name: 'supplies/stock',
                 meta: {
-                    title: '物资入库'
+                    title: '物资入库',
                 },
-                component: suppliesStock
+                component: suppliesStock,
             },
             {
                 path: '/supplies/detail',
                 name: 'supplies/detail',
                 meta: {
-                    title: '详细'
+                    title: '详细',
                 },
-                component: suppliesDetail
+                component: suppliesDetail,
             },
             {
                 path: '/supplies/allocate',
                 name: 'supplies/allocate',
                 meta: {
-                    title: '物资调拨'
+                    title: '物资调拨',
                 },
-                component: suppliesAllocate
-            }
-        ]
+                component: suppliesAllocate,
+            },
+        ],
     },
     {
         path: '/permission',
         name: 'permission',
         meta: {
             title: '权限管理',
-            hidden: true
+            hidden: true,
         },
         component: layout,
         children: [
@@ -380,19 +380,19 @@ export const routes = [
                 path: '/rule',
                 name: 'rule',
                 meta: {
-                    title: '角色管理'
+                    title: '角色管理',
                 },
-                component: rule
+                component: rule,
             },
             {
                 path: '/user',
                 name: 'user',
                 meta: {
-                    title: '用户列表'
+                    title: '用户列表',
                 },
-                component: user
-            }
-        ]
+                component: user,
+            },
+        ],
     },
     {
         path: '/setting',
@@ -400,25 +400,25 @@ export const routes = [
         meta: { title: '系统设置' },
         component: layout,
         children: [
-            { path: '/setting/energy', name: 'setting-energy', meta: { title: '充电桩设置' }, component: settingEnergy }
-        ]
+            { path: '/setting/energy', name: 'setting-energy', meta: { title: '充电桩设置' }, component: settingEnergy },
+        ],
     },
     {
         path: '/login',
         name: 'login',
         meta: { hidden: true },
-        component: login
+        component: login,
     },
     {
         path: '*',
-        redirect: '/'
-    }
+        redirect: '/',
+    },
 ]
 
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
 })
 
 router.beforeEach((to, from, next) => {

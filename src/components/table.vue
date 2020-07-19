@@ -14,7 +14,7 @@
                             :key="t.prop"
                             :style="`text-align:${t.align}; max-width: ${t.width}px`"
                         >
-                            <span v-if="t.render" v-html="t.render(item[t.prop])"></span>
+                            <span v-if="t.render" v-html="t.render(item[t.prop])" />
                             <span v-else>{{ item[t.prop] || '-' }}</span>
                         </td>
                     </tr>
@@ -26,7 +26,7 @@
             :total="total"
             :page.sync="current"
             :jump="pagination && pagination.jump"
-            :showTotal="pagination && pagination.showTotal"
+            :show-total="pagination && pagination.showTotal"
         />
     </div>
 </template>
@@ -36,17 +36,23 @@ import BiPagination from '@/components/pagination'
 
 export default {
     components: {
-        BiPagination
+        BiPagination,
     },
     props: {
-        columns: { default: [] },
-        source: { default: [] },
+        columns: { type: Array, default: () => [] },
+        source: { type: Array, default: () => [] },
         pagination: {
+            type: Object,
             default: () => ({
                 pageSize: 10,
                 jump: true,
-                showTotal: true
-            })
+                showTotal: true,
+            }),
+        },
+    },
+    data () {
+        return {
+            current: 1,
         }
     },
     computed: {
@@ -57,18 +63,13 @@ export default {
             if (this.pagination) {
                 return this.source.slice(
                     (this.current - 1) * this.pagination.pageSize,
-                    this.current * this.pagination.pageSize
+                    this.current * this.pagination.pageSize,
                 )
             }
             return this.source
-        }
+        },
     },
-    data () {
-        return {
-            current: 1
-        }
-    },
-    methods: {}
+    methods: {},
 }
 </script>
 <style lang="less">

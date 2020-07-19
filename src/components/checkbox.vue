@@ -9,7 +9,7 @@ export default {
     props: {
         label: { type: String, default: '' },
         value: { type: Boolean, default: false },
-        showCheckbox: { type: Boolean, default: false }
+        showCheckbox: { type: Boolean, default: false },
     },
     data () {
         return {}
@@ -18,8 +18,8 @@ export default {
         onToggle () {
             this.$emit('update:value', !this.value)
             this.$emit('change', !this.value)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less">

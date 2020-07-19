@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Vue from 'vue'
 import axios from 'axios'
 
@@ -6,10 +7,10 @@ import router from '@/router'
 const service = axios.create({
     // baseURL: '/apiv1/', // url = base url + request url
     baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-    timeout: 60 * 10 * 1000 // request timeout
+    timeout: 60 * 10 * 1000, // request timeout
 })
 
-const CancelToken = axios.CancelToken
+const { CancelToken } = axios
 let source = CancelToken.source()
 
 service.interceptors.request.use(
@@ -24,7 +25,7 @@ service.interceptors.request.use(
     error => {
         console.log(error) // for debug
         return Promise.reject(error)
-    }
+    },
 )
 
 // response interceptor
@@ -42,7 +43,7 @@ service.interceptors.response.use(
                 if (path !== '/login') {
                     router.replace({
                         path: '/login',
-                        query: { redirect: router.currentRoute.fullPath }
+                        query: { redirect: router.currentRoute.fullPath },
                     })
                 }
             }
@@ -58,7 +59,7 @@ service.interceptors.response.use(
             // Message({ message: error.message, type: 'error', duration: 5 * 1000 })
         }
         return Promise.reject(error)
-    }
+    },
 )
 
 export default service

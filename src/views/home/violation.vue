@@ -2,15 +2,20 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose class="choose" label="分类" :options="cate_options" v-model="cate_id" />
+                <choose
+                    v-model="cate_id"
+                    class="choose"
+                    label="分类"
+                    :options="cate_options"
+                />
                 <button class="search-btn">
-                    <i class="icon-search"></i>查询
+                    <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
                 <BiCheckBox label="当日车辆违规统计" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
-                    <i class="icon-switch"></i>
+                    <i class="icon-switch" />
                     <span>导出数据</span>
                 </s-btn>
             </div>
@@ -24,6 +29,7 @@ import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
 import Mock from 'mockjs'
+
 const data1 = Mock.mock({
     'list|11': [
         {
@@ -38,9 +44,9 @@ const data1 = Mock.mock({
                 'X102路驾驶员张保升。7月18日7：17分在阿房宫场站，私自挪动车载监控',
             result: '罚款',
             driver: '张保升',
-            amount: '100.00'
-        }
-    ]
+            amount: '100.00',
+        },
+    ],
 })
 const data2 = Mock.mock({
     'list|11': [
@@ -56,9 +62,9 @@ const data2 = Mock.mock({
             apply_amount: '10000',
             file: 'http://baidu.com',
             reason: '车辆事故',
-            result: '同意'
-        }
-    ]
+            result: '同意',
+        },
+    ],
 })
 const data3 = Mock.mock({
     'list|11': [
@@ -74,15 +80,15 @@ const data3 = Mock.mock({
             start_time: '2019-07-12',
             end_time: '2019-07-12',
             day: '13',
-            expires: true
-        }
-    ]
+            expires: true,
+        },
+    ],
 })
 export default {
     components: {
         BiTable,
         BiPagination,
-        BiCheckBox
+        BiCheckBox,
     },
     data () {
         return {
@@ -99,7 +105,7 @@ export default {
                 { prop: 'content', label: '违法违规情况', width: 300 },
                 { prop: 'result', label: '处罚意见' },
                 { prop: 'driver', label: '驾驶员姓名' },
-                { prop: 'amount', label: '处罚金额' }
+                { prop: 'amount', label: '处罚金额' },
             ],
             list1: data1.list,
             columns2: [
@@ -114,7 +120,7 @@ export default {
                 { prop: 'apply_amount', label: '本事故申请中借额' },
                 { prop: 'file', label: '借条附件' },
                 { prop: 'reason', label: '借款事由' },
-                { prop: 'result', label: '审批意见' }
+                { prop: 'result', label: '审批意见' },
             ],
             list2: data2.list,
             columns3: [
@@ -129,24 +135,24 @@ export default {
                 { prop: 'start_time', label: '开始日期' },
                 { prop: 'end_time', label: '结束日期' },
                 { prop: 'day', label: '离到期天数' },
-                { prop: 'expires', label: '是否已过期' }
+                { prop: 'expires', label: '是否已过期' },
             ],
             list3: data3.list,
             cate_options: [
                 { id: 1, label: '车辆违规' },
                 { id: 2, label: '车辆违规' },
-                { id: 3, label: '车辆违规' }
+                { id: 3, label: '车辆违规' },
             ],
             cate_id: 1,
-            isShowToday: false
+            isShowToday: false,
         }
     },
     created () {},
     methods: {
         handleChange () {
             console.log(1)
-        }
-    }
+        },
+    },
 }
 </script>
 <style lang="less" scoped>
