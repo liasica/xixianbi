@@ -14,7 +14,7 @@ export default {
             ]
             this.items.forEach(({ warnContent, warnCount, lastMonthCount }) => {
                 // sourceData.
-                source.push([warnContent, warnCount, warnCount + lastMonthCount + 10])
+                source.push([warnContent, warnCount, lastMonthCount])
             })
             const options = {
                 legend: {
