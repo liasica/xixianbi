@@ -5,15 +5,18 @@
             <alarm-parallel :items="week" />
             <!-- 30日内报警总数 [ 03/20 — 04/20 ]  -->
             <alarm-parallel :items="month" />
+            <!-- 本月和上月报警对比 -->
+            <month-parallel :items="compare" />
         </div>
     </div>
 </template>
 
 <script>
 import alarmParallel from '@/views/home/alarmParallel'
+import monthParallel from '@/views/home/monthParallel'
 
 export default {
-    components: { alarmParallel },
+    components: { alarmParallel, monthParallel },
     data () {
         return {
             compare: [],
