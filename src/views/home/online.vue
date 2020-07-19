@@ -1,10 +1,17 @@
 <template>
     <div class="container">
         <div class="content">
-            <relation-choose
-                @change="choosed => filterData = choosed"
-                @init="choosed => filterData = choosed"
-            />
+            <!-- <div class="filter-box">
+                <choose
+                    v-model="status"
+                    class="choose"
+                    label="状态"
+                    :options="statusOptions"
+                />
+                <button class="search-btn" @click="onFilter">
+                    <i class="icon-search" />查询
+                </button>
+            </div> -->
             <div class="filter-box">
                 <div />
                 <export-excel
@@ -41,8 +48,6 @@ export default {
                 lineNo: '', // 线路
             },
             columns: [
-                { prop: 'id', label: '序号' },
-                { prop: 'cate', label: '公交分类' },
                 { prop: 'filaName', label: '公司名称' },
                 { prop: 'lineName', label: '线路名称' },
                 { prop: 'upStation', label: '上车发行站点' },
@@ -50,11 +55,21 @@ export default {
                 { prop: 'downStation', label: '下车发行站点' },
                 { prop: 'downTime', label: '运营时间' },
                 { prop: 'groupNo', label: '所属车队' },
-                { prop: 'lineState', label: '线路状态' },
+                {
+                    prop: 'lineState',
+                    label: '线路状态',
+                    render: item => `<span>${item === 1 ? '营运中' : '已停运'}</span>`,
+                },
             ],
             source: [],
             list: [],
             isShowToday: false,
+            status: null,
+            statusOptions: [
+                { id: null, label: '全部' },
+                { id: 1, label: '营运中' },
+                { id: 0, label: '已停运' },
+            ],
         }
     },
     computed: {
@@ -73,9 +88,12 @@ export default {
             await this.getData()
         },
     },
-    created () {},
+    created () {
+        this.getData()
+    },
     methods: {
         async getData () {
+            // 1 营运中 0 已停运
             try {
                 const data = await this.$axios.get('online', {
                     params: {
@@ -87,6 +105,16 @@ export default {
             } catch (err) {
                 console.log(err)
             }
+        },
+        async onFilter () {
+            // lineNo
+            const list = this.source.filter(item => {
+                if (this.status !== null) {
+                    return item.lineState === this.status
+                }
+                return true
+            })
+            this.list = list
         },
     },
 }
@@ -141,8 +169,9 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 117px;
+            min-width: 117px;
             letter-spacing: 8px;
+            margin-left: 20px;
         }
         .icon-search {
             display: inline-block;

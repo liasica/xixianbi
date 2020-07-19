@@ -4,11 +4,13 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>序号</th>
                         <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in list" :key="index">
+                        <td>{{ index + 1 + 10* (current -1) }}</td>
                         <td
                             v-for="t in columns"
                             :key="t.prop"

@@ -8,9 +8,14 @@
                     label="分类"
                     :options="cate_options"
                 />
-                <button class="search-btn">
-                    <i class="icon-search" />查询
-                </button>
+                <div class="btn-box">
+                    <!-- <button class="search-btn">
+                        安全报警
+                    </button> -->
+                    <button class="search-btn">
+                        <i class="icon-search" />查询
+                    </button>
+                </div>
             </div>
             <div class="filter-box">
                 <BiCheckBox label="当日车辆违规统计" :value.sync="isShowToday" />
@@ -197,6 +202,9 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
+        .btn-box{
+            display: flex;
+        }
         .search-btn {
             background-color: #42dfff;
             padding: 10px;
@@ -205,8 +213,9 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 117px;
+            min-width: 117px;
             letter-spacing: 8px;
+            margin-left: 20px;
         }
         .icon-search {
             display: inline-block;

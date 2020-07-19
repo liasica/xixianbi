@@ -8,6 +8,7 @@ import login from '@/views/login'
 import home from '@/views/home/index'
 import online from '@/views/home/online'
 import violation from '@/views/home/violation'
+import alarm from '@/views/home/alarm'
 import workrate from '@/views/home/workrate'
 import revenue from '@/views/home/revenue'
 import homeEnergy from '@/views/home/energy'
@@ -77,6 +78,14 @@ export const routes = [
                     title: '当日车辆违规统计',
                 },
                 component: violation,
+            },
+            {
+                path: '/home/alarm',
+                name: 'home/alarm',
+                meta: {
+                    title: '安全报警管理',
+                },
+                component: alarm,
             },
             {
                 path: '/home/workrate',
