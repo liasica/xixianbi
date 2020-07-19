@@ -72,20 +72,23 @@ import RelationChoose from '@/components/relationChoose'
 import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
 
-import {
-    driver,
-    scheduColumns,
-    scheduData,
-    orderColumns,
-    columns1,
-    list1
-} from './mock'
+import { driver, scheduColumns, scheduData, orderColumns } from './mock'
 
 export default {
     components: {
         TieText,
         BiTable,
         RelationChoose
+    },
+    computed: {
+        columns1 () {
+            const list = [
+                { prop: 'plan', label: '800摆渡车计划', align: 'left' },
+                { prop: 'up', label: '上行方向' },
+                { prop: 'down', label: '下行方向' }
+            ]
+            return list
+        }
     },
     data () {
         return {
@@ -100,12 +103,13 @@ export default {
             orderColumns,
             orderSource: [],
             orderData: [],
-            columns1,
-            list1
+            list1: []
         }
     },
     created () {
         this.getData()
+        this.getDriverInfo()
+        this.getLineplan()
     },
     methods: {
         async getData () {
@@ -128,9 +132,71 @@ export default {
                 console.log(err)
             }
         },
+        async getDriverInfo () {
+            try {
+                const data = await this.$axios.get('operation/drivers', {
+                    params: {
+                        line: this.filterData.lineNo
+                    }
+                })
+                console.log(data)
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async getLineplan () {
+            try {
+                const data = await this.$axios.get('operation/lineplan', {
+                    params: {
+                        lineNo: this.filterData.lineNo
+                    }
+                })
+                const list = data.items
+                let rlt = []
+                if (list.length === 2) {
+                    rlt = [
+                        {
+                            plan: '是否上下行',
+                            up: list[0].isUpDown === 0 ? '上行' : '下行',
+                            down: list[1].isUpDown === 0 ? '上行' : '下行'
+                        },
+                        {
+                            plan: '开始时间点',
+                            up: list[0].firstBusTime,
+                            down: list[1].firstBusTime
+                        },
+                        {
+                            plan: '发车间隔',
+                            up: '-',
+                            down: '-'
+                        },
+                        {
+                            plan: '间隔班次',
+                            up: list[0].sendPlanNum,
+                            down: list[1].sendPlanNum
+                        },
+                        {
+                            plan: '总班次',
+                            up: list[0].motorcadeSum,
+                            down: list[1].motorcadeSum
+                        },
+                        {
+                            plan: '单程时间',
+                            up: '-',
+                            down: '-'
+                        }
+                    ]
+                }
+                this.list1 = rlt
+            } catch (err) {
+                console.log(err)
+            }
+        },
         async onFilter (choosed) {
             this.filterData = choosed
             this.getData()
+            this.getDriverInfo()
+            this.getLineplan()
         }
     }
 }

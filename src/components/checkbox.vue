@@ -1,6 +1,6 @@
 <template>
     <div class="checkbox-wrapper" @click="onToggle">
-        <i class="check-box">{{ value ? '√' : '' }}</i>
+        <i v-if="showCheckbox" class="check-box">{{ value ? '√' : '' }}</i>
         <span>{{ label }}</span>
     </div>
 </template>
@@ -8,7 +8,8 @@
 export default {
     props: {
         label: { type: String, default: '' },
-        value: { type: Boolean, default: false }
+        value: { type: Boolean, default: false },
+        showCheckbox: { type: Boolean, default: false }
     },
     data () {
         return {}

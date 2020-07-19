@@ -5,7 +5,6 @@
                 <relation-choose
                     @change="choosed => filterData = choosed"
                     @init="choosed => filterData = choosed"
-                    with-driver
                     style="margin-right: 40px"
                 />
                 <button class="search-btn" @click="onFilter">
@@ -62,13 +61,13 @@ export default {
             },
             columns: [
                 { prop: 'id', label: '序号' },
-                { prop: 'cate', label: '公司' },
-                { prop: 'station', label: '线路' },
-                { prop: 'name', label: '车号' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'lineName', label: '线路' },
+                { prop: 'busNoChar', label: '车号' },
                 { prop: 'employeeName', label: '司机姓名' },
                 { prop: 'cardNo', label: '物理卡号' },
                 { prop: 'opNo', label: '司机工号' },
-                { prop: 'end_time', label: '打卡时间' }
+                { prop: 'startTime', label: '打卡时间' }
             ],
             source: [],
             list: [],

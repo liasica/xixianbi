@@ -57,35 +57,15 @@
                 <div class="bi-title">超速信息</div>
                 <div class="progress-bars">
                     <progress-bar
+                        v-for="(item, index) in overspeed"
+                        :key="index"
                         class="pbar"
-                        label="48秒"
-                        :schedule="getRandomInt(100)"
-                        rightText="km/h"
-                        :noBorder="true"
-                    />
-                    <progress-bar
-                        class="pbar"
-                        label="30秒"
-                        :schedule="getRandomInt(100)"
-                        rightText="km/h"
-                        :noBorder="true"
-                    />
-                    <progress-bar
-                        class="pbar"
-                        label="48秒"
-                        :schedule="getRandomInt(100)"
-                        rightText="km/h"
-                        :noBorder="true"
-                    />
-                    <progress-bar
-                        class="pbar"
-                        label="30秒"
-                        :schedule="getRandomInt(100)"
+                        :label="`${item.time}秒`"
+                        :schedule="item.speed"
                         rightText="km/h"
                         :noBorder="true"
                     />
                 </div>
-                <!-- <img :src="require('@images/demo/12.png')" /> -->
             </div>
         </div>
     </div>
@@ -98,6 +78,10 @@ export default {
     data () {
         return {
             distance: 0,
+            offline: {
+                time: ''
+            },
+            overspeed: [],
             repairs: [
                 { label: '地点', value: '场站一' },
                 { label: '信息', value: 'WXH-19112305' },
@@ -113,14 +97,22 @@ export default {
             ]
         }
     },
+    async created () {
+        this.getData()
+    },
     methods: {
+        async getData () {
+            // 获取机务信息
+            const { distance, offline, overspeed } = await this.$axios.get(
+                'maintenance'
+            )
+            this.distance = distance
+            this.offline = offline
+            this.overspeed = overspeed
+        },
         getRandomInt (max) {
             return Math.floor(Math.random() * Math.floor(max))
         }
-    },
-    async created () {
-        const { distance } = await this.$axios.get('maintenance')
-        this.distance = distance
     }
 }
 </script>
