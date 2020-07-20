@@ -15,7 +15,7 @@
             </div>
             <div class="bottom">
                 <div class="bi-title">维修次数</div>
-                <img :src="require('@images/demo/10.png')">
+                <img style="width: 700px" :src="require('@images/demo/10.png')">
             </div>
         </div>
         <div class="mid">
@@ -42,14 +42,15 @@
                     </s-btn>
                 </div>
             </div>
-        </div>
-        <div class="right">
-            <div class="bi-title">出厂信息</div>
-            <div v-for="(item, index) in factory" :key="index" class="factory-item">
-                <i :class="'icon icon-' + item.icon" />
-                <s-btn class="value">{{ item.value }}</s-btn>
+            <div class="bottom">
+                <div class="bi-title">出厂信息</div>
+                <div v-for="(item, index) in factory" :key="index" class="factory-item">
+                    <i :class="'icon icon-' + item.icon" />
+                    <s-btn class="value">{{ item.value }}</s-btn>
+                </div>
             </div>
         </div>
+        <!-- <div class="right" /> -->
     </div>
 </template>
 <script>
@@ -112,8 +113,8 @@ export default {
 }
 .total {
     height: 390px;
-    background: url(~@images/bus-x-ray.png) bottom right no-repeat;
-    background-size: contain;
+    background: url(~@images/bus-x-ray.png) bottom left no-repeat;
+    background-size: 600px;
     .content {
         display: flex;
         align-items: center;
