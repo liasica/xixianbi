@@ -407,6 +407,10 @@ export default {
         overflow: hidden;
     }
 
+    .side-chart /deep/ .echarts {
+        height: 380px;
+    }
+
     .echarts {
         width: 320px;
     }

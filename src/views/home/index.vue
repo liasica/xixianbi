@@ -511,6 +511,7 @@ export default {
         font-size: 28px;
         padding: 10px;
         width: 200px;
+        flex-shrink: 0;
     }
 }
 .total {
