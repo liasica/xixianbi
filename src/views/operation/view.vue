@@ -14,7 +14,7 @@
                     <img src="./assets/user.png" alt>
                     <TieText>
                         <div class="user-name">
-                            <span class="title">姓名</span>
+                            <span class="title">司机</span>
                             <span>{{ driver.employeeName }}</span>
                         </div>
                     </TieText>
@@ -26,11 +26,16 @@
             </div>
             <div class="bottom">
                 <div class="bi-title">调度计划</div>
-                <BiTable :columns="columns1" :source="list1" :pagination="false" />
+                <BiTable
+                    :columns="columns1"
+                    :source="list1"
+                    :pagination="false"
+                    :show-number="false"
+                />
             </div>
         </div>
         <div class="mid">
-            <div>
+            <div class="schedu-box">
                 <div class="bi-title">排班计划</div>
                 <div class="schedu-plan">
                     <div class="title-box">
@@ -50,19 +55,62 @@
                         :columns="orderColumns"
                         :source="orderData"
                         class="s-table"
-                        :pagination="{pageSize: 10, jump: false, showTotal: false}"
+                        :pagination="{pageSize: 5, jump: false, showTotal: false}"
                     />
+                </div>
+            </div>
+            <div class="chart-box">
+                <div class="side-chart">
+                    <div class="bi-title">营运分析</div>
+                    <v-chart :options="busChart" />
+                </div>
+                <div class="bottom side-chart">
+                    <div class="bi-title">营运里程</div>
+                    <v-chart :options="mileageChart" />
                 </div>
             </div>
         </div>
         <div class="right">
-            <div class="side-chart">
-                <div class="bi-title">营运分析</div>
-                <v-chart :options="busChart" />
+            <div>
+                <div class="bi-title">延迟信息</div>
+                <div class="repair-item">
+                    <span class="label">发车方向</span>
+                    <s-btn class="value">西咸</s-btn>
+                </div>
+                <img :src="require('@images/demo/18.png')">
             </div>
-            <div class="bottom side-chart">
-                <div class="bi-title">营运里程</div>
-                <v-chart :options="mileageChart" />
+            <div class="deviate-info">
+                <div class="bi-title">偏线信息</div>
+                <ul>
+                    <li class="thin-border border-bottom">
+                        <s-btn class="icon" :corner="true">
+                            <img :src="require('./assets/dash.png')">
+                        </s-btn>
+                        <span>偏线里程</span>
+                        <div class="value">46 KM</div>
+                    </li>
+                    <li class="thin-border border-bottom">
+                        <s-btn class="icon" :corner="true">
+                            <img :src="require('./assets/warning.png')">
+                        </s-btn>
+                        <span>报警时长</span>
+                        <div class="value">{{ offline.time }} s</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom">
+                <div class="bi-title">超速信息</div>
+                <div class="progress-bars">
+                    <progress-bar
+                        v-for="(item, index) in overspeed"
+                        :key="index"
+                        class="pbar"
+                        :label="`${item.time}秒`"
+                        :schedule="item.speed"
+                        right-text="km/h"
+                        :no-border="true"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -71,6 +119,7 @@
 import RelationChoose from '@/components/relationChoose'
 import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
+import ProgressBar from '@/components/progressBar'
 
 import { scheduColumns, scheduData, orderColumns } from './mock'
 
@@ -79,6 +128,7 @@ export default {
         TieText,
         BiTable,
         RelationChoose,
+        ProgressBar,
     },
     data () {
         return {
@@ -185,6 +235,10 @@ export default {
                     },
                 ],
             },
+            offline: {
+                time: '',
+            },
+            overspeed: [],
         }
     },
     computed: {
@@ -209,6 +263,7 @@ export default {
         this.getData()
         this.getLineplan()
         this.getPageData()
+        this.getDataInfo()
     },
     methods: {
         async getPageData () {
@@ -223,6 +278,14 @@ export default {
             })
             this.busChart = busChart
             this.mileageChart = mileageChart
+        },
+        async getDataInfo () {
+            // 获取机务信息
+            const { offline, overspeed } = await this.$axios.get(
+                'maintenance',
+            )
+            this.offline = offline
+            this.overspeed = overspeed
         },
         async getData () {
             try {
@@ -323,9 +386,6 @@ export default {
     .right {
         width: 320px;
     }
-    .bottom {
-        margin-top: 40px;
-    }
     .car-info {
         .item {
             display: flex;
@@ -402,6 +462,12 @@ export default {
             }
         }
     }
+    .chart-box{
+        display: flex;
+        align-items: center;
+        padding-top: 20px;
+        padding-left: 8px;
+    }
     .side-chart {
         width: 100%;
         overflow: hidden;
@@ -413,6 +479,65 @@ export default {
 
     .echarts {
         width: 320px;
+    }
+}
+.repair-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    .value,
+    .value-level {
+        width: 210px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        padding: 15px 10px;
+        line-height: 1;
+    }
+    .value-level {
+        height: 100px;
+        flex-direction: column;
+        padding: 15px 0;
+        .repair-list {
+            display: flex;
+            margin-top: 15px;
+            width: 100%;
+            justify-content: space-around;
+        }
+        .icon-repair {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-image: url('./assets/repair.png');
+            background-size: cover;
+        }
+    }
+}
+.deviate-info {
+    .icon {
+        width: 42px;
+        height: 42px;
+        margin-right: 12px;
+        img {
+            width: 42px;
+            height: 42px;
+        }
+    }
+    li {
+        display: flex;
+        align-items: center;
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+        .value {
+            flex: 1;
+            text-align: right;
+            opacity: 0.9;
+            font-size: 28px;
+        }
+        span {
+            opacity: 0.8;
+        }
     }
 }
 </style>

@@ -4,13 +4,13 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>序号</th>
+                        <th v-if="showNumber">序号</th>
                         <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in list" :key="index">
-                        <td>{{ index + 1 + 10* (current -1) }}</td>
+                        <td v-if="showNumber">{{ index + 1 + 10* (current -1) }}</td>
                         <td
                             v-for="t in columns"
                             :key="t.prop"
@@ -27,6 +27,7 @@
             v-if="pagination && total > 0"
             :total="total"
             :page.sync="current"
+            :page-size="pagination && pagination.pageSize"
             :jump="pagination && pagination.jump"
             :show-total="pagination && pagination.showTotal"
         />
@@ -43,6 +44,7 @@ export default {
     props: {
         columns: { type: Array, default: () => [] },
         source: { type: Array, default: () => [] },
+        showNumber: { type: Boolean, default: true },
         pagination: {
             type: [Object, Boolean],
             default: () => ({
