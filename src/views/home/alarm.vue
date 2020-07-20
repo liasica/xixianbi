@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <div class="bi-title" style="width: 320px">{{ title }} [ {{ today }} - {{ lastMonthDay }} ]</div>
+                    <div class="bi-title" style="width: 460px">{{ title }} [ {{ today }} - {{ lastMonthDay }} ]</div>
                     <alarm-parallel v-show="current==='week'" :items="week" />
                     <alarm-parallel v-show="current==='month'" :items="month" />
                     <month-parallel v-show="current==='compare'" :items="compare" />
