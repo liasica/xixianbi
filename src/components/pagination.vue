@@ -47,7 +47,8 @@ export default {
             let list = []
             let len = this.totalPage
             if (this.totalPage <= 5) {
-                while (len -= 1) {
+                while (len) {
+                    len -= 1
                     list.push(this.totalPage - len)
                 }
                 return list
@@ -57,14 +58,16 @@ export default {
                 list = list.concat([2, 3])
                 list.push('...')
                 let diff = 3
-                while (diff -= 1) {
+                while (diff) {
+                    diff -= 1
                     list.push(this.totalPage - diff)
                 }
             } else if (this.page > this.totalPage - 3) {
                 list = list.concat([2, 3])
                 list.push('...')
                 let diff = 3
-                while (diff -= 1) {
+                while (diff) {
+                    diff -= 1
                     list.push(this.totalPage - diff)
                 }
             } else {

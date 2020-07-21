@@ -15,7 +15,7 @@
             </div>
             <div class="bottom">
                 <div class="bi-title">维修次数</div>
-                <img :src="require('@images/demo/10.png')">
+                <img style="width: 700px" :src="require('@images/demo/10.png')">
             </div>
         </div>
         <div class="mid">
@@ -50,49 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="right">
-            <div>
-                <div class="bi-title">延迟信息</div>
-                <div class="repair-item">
-                    <span class="label">发车方向</span>
-                    <s-btn class="value">西咸</s-btn>
-                </div>
-                <img :src="require('@images/demo/18.png')">
-            </div>
-            <div class="deviate-info">
-                <div class="bi-title">偏线信息</div>
-                <ul>
-                    <li class="thin-border border-bottom">
-                        <s-btn class="icon" :corner="true">
-                            <img :src="require('./assets/dash.png')">
-                        </s-btn>
-                        <span>偏线里程</span>
-                        <div class="value">46 KM</div>
-                    </li>
-                    <li class="thin-border border-bottom">
-                        <s-btn class="icon" :corner="true">
-                            <img :src="require('./assets/warning.png')">
-                        </s-btn>
-                        <span>报警时长</span>
-                        <div class="value">{{ offline.time }} s</div>
-                    </li>
-                </ul>
-            </div>
-            <div class="bottom">
-                <div class="bi-title">超速信息</div>
-                <div class="progress-bars">
-                    <progress-bar
-                        v-for="(item, index) in overspeed"
-                        :key="index"
-                        class="pbar"
-                        :label="`${item.time}秒`"
-                        :schedule="item.speed"
-                        right-text="km/h"
-                        :no-border="true"
-                    />
-                </div>
-            </div>
-        </div>
+        <!-- <div class="right" /> -->
     </div>
 </template>
 <script>
@@ -155,8 +113,8 @@ export default {
 }
 .total {
     height: 390px;
-    background: url(~@images/bus-x-ray.png) bottom right no-repeat;
-    background-size: contain;
+    background: url(~@images/bus-x-ray.png) bottom left no-repeat;
+    background-size: 600px;
     .content {
         display: flex;
         align-items: center;
