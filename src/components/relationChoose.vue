@@ -10,7 +10,7 @@
             v-model="choosed.groupName"
             label="车队"
             value-index
-            :options="lines[choosed.filaName].children"
+            :options="groupList"
         />
         <choose
             v-model="choosed.lineNo"
@@ -23,7 +23,7 @@
             v-model="choosed.driver"
             label="司机"
             value-index
-            :options="lines[choosed.filaName].children[choosed.groupName].children[choosed.lineNo].children"
+            :options="driverList"
         />
     </div>
 </template>
@@ -43,6 +43,17 @@ export default {
                 driver: 0,
             },
         }
+    },
+    computed: {
+        groupList () {
+            return this.lines.length ? this.lines[this.choosed.filaName].children : []
+        },
+        lineList () {
+            return this.groupList.length ? this.groupList[this.choosed.groupName].children : []
+        },
+        driverList () {
+            return this.lineList.length ? this.lineList[this.choosed.lineNo].children : []
+        },
     },
     watch: {
         'choosed.filaName': function () {
@@ -76,15 +87,15 @@ export default {
     methods: {
         getChoosed () {
             const { filaName: c, groupName: s, lineNo: l, driver: d } = this.choosed
-            const filaName = this.lines[c]
-            const groupName = filaName.children[s]
-            const lineNo = groupName.children[l]
-            const driver = lineNo.children[d]
+            const filaName = this.lines.length ? this.lines[c] : null
+            const groupName = (filaName && filaName.children.length) ? filaName.children[s] : null
+            const lineNo = (groupName && groupName.children.length) ? groupName.children[l] : null
+            const driver = (lineNo && lineNo.children.length) ? lineNo.children[d] : null
             return {
-                filaName: filaName.id,
-                groupName: groupName.id,
-                lineNo: lineNo.id,
-                driver: driver.id,
+                filaName: filaName && filaName.id,
+                groupName: groupName && groupName.id,
+                lineNo: lineNo && lineNo.id,
+                driver: driver && driver.id,
             }
         },
     },

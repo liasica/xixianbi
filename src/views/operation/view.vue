@@ -307,12 +307,16 @@ export default {
         },
         async getDriverInfo () {
             try {
-                const data = await this.$axios.get('basic/driver', {
-                    params: {
-                        id: this.filterData.driver,
-                    },
-                })
-                this.driver = data.driver
+                if (this.filterData.driver) {
+                    const data = await this.$axios.get('basic/driver', {
+                        params: {
+                            id: this.filterData.driver,
+                        },
+                    })
+                    this.driver = data.driver
+                } else {
+                    this.driver = {}
+                }
             } catch (err) {
                 console.log(err)
             }
