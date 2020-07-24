@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const chalk = require('chalk')
 const os = require('os')
 const shell = require('shelljs')
@@ -5,7 +6,7 @@ const SSH2Shell = require('ssh2shell')
 
 const remotePath = '/web/sites/bi-front-dist'
 const dist = 'dist'
-const gitRemote = 'git@gitlab.liasica.com:xixianbus/bi-front-dist.git'
+const gitRemote = 'git@gitee.com:xixianbi/bi-front.git'
 const hostIp = '36.133.97.19'
 
 function logSubhead (message) {
@@ -21,7 +22,7 @@ function logError (message) {
 }
 
 function logFatal (message) {
-    console.log(os.EOL + chalk.red.bold('Fatal error : ' + message))
+    console.log(os.EOL + chalk.red.bold(`Fatal error : ${message}`))
     process.exit(1)
 }
 
@@ -38,7 +39,7 @@ if (shell.cd(dist).code === 0) {
 logSubhead('Git command ...')
 
 const { code } = shell.exec(
-    `git init; git add -A; git commit -m 'deploy'; git push -f ${gitRemote} master`
+    `git init; git add -A; git commit -m 'deploy'; git push -f ${gitRemote} master`,
 )
 if (code === 0) {
     logOk('>>> Git successed <<<')
@@ -53,16 +54,17 @@ const host = {
         host: hostIp,
         port: 22,
         userName: 'root',
+        // eslint-disable-next-line global-require
         privateKey: require('fs').readFileSync(
-            `/Users/${os.userInfo().username}/.ssh/id_rsa`
-        )
+            `/Users/${os.userInfo().username}/.ssh/id_rsa`,
+        ),
     },
     idleTimeOut: 500000,
     commands: [
         `cd ${remotePath}`,
         'git fetch --all',
         'git reset --hard origin/master',
-        'git pull -f'
+        'git pull -f',
     ],
     onCommandComplete: (command, response, sshObj) => {
         if (sshObj.commands.length === 3) {
@@ -74,7 +76,7 @@ const host = {
         if (sshObj.commands.length > 0) {
             logSubhead(`>>> Run command ${sshObj.commands[0]} <<<`)
         }
-    }
+    },
 }
 const conn = new SSH2Shell(host)
 

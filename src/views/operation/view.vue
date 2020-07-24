@@ -8,8 +8,17 @@
         <div class="filter" />
         <div class="left">
             <div class="car-info">
-                <!-- TODO: 增加个车辆筛选, 使用接口: basic/bus -->
                 <div class="bi-title">车长信息</div>
+                <div class="item">
+                    <span class="label">选择车辆</span>
+                    <choose
+                        v-if="drivers.length > 0"
+                        v-model="driverIndex"
+                        :options="buses"
+                        :value-index="true"
+                        class="value"
+                    />
+                </div>
                 <div class="car-user">
                     <img src="./assets/user.png" alt>
                     <TieText>
@@ -139,9 +148,7 @@ export default {
                 filaName: '', // 公司
                 groupName: '', // 场站
                 lineNo: '', // 线路
-                driver: '', // 司机
             },
-            driver: {},
             scheduColumns,
             scheduData,
             orderColumns,
@@ -242,6 +249,9 @@ export default {
                 time: '',
             },
             overspeed: [],
+            buses: [],
+            driverIndex: 0,
+            drivers: [],
         }
     },
     computed: {
@@ -253,12 +263,16 @@ export default {
             ]
             return list
         },
+        driver () {
+            return this.drivers[this.driverIndex] || {}
+        },
         driverInfo () {
+            const { driver } = this
             return [
-                { label: '车牌号', value: this.driver.busNoChar },
-                { label: '物理卡号', value: this.driver.cardNo },
-                { label: '司机工号', value: this.driver.opNo },
-                { label: '打卡时间', value: this.driver.startTime },
+                { label: '车牌号', value: driver.busNoChar },
+                { label: '物理卡号', value: driver.cardNo },
+                { label: '司机工号', value: driver.opNo },
+                { label: '打卡时间', value: (driver.startTime || ' ').split(' ')[1] },
             ]
         },
     },
@@ -489,20 +503,14 @@ export default {
             }
         },
         async getDriverInfo () {
-            try {
-                if (this.filterData.driver) {
-                    const data = await this.$axios.get('basic/driver', {
-                        params: {
-                            id: this.filterData.driver,
-                        },
-                    })
-                    this.driver = data.driver
-                } else {
-                    this.driver = {}
-                }
-            } catch (err) {
-                console.log(err)
-            }
+            const { items } = await this.$axios.get('operation/drivers')
+            this.drivers = items
+            const buses = []
+            items.forEach(item => {
+                buses.push({ id: item.busNoChar, label: item.busNoChar })
+            })
+            this.buses = buses
+            // this.driver = data.driver
         },
         async getLineplan () {
             try {
@@ -593,9 +601,10 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 16px;
             img {
-                width: 70px;
-                height: 70px;
+                width: 54px;
+                height: 54px;
             }
             .user-name {
                 width: 200px;
