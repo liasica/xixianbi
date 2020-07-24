@@ -1,7 +1,6 @@
 <template>
     <div class="container operation-container">
         <relation-choose
-            with-driver
             style="margin-right: 40px"
             @change="onFilter"
             @init="onFilter"
@@ -9,6 +8,7 @@
         <div class="filter" />
         <div class="left">
             <div class="car-info">
+                <!-- TODO: 增加个车辆筛选, 使用接口: basic/bus -->
                 <div class="bi-title">车长信息</div>
                 <div class="car-user">
                     <img src="./assets/user.png" alt>
@@ -35,6 +35,16 @@
             </div>
         </div>
         <div class="mid">
+            <div class="chart-box">
+                <div class="side-chart">
+                    <div class="bi-title">营运分析</div>
+                    <v-chart :options="busChart" />
+                </div>
+                <div class="bottom side-chart">
+                    <div class="bi-title">营运里程</div>
+                    <v-chart :options="mileageChart" />
+                </div>
+            </div>
             <div class="schedu-box">
                 <div class="bi-title">排班计划</div>
                 <div class="schedu-plan">
@@ -59,25 +69,16 @@
                     />
                 </div>
             </div>
-            <div class="chart-box">
-                <div class="side-chart">
-                    <div class="bi-title">营运分析</div>
-                    <v-chart :options="busChart" />
-                </div>
-                <div class="bottom side-chart">
-                    <div class="bi-title">营运里程</div>
-                    <v-chart :options="mileageChart" />
-                </div>
-            </div>
         </div>
         <div class="right">
             <div>
                 <div class="bi-title">延迟信息</div>
-                <div class="repair-item">
+                <v-chart :options="lateOptions" />
+                <!-- <div class="repair-item">
                     <span class="label">发车方向</span>
                     <s-btn class="value">西咸</s-btn>
                 </div>
-                <img :src="require('@images/demo/18.png')">
+                <img :src="require('@images/demo/18.png')"> -->
             </div>
             <div class="deviate-info">
                 <div class="bi-title">偏线信息</div>
@@ -87,14 +88,14 @@
                             <img :src="require('./assets/dash.png')">
                         </s-btn>
                         <span>偏线里程</span>
-                        <div class="value">46 KM</div>
+                        <div class="value">{{ offline.distance }} KM</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('./assets/warning.png')">
                         </s-btn>
                         <span>报警时长</span>
-                        <div class="value">{{ offline.time }} s</div>
+                        <div class="value">{{ offline.time }} H</div>
                     </li>
                 </ul>
             </div>
@@ -132,6 +133,8 @@ export default {
     },
     data () {
         return {
+            late: {},
+            lateOptions: {},
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
@@ -263,11 +266,10 @@ export default {
         this.getData()
         this.getLineplan()
         this.getPageData()
-        this.getDataInfo()
     },
     methods: {
         async getPageData () {
-            const { analysis } = await this.$axios.get('operation')
+            const { analysis, overspeed, offline, late } = await this.$axios.get('operation')
             const busChart = JSON.parse(JSON.stringify(this.chartOptions))
             const mileageChart = JSON.parse(JSON.stringify(this.chartOptions))
             busChart.dataset.source = [['月份', '实际发车数', '实际趟数']]
@@ -278,14 +280,195 @@ export default {
             })
             this.busChart = busChart
             this.mileageChart = mileageChart
-        },
-        async getDataInfo () {
-            // 获取机务信息
-            const { offline, overspeed } = await this.$axios.get(
-                'maintenance',
-            )
             this.offline = offline
             this.overspeed = overspeed
+            this.setLateChart(late)
+        },
+        setLateChart ({ overview, items }) {
+            this.late = items
+            const hs = []
+            const ontime = []
+            const late = []
+            const forward = []
+            const lateTime = []
+            overview.forEach(o => {
+                hs.push(o.h)
+                let t = 0
+                o.items.forEach((item, i) => {
+                    switch (i) {
+                        default:
+                            t += item.num
+                            break
+                        case 1:
+                            lateTime.push(parseFloat((Math.abs(item.diff) / 60).toFixed(2), 2))
+                            late.push(item.num)
+                            break
+                        case 2:
+                            forward.push(item.num)
+                            // forward.push(parseFloat((Math.abs(item.diff) / 60).toFixed(2), 2))
+                            break
+                    }
+                })
+                ontime.push(t)
+            })
+            // console.info(ontime, late, forward)
+            this.lateOptions = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999',
+                        },
+                    },
+                    // formatter: '{b0}点<br />{b1}: {c1}',
+                    formatter: params => {
+                        // console.info(params)
+                        // return 'test'
+                        const h = params[0].name
+                        let label = `${h} 点<br>`
+                        params.forEach(p => {
+                            label += `${p.marker} ${p.seriesName}: ${p.value} ${p.seriesType === 'bar' ? '辆' : '分'} <br>`
+                        })
+                        if (items[h]) {
+                            label += '晚点车辆<br>'
+                            items[h].forEach(item => {
+                                label += `<span style="font-size:12px">${item.busNoChar}</span><br>`
+                            })
+                        }
+                        return label
+                    },
+                },
+                legend: {
+                    data: ['提前', '晚点', '准点'],
+                    textStyle: {
+                        color: '#fff',
+                        fontFamily: 'BDZongYi',
+                    },
+                },
+                grid: {
+                    // width: 240,
+                    left: 60,
+                    right: 60,
+                },
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 0,
+                        end: 50,
+                    },
+                    {
+                        type: 'slider',
+                        show: true,
+                        realtime: true,
+                        start: 0,
+                        end: 50,
+                        height: 16,
+                    },
+                ],
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: hs,
+                        axisPointer: {
+                            type: 'shadow',
+                        },
+                        axisLabel: {
+                            color: '#ffffff',
+                            fontFamily: 'BDZongYi',
+                        },
+                    },
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '车数',
+                        // min: 0,
+                        // max: 25,
+                        // interval: 5,
+                        axisLabel: {
+                            formatter: '{value} 辆',
+                            color: '#ffffff',
+                            fontFamily: 'BDZongYi',
+                        },
+                        nameTextStyle: {
+                            color: '#ffffff',
+                            fontFamily: 'BDZongYi',
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                type: 'dashed',
+                                color: '#3C77FF',
+                                opacity: 0.3,
+                            },
+                        },
+                        max: v => v.max + 50,
+                    },
+                    {
+                        type: 'value',
+                        name: '分钟',
+                        // min: 0,
+                        // max: 250,
+                        // interval: 50,
+                        axisLabel: {
+                            formatter: '{value} m',
+                            color: '#ffffff',
+                            fontFamily: 'BDZongYi',
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                type: 'dashed',
+                                color: '#42DFFF',
+                                opacity: 0.3,
+                            },
+                        },
+                        nameTextStyle: {
+                            color: '#ffffff',
+                            fontFamily: 'BDZongYi',
+                        },
+                    },
+                ],
+                series: [
+                    {
+                        name: '准点',
+                        type: 'bar',
+                        data: ontime,
+                        itemStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    {
+                        name: '晚点',
+                        type: 'bar',
+                        data: late,
+                        itemStyle: {
+                            color: '#ff42b2',
+                        },
+                    },
+                    {
+                        name: '提前',
+                        type: 'bar',
+                        data: forward,
+                        itemStyle: {
+                            color: '#00F4C7',
+                        },
+                    },
+                    {
+                        name: '晚点时间',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: lateTime,
+                        lineStyle: {
+                            color: '#ff42b2',
+                        },
+                        itemStyle: {
+                            color: '#ff42b2',
+                            borderWidth: 6,
+                        },
+                    },
+                ],
+            }
         },
         async getData () {
             try {
@@ -344,8 +527,8 @@ export default {
                         },
                         {
                             plan: '发车间隔',
-                            up: '-',
-                            down: '-',
+                            up: list[0].interval,
+                            down: list[1].interval,
                         },
                         {
                             plan: '间隔班次',
@@ -354,13 +537,13 @@ export default {
                         },
                         {
                             plan: '总班次',
-                            up: list[0].motorcadeSum,
-                            down: list[1].motorcadeSum,
+                            up: list[0].totalTimes,
+                            down: list[1].totalTimes,
                         },
                         {
                             plan: '单程时间',
-                            up: '-',
-                            down: '-',
+                            up: list[0].singleTime,
+                            down: list[1].singleTime,
                         },
                     ]
                 }
