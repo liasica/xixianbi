@@ -354,7 +354,7 @@ export default {
                     },
                 },
                 legend: {
-                    data: ['提前', '晚点', '准点'],
+                    data: ['提前', '晚点', '准点', '晚点时间'],
                     textStyle: {
                         color: '#fff',
                         fontFamily: 'BDZongYi',
