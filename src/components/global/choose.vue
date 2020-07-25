@@ -1,6 +1,6 @@
 <template>
     <label class="choose">
-        <span v-html="label" />
+        <span v-if="label" v-html="label" />
         <s-btn class="wrapper" :style="`width: ${width}px;`">
             <div v-click-outside="onHide" class="value" @click="onLabelClick">{{ valueLabel }}</div>
             <transition name="fade">

@@ -40,21 +40,21 @@
                             <img :src="require('@images/violation-illegal.png')">
                         </s-btn>
                         <span>驾驶员违法违规</span>
-                        <div class="value">{{ home.alarmToday.illegal }}</div>
+                        <div class="value">{{ home.alarmToday.items[0] ? home.alarmToday.items[0].num : 0 }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-accident.png')">
                         </s-btn>
                         <span>驾驶员事故次数</span>
-                        <div class="value">{{ home.alarmToday.accident }}</div>
+                        <div class="value">{{ home.alarmToday.items[1] ? home.alarmToday.items[1].num : 0 }}</div>
                     </li>
                     <li>
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-insurance.png')">
                         </s-btn>
                         <span>车辆保险到期</span>
-                        <div class="value">{{ home.alarmToday.insurance }}</div>
+                        <div class="value">{{ home.alarmToday.items[2] ? home.alarmToday.items[2].num : 0 }}</div>
                     </li>
                 </ul>
             </div>
@@ -186,26 +186,34 @@ export default {
             options: {
                 legend: false,
                 tooltip: {},
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 0,
+                        end: 10,
+                    },
+                    {
+                        type: 'slider',
+                        show: true,
+                        realtime: true,
+                        start: 0,
+                        end: 10,
+                        height: 16,
+                    },
+                ],
                 grid: {
                     left: '54px',
-                    bottom: '16px',
+                    // bottom: '16px',
                     right: '10px',
-                    top: '20px',
+                    // top: '20px',
+                    top: '0px',
                 },
                 xAxis: {
-                    show: false,
                     type: 'category',
-                    axisLine: {
-                        lineStyle: {
-                            color: '#42DFFF',
-                        },
-                    },
-                },
-                yAxis: {
                     splitLine: { show: false },
                     axisTick: { show: false },
                     axisLine: {
-                        show: false,
                         lineStyle: {
                             color: '#42DFFF',
                         },
@@ -213,9 +221,53 @@ export default {
                     axisLabel: {
                         color: '#ffffff',
                         fontFamily: 'BDZongYi',
-                        formatter: value => (value > 0 ? value : null),
+                        rotate: 45,
                     },
                 },
+                yAxis: {
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        // show: false,
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        // show: false,
+                        // inside: true,
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                        formatter: value => (value > 0 ? value : null),
+                        textStyle: {
+                            baseline: 'bottom',
+                        },
+                    },
+                },
+                // xAxis: {
+                //     // show: false,
+                //     type: 'category',
+                //     axisLine: {
+                //         lineStyle: {
+                //             color: '#42DFFF',
+                //         },
+                //     },
+                // },
+                // yAxis: {
+                //     splitLine: { show: false },
+                //     axisTick: { show: false },
+                //     axisLine: {
+                //         show: false,
+                //         lineStyle: {
+                //             color: '#42DFFF',
+                //         },
+                //     },
+                //     axisLabel: {
+                //         color: '#ffffff',
+                //         fontFamily: 'BDZongYi',
+                //         formatter: value => (value > 0 ? value : null),
+                //     },
+                // },
                 series: [
                     {
                         name: '',
@@ -281,39 +333,36 @@ export default {
             })
         }
 
-        // for (let i = 0; i < 6; i++) {
-        //     this.speedRank[i].busline = data.speed[i].lineSpeed
-        //     this.speedRank[i].busline = data.speed[i].busNo
-        // }
+        this.setEnergyChart(data.energies)
 
-        // this.incomeChart = JSON.parse(JSON.stringify(this.options))
         // this.energySeries = JSON.parse(JSON.stringify(this.options))
-
-        // const incomeSeries = this.incomeChart.series[0]
-        // incomeSeries.name = '收入'
-        // for (let i = 0; i < 12; i++) {
-        //     incomeSeries.data.push(this.getRandomInt(5000))
-        // }
-        // this.incomeChart = {
-        //     ...this.incomeChart,
-        //     ...{
-        //         series: [incomeSeries]
-        //     }
-        // }
-
         // const energySeries = this.energySeries.series[0]
         // energySeries.name = '能耗'
-        // energySeries.data = data.oil
+        // data.energies.forEach(energy => {
+        //     energySeries.data.push(energy.num)
+        // })
         // this.energyChart = {
         //     ...this.energySeries,
         //     ...{
-        //         series: [energySeries]
-        //     }
+        //         series: [energySeries],
+        //     },
         // }
     },
     methods: {
-        getRandomInt (max) {
-            return Math.floor(Math.random() * Math.floor(max))
+        setEnergyChart (items) {
+            const options = JSON.parse(JSON.stringify(this.options))
+            const data = []
+            const xdata = []
+            items.forEach(energy => {
+                data.push(energy.num)
+                xdata.push(energy.addoilDate)
+            })
+
+            options.xAxis.data = xdata
+            options.series[0].data = data
+            options.series[0].name = '能耗'
+
+            this.energyChart = options
         },
     },
 }
@@ -431,26 +480,26 @@ export default {
         }
     }
 }
-.chart-item {
-    position: relative;
-    &:before,
-    &:after {
-        position: absolute;
-        content: '';
-        background: #42dfff;
-        left: -3px;
-    }
-    &:before {
-        width: 5px;
-        height: 34px;
-        bottom: 0;
-    }
-    &:after {
-        width: 37px;
-        height: 5px;
-        bottom: -3px;
-    }
-}
+// .chart-item {
+//     position: relative;
+//     &:before,
+//     &:after {
+//         position: absolute;
+//         content: '';
+//         background: #42dfff;
+//         left: -3px;
+//     }
+//     &:before {
+//         width: 5px;
+//         height: 34px;
+//         bottom: 0;
+//     }
+//     &:after {
+//         width: 37px;
+//         height: 5px;
+//         bottom: -3px;
+//     }
+// }
 .bus-speed {
     .items {
         display: flex;
@@ -553,18 +602,18 @@ export default {
         .echarts {
             position: relative;
             width: 100%;
-            height: 250px;
-            border-bottom: 1px solid #42dfff;
-            border-left: 1px solid #42dfff;
-            &:before {
-                position: absolute;
-                content: '';
-                background: #42dfff;
-                left: -3px;
-                height: 34px;
-                width: 5px;
-                top: 10px;
-            }
+            height: 450px;
+            // border-bottom: 1px solid #42dfff;
+            // border-left: 1px solid #42dfff;
+            // &:before {
+            //     position: absolute;
+            //     content: '';
+            //     background: #42dfff;
+            //     left: -3px;
+            //     height: 34px;
+            //     width: 5px;
+            //     top: 10px;
+            // }
         }
     }
 }

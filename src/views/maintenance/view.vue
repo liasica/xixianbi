@@ -15,15 +15,26 @@
             </div>
             <div class="bottom">
                 <div class="bi-title">维修次数</div>
-                <img style="width: 700px" :src="require('@images/demo/10.png')">
+                <!-- <img style="width: 700px" :src="require('@images/demo/10.png')"> -->
+                <v-chart :options="timesChart" />
             </div>
         </div>
         <div class="mid">
             <div>
                 <div class="bi-title">维修信息</div>
+                <div class="repair-item">
+                    <span class="label">车辆</span>
+                    <choose
+                        v-if="buses.length > 0"
+                        v-model="busIndex"
+                        :options="buses"
+                        :width="210"
+                        :value-index="true"
+                    />
+                </div>
                 <div v-for="(item, index) in repairs" :key="index" class="repair-item">
                     <span class="label">{{ item.label }}</span>
-                    <s-btn class="value">{{ item.value }}</s-btn>
+                    <s-btn class="value">{{ getProp(item.prop) }}</s-btn>
                 </div>
                 <div class="repair-item">
                     <span class="label">维修等级</span>
@@ -46,7 +57,7 @@
                 <div class="bi-title">出厂信息</div>
                 <div v-for="(item, index) in factory" :key="index" class="factory-item">
                     <i :class="'icon icon-' + item.icon" />
-                    <s-btn class="value">{{ item.value }}</s-btn>
+                    <s-btn class="value">{{ getProp(item.prop) }}</s-btn>
                 </div>
             </div>
         </div>
@@ -61,40 +72,133 @@ export default {
     data () {
         return {
             distance: 0,
-            offline: {
-                time: '',
-            },
-            overspeed: [],
+            buses: [],
+            item: {},
+            busIndex: 0,
             repairs: [
-                { label: '地点', value: '场站一' },
-                { label: '信息', value: 'WXH-19112305' },
-                { label: '车牌号', value: '陕AV9276' },
-                { label: '维修点', value: '西咸汽车维修点' },
-                { label: '维修时间', value: '2019-11-23' },
-                { label: '维修人员', value: '杨建国' },
+                { prop: 'deptNo', label: '场站', value: '场站一' },
+                { prop: 'planNo', label: '编号', value: 'WXH-19112305' },
+                { prop: 'busLicense', label: '车牌号', value: '陕AV9276' },
+                { prop: 'maintainSiteName', label: '维修点', value: '西咸汽车维修点' },
+                { prop: 'checkinDate', label: '维修时间', value: '2019-11-23' },
+                { prop: 'registerName', label: '维修人员', value: '杨建国' },
             ],
             factory: [
-                { icon: 'time', value: '2018-09-24 12:00:00' },
-                { icon: 'number', value: '00123' },
-                { icon: 'user', value: '王涛' },
+                { prop: 'checkoutDate', icon: 'time', value: '2018-09-24 12:00:00' },
+                { prop: 'busNo', icon: 'number', value: '00123' },
+                { prop: 'outOpName', icon: 'user', value: '王涛' },
             ],
+            timesChart: {},
         }
+    },
+    watch: {
+        async busIndex (v) {
+            this.getPlan(this.buses[v].id || '')
+        },
     },
     async created () {
         this.getData()
+        this.getPlan()
     },
     methods: {
         async getData () {
             // 获取机务信息
-            const { distance, offline, overspeed } = await this.$axios.get(
+            const { distance, times } = await this.$axios.get(
                 'maintenance',
             )
             this.distance = distance
-            this.offline = offline
-            this.overspeed = overspeed
+            this.setTimesChart(times)
         },
-        getRandomInt (max) {
-            return Math.floor(Math.random() * Math.floor(max))
+        setTimesChart (items) {
+            const years = []
+            const data = []
+            items.forEach(item => {
+                years.push(item.year)
+                data.push(item.num)
+            })
+            this.timesChart = {
+                legend: false,
+                tooltip: {},
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 0,
+                        end: 50,
+                    },
+                    {
+                        type: 'slider',
+                        show: true,
+                        realtime: true,
+                        start: 0,
+                        end: 50,
+                        height: 16,
+                    },
+                ],
+                xAxis: {
+                    name: '年份',
+                    type: 'category',
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                    },
+                    data: years,
+                },
+                yAxis: {
+                    name: '次',
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        // show: false,
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        // show: false,
+                        // inside: true,
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                        formatter: value => (value > 0 ? value : null),
+                        textStyle: {
+                            baseline: 'bottom',
+                        },
+                    },
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'bar',
+                        barWidth: 12,
+                        itemStyle: {
+                            barBorderRadius: 6,
+                            color: '#42DFFF',
+                        },
+                        data,
+                    },
+                ],
+            }
+        },
+        async getPlan (busLicense) {
+            // 获取维修计划
+            const { item, busGroup } = await this.$axios.get(`maintenance/plan?busLicense=${busLicense || ''}`)
+            // this.busGroup = busGroup
+            this.item = item
+            if (busGroup) {
+                busGroup.forEach(b => {
+                    this.buses.push({ id: b, label: b })
+                })
+            }
+        },
+        getProp (prop) {
+            return this.item[prop] || ''
         },
     },
 }
@@ -114,7 +218,7 @@ export default {
 .total {
     height: 390px;
     background: url(~@images/bus-x-ray.png) bottom left no-repeat;
-    background-size: 600px;
+    background-size: auto 320px;
     .content {
         display: flex;
         align-items: center;
@@ -143,6 +247,10 @@ export default {
 }
 .bottom {
     margin-top: 40px;
+    /deep/ .echart {
+        width: 950px;
+        height: 420px;
+    }
 }
 .repair-item {
     display: flex;
