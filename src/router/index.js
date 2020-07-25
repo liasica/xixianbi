@@ -76,7 +76,7 @@ export const routes = [
                 path: '/home/violation',
                 name: 'home/violation',
                 meta: {
-                    title: '当日车辆违规统计',
+                    title: '车辆违规统计',
                 },
                 component: violation,
             },

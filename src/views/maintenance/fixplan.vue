@@ -2,36 +2,7 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公司"
-                    :options="cate_options"
-                />
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="场站"
-                    :options="station_options"
-                />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路计划编号"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="车辆牌照"
-                    :options="status_options"
-                />
-                <button class="search-btn">
-                    <i class="icon-search" />查询
-                </button>
-            </div>
-            <div class="filter-box">
-                <BiCheckBox label="维修计划" :value.sync="isShowToday" />
+                <BiCheckBox label="维修计划" />
                 <s-btn class="export-btn">
                     <i class="icon-switch" />
                     <span>导出数据</span>
@@ -44,87 +15,46 @@
 
 <script>
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
 
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '西咸公司',
-            station: '场站1',
-            fixno: 'WXJH-20190725-0001',
-            carno: '陕AV9276',
-            car_no: '陕AV9276',
-            cartype: '陕AV9276',
-            fixdate: '2019-07-23 12:32:34',
-            fixstation: '西咸骑车维修站点',
-            fixtype: '保养',
-            fixcate: '二级维护',
-            driver: '李三',
-            logtime: '2019-07-23 12:32:34',
-            loguser: '张三',
-            outtime: '2019-07-23 12:32:34',
-            userno: '001',
-            outuser: '李三',
-        },
-    ],
-})
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
             columns: [
-                { prop: 'company', label: '公司' },
-                { prop: 'station', label: '场站' },
-                { prop: 'fixno', label: '维修计划编号' },
-                { prop: 'carno', label: '车辆编号' },
-                { prop: 'car_no', label: '车辆牌照' },
-                { prop: 'cartype', label: '车辆型号' },
-                { prop: 'fixdate', label: '维修计划日期' },
-                { prop: 'fixstation', label: '承修站点' },
-                { prop: 'fixtype', label: '维修类别' },
-                { prop: 'fixcate', label: '维修类型' },
-                { prop: 'driver', label: '进厂司机姓名' },
-                { prop: 'logtime', label: '进厂登记时间' },
-                { prop: 'loguser', label: '进厂登记人' },
-                { prop: 'outtime', label: '出厂时间' },
-                { prop: 'userno', label: '交接员编号' },
-                { prop: 'outuser', label: '出厂司机' },
+                { prop: 'planNo', label: '维修计划编号' },
+                { prop: 'busNo', label: '车辆编号' },
+                { prop: 'busLicense', label: '车辆牌照' },
+                { prop: 'busModel', label: '车辆型号' },
+                { prop: 'planMaintenanceDate', label: '维修计划日期' },
+                { prop: 'maintainSiteName', label: '承修站点' },
+                { prop: 'busMaintenanceType', label: '维修类别' },
+                { prop: 'degreeCode', label: '维修类型' },
+                { prop: 'inOpName', label: '进厂司机姓名' },
+                { prop: 'checkinDate', label: '进厂登记时间' },
+                { prop: 'handerName', label: '进厂登记人' },
+                { prop: 'checkoutDate', label: '出厂时间' },
+                { prop: 'handerNo', label: '交接员编号' },
+                { prop: 'outOpName', label: '出厂司机' },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
         }
     },
-    created () {},
+    created () {
+        this.getData()
+    },
     methods: {
+        async getData () {
+            try {
+                const data = await this.$axios.get('maintenance/plan-table')
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
         handleChange () {
             console.log(1)
         },
