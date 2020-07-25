@@ -200,11 +200,12 @@ export default {
                         start: 0,
                         end: 10,
                         height: 16,
+                        top: '96%',
                     },
                 ],
                 grid: {
                     left: '54px',
-                    // bottom: '16px',
+                    bottom: '90px',
                     right: '10px',
                     // top: '20px',
                     top: '0px',
@@ -274,7 +275,7 @@ export default {
                         type: 'bar',
                         barWidth: 12,
                         itemStyle: {
-                            barBorderRadius: 6,
+                            // barBorderRadius: 6,
                             color: '#42DFFF',
                         },
                         data: [],

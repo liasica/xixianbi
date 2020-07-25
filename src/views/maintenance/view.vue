@@ -178,7 +178,7 @@ export default {
                         type: 'bar',
                         barWidth: 12,
                         itemStyle: {
-                            barBorderRadius: 6,
+                            // barBorderRadius: 6,
                             color: '#42DFFF',
                         },
                         data,
