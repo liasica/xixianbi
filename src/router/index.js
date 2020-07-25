@@ -347,7 +347,6 @@ export const routes = [
         name: 'supplies',
         meta: {
             title: '物资管理',
-            hidden: true,
         },
         component: layout,
         children: [
