@@ -3,33 +3,28 @@
         <div class="content">
             <div class="filter-box">
                 <choose
-                    v-model="company_id"
+                    v-model="date"
                     class="choose"
-                    label="公司"
-                    :options="company_options"
+                    label="日期"
+                    :options="date_options"
                 />
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="场站"
-                    :options="station_options"
-                />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路"
-                    :options="name_options"
-                />
-                <button class="search-btn">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="车辆运行能耗比较统计" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <BiCheckBox label="车辆运行能耗比较统计" />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -38,71 +33,74 @@
 
 <script>
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '西咸公司',
-            station: '场站1',
-            carteam: '第一车队',
-            name: '880',
-            no: '234234324',
-            car_no: '陕A24324',
-            time: '06:00-07:00',
-            total: '40度',
-            amount: '4000.00',
-        },
-    ],
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
             columns: [
-                { prop: 'company', label: '公交分类' },
-                { prop: 'station', label: '场站' },
-                { prop: 'carteam', label: '车队' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'no', label: '车辆编号' },
-                { prop: 'car_no', label: '车辆牌照' },
-                { prop: 'time', label: '时间' },
-                { prop: 'total', label: '能耗数量' },
-                { prop: 'amount', label: '能耗金额' },
+                { prop: 'filaName', label: '公司名称' },
+                { prop: 'groupName', label: '车队号' },
+                { prop: 'lineNo', label: '线路' },
+                { prop: 'busNo', label: '车辆编号' },
+                { prop: 'prepare1', label: '车辆牌照' },
+                { prop: 'addoilDate', label: '时间' },
+                { prop: 'addoilNum', label: '能耗数量' },
+                { prop: 'totalOilAmount', label: '能耗金额' },
             ],
-            list: data.list,
-            company_options: [
-                { id: 1, label: '西咸公司' },
-                { id: 2, label: '东咸公司' },
-            ],
-            company_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            isShowToday: false,
+            list: [],
+            date: null,
+            date_options: [],
         }
     },
-    created () {},
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
+    },
+    created () {
+        this.getDates()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getDates () {
+            try {
+                const data = await this.$axios.get('home/energy')
+                this.date_options = data.dateGroup.map(item => ({
+                    id: item,
+                    label: item,
+                }))
+                if (this.date_options.length) {
+                    this.date = this.date_options[0].id
+                    this.getData()
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async getData () {
+            try {
+                const data = await this.$axios.get('home/energy', {
+                    params: {
+                        date: this.date,
+                    },
+                })
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        onSearch () {
+            this.getData()
         },
     },
 }
