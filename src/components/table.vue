@@ -8,7 +8,7 @@
                         <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="total>0">
                     <tr v-for="(item, index) in list" :key="index">
                         <td v-if="showNumber">{{ index + 1 + 10* (current -1) }}</td>
                         <td
@@ -20,6 +20,11 @@
                             <span v-if="t.render" v-html="t.render(item[t.prop])" />
                             <span v-else>{{ item[t.prop] || '-' }}</span>
                         </td>
+                    </tr>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td :colspan="columns.length + (showNumber?1:0)" class="empty">暂无数据</td>
                     </tr>
                 </tbody>
             </table>
@@ -100,6 +105,10 @@ export default {
         color: fade(#ffffff, 80);
         height: 50px;
         line-height: 50px;
+    }
+    .empty{
+        text-align: center;
+        padding: 20px ;
     }
 }
 </style>
