@@ -2,43 +2,35 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公交分类"
-                    :options="cate_options"
+                <BiInput
+                    :value.sync="query.inboundNo"
+                    label="入库单编号"
                 />
                 <choose
-                    v-model="station_id"
+                    v-model="query.warehouseName"
                     class="choose"
-                    label="场站"
-                    :options="station_options"
+                    label="仓库"
+                    :options="warehouseGroup"
                 />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="线路状态"
-                    :options="status_options"
-                />
-                <button class="search-btn">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <BiCheckBox label="物资入库" />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
@@ -46,76 +38,77 @@
 <script>
 // TODO
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            cate: '常规公交',
-            station: '场站1',
-            name: '880',
-            start: '泾河新城管委会',
-            start_time: '07:00:00-19:00:00',
-            end: '后卫寨地铁站',
-            end_time: '07:00:00-19:00:00',
-            fleet: '1号车队',
-            statue: '运营',
-        },
-    ],
-})
+import BiInput from '@/components/input'
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
+        BiInput,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            query: {
+                inboundNo: '', // 入库单编号
+                warehouseName: '', // 仓库
+                inboundDate: '', // 入库时间
+            },
+            warehouseGroup: [], // 仓库列表
             columns: [
-                { prop: 'cate', label: '公交分类' },
-                { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'start', label: '上车发行站点' },
-                { prop: 'start_time', label: '运营时间' },
-                { prop: 'end', label: '下车发行站点' },
-                { prop: 'end_time', label: '运营时间' },
-                { prop: 'fleet', label: '所属车队' },
-                { prop: 'statue', label: '线路状态' },
+                { prop: 'inboundNo', label: '入库编号' },
+                { prop: 'inboundDate', label: '入库时间' },
+                { prop: 'warehouseName', label: '仓库' },
+                { prop: 'inboundType', label: '入库类别' },
+                { prop: 'inboundMethod', label: '入库方式' },
+                {
+                    prop: 'confirmFlag',
+                    label: '使用标志',
+                    render: item => `<span>${item === 1 ? '是' : '否'}</span>`,
+                },
+                {
+                    prop: 'isUse',
+                    label: '确认标志',
+                    render: item => `<span>${item === 1 ? '是' : '否'}</span>`,
+                },
+                { prop: 'totalAmount', label: '总金额' },
+                { prop: 'isBooking', label: '是否记账', render: item => `<span>${item === 1 ? '是' : '否'}</span>` },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
         }
     },
-    created () {},
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
+    },
+    created () {
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            const { items, warehouseGroup } = await this.$axios.get('supply/list', {
+                params: this.query,
+            })
+            if (!this.warehouseGroup.length) {
+                this.warehouseGroup = warehouseGroup.map(value => ({
+                    id: value,
+                    label: value,
+                }))
+                if (this.warehouseGroup.length) {
+                    this.query.warehouseName = this.warehouseGroup[0].id
+                }
+            }
+            this.list = items
+        },
+        onSearch () {
+            this.getData()
         },
     },
 }
