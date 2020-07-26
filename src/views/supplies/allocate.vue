@@ -2,120 +2,125 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公交分类"
-                    :options="cate_options"
+                <BiInput
+                    :value.sync="query.moveApplyNo"
+                    label="调拨申请编号"
+                />
+                <BiInput
+                    :value.sync="query.moveApplyNo"
+                    label="调拨申请编号"
                 />
                 <choose
-                    v-model="station_id"
+                    v-model="query.moveType"
                     class="choose"
-                    label="场站"
-                    :options="station_options"
+                    label="调拨类型"
+                    :options="typeGroup"
                 />
                 <choose
-                    v-model="name_id"
+                    v-model="query.outboundWarehouse"
                     class="choose"
-                    label="线路"
-                    :options="name_options"
+                    label="调出仓库"
+                    :options="outGroup"
                 />
                 <choose
-                    v-model="status_id"
+                    v-model="query.inboundWarehouse"
                     class="choose"
-                    label="线路状态"
-                    :options="status_options"
+                    label="调出仓库"
+                    :options="inGroup"
                 />
-                <button class="search-btn">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <BiCheckBox label="物资调拨" />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
 
 <script>
-// TODO
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            cate: '常规公交',
-            station: '场站1',
-            name: '880',
-            start: '泾河新城管委会',
-            start_time: '07:00:00-19:00:00',
-            end: '后卫寨地铁站',
-            end_time: '07:00:00-19:00:00',
-            fleet: '1号车队',
-            statue: '运营',
-        },
-    ],
-})
+import BiInput from '@/components/input'
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
+        BiInput,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            query: {
+                moveApplyNo: '', // 调拨申请单号
+                moveNo: '', // 调拨单号
+                moveType: '', // 调拨类型
+                outboundWarehouse: '', // 调出仓库编号
+                inboundWarehouse: '', // 调入仓库编号
+            },
+            typeGroup: [], // 调拨类型
+            outGroup: [], // 调出仓库编号
+            inGroup: [], // 调入仓库编号
             columns: [
-                { prop: 'cate', label: '公交分类' },
-                { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'start', label: '上车发行站点' },
-                { prop: 'start_time', label: '运营时间' },
-                { prop: 'end', label: '下车发行站点' },
-                { prop: 'end_time', label: '运营时间' },
-                { prop: 'fleet', label: '所属车队' },
-                { prop: 'statue', label: '线路状态' },
+                { prop: 'filaName', label: '详细' },
+                { prop: 'bookName', label: '账套' },
+                { prop: 'moveApplyNo', label: '调拨申请单号' },
+                { prop: 'moveNo', label: '调拨单号' },
+                { prop: 'instanceId', label: '工作流单据编号' },
+                { prop: 'moveType', label: '调拨类型' },
+                { prop: 'outboundWarehouseName', label: '调出仓库' },
+                { prop: 'inboundWarehouseName', label: '调入仓库' },
+                { prop: 'moveDate', label: '调拨发起时间' },
+                { prop: 'outboundWarehouse', label: '调出人编号' },
+                { prop: 'inboundWarehouse', label: '调入人编号' },
+                { prop: 'status', label: '审批状态' },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
         }
     },
-    created () {},
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
+    },
+    created () {
+        this.getOptions()
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getOptions () {
+            const { typeGroup, outGroup, inGroup } = await this.$axios.get('allocate/filter')
+            this.typeGroup = [{ id: '', label: '全部' }, ...typeGroup]
+            this.outGroup = [{ id: '', label: '全部' }, ...outGroup]
+            this.inGroup = [{ id: '', label: '全部' }, ...inGroup]
+        },
+        async getData () {
+            const { items } = await this.$axios.get('allocate', {
+                params: this.query,
+            })
+            this.list = items
+        },
+        onSearch () {
+            this.getData()
         },
     },
 }
@@ -162,6 +167,7 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
+        flex-wrap: wrap;
         .search-btn {
             background-color: #42dfff;
             padding: 10px;

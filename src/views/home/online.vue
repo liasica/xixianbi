@@ -63,7 +63,6 @@ export default {
             ],
             source: [],
             list: [],
-            isShowToday: false,
             status: null,
             statusOptions: [
                 { id: null, label: '全部' },

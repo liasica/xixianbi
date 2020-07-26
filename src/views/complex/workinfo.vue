@@ -2,40 +2,28 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公司"
-                    :options="cate_options"
+                <relation-choose
+                    style="margin-right: 40px; margin-bottom: 0"
+                    @change="onFilter"
+                    @init="onFilter"
                 />
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="场站"
-                    :options="station_options"
-                />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路名称"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="车辆类型"
-                    :options="status_options"
-                />
-                <button class="search-btn">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="综合信息" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <BiCheckBox label="综合信息" />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -43,82 +31,75 @@
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
 
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '西咸公司',
-            station: '场站1',
-            name: '880',
-            cartype: '纯电动',
-            age: '3年',
-            cash: '4555.00',
-            mantime: '880',
-            mile: '6:00-10:00',
-            energy: '455',
-            byspeed: '1',
-            total: '545',
-            statue: '运行',
-        },
-    ],
-})
 export default {
     components: {
         BiTable,
-        BiPagination,
+        RelationChoose,
         BiCheckBox,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '', // 线路
+            },
             columns: [
-                { prop: 'company', label: '公司' },
-                { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'cartype', label: '车辆类型' },
-                { prop: 'age', label: '车龄' },
-                { prop: 'cash', label: '前日现金收入' },
-                { prop: 'mantime', label: '当日人次' },
-                { prop: 'mile', label: '当日公里数' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '场站' },
+                { prop: 'lineNo', label: '线路名称' },
+                { prop: 'busModelCode', label: '车辆类型' },
+                // { prop: 'age', label: '车龄' }, // ?
+                { prop: 'amount', label: '前日现金收入' },
+                { prop: 'times', label: '当日人次' },
+                { prop: 'kilo', label: '当日公里数' },
                 { prop: 'energy', label: '当日能耗' },
-                { prop: 'byspeed', label: '超速' },
-                { prop: 'total', label: '累计' },
-                { prop: 'statue', label: '车辆状态' },
+                // { prop: 'byspeed', label: '超速' }, // ?
+                // { prop: 'total', label: '累计' }, // ?
+                { prop: 'busState', label: '车辆状态' },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            source: [],
+            list: [],
         }
     },
-    created () {},
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
+    },
+    created () {
+        // this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('complex/rundata', {
+                    params: {
+                        lineNo: this.filterData.lineNo,
+                    },
+                })
+                this.source = data.items
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onSearch () {
+            this.getData()
+        },
+        async onFilter (choosed) {
+            this.filterData = choosed
+            this.getData()
         },
     },
 }

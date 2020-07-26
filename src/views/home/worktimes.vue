@@ -4,15 +4,15 @@
             <div class="filter-box">
                 <relation-choose
                     style="margin-right: 40px; margin-bottom: 0"
-                    @change="choosed => filterData = choosed"
-                    @init="choosed => filterData = choosed"
+                    @change="onFilter"
+                    @init="onFilter"
                 />
-                <button class="search-btn" @click="onFilter">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日完成班次数" :value.sync="isShowToday" />
+                <BiCheckBox label="当日完成班次数" />
                 <export-excel
                     :data="list"
                     :fields="fields"
@@ -62,7 +62,6 @@ export default {
             ],
             source: [],
             list: [],
-            isShowToday: false,
         }
     },
     computed: {
@@ -77,27 +76,26 @@ export default {
         },
     },
     created () {
-        this.getData()
+        // this.getData()
     },
     methods: {
         async getData () {
             try {
                 const data = await this.$axios.get('home/times')
                 this.source = data.items
-                this.list = data.items
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
             } catch (err) {
                 console.log(err)
             }
         },
-        async onFilter () {
-            const list = this.source.filter(item => {
-                let result = false
-                Object.keys(this.filterData).forEach(key => {
-                    result = item[key] === this.filterData[key]
-                })
-                return result
-            })
-            this.list = list
+        async onFilter (choosed) {
+            this.filterData = choosed
+            if (!this.list.length) {
+                this.getData()
+            }
+        },
+        onSearch () {
+            this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
         },
     },
 }
