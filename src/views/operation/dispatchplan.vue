@@ -3,16 +3,16 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
-                    style="margin-right: 40px"
-                    @change="choosed => filterData = choosed"
-                    @init="choosed => filterData = choosed"
+                    :show-all="true"
+                    style="margin-right: 40px; margin-bottom: 0"
+                    @change="onFilter"
                 />
-                <button class="search-btn" @click="onFilter">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="调度计划" :value.sync="isShowToday" />
+                <BiCheckBox label="调度计划" />
                 <export-excel
                     :data="list"
                     :fields="fields"
@@ -64,7 +64,6 @@ export default {
             ],
             source: [],
             list: [],
-            isShowToday: false,
         }
     },
     computed: {
@@ -91,8 +90,15 @@ export default {
                 console.log(err)
             }
         },
-        async onFilter () {
-            this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+        async onFilter (choosed) {
+            this.filterData = choosed
+        },
+        onSearch () {
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
         },
     },
 }

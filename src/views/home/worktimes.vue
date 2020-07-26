@@ -3,9 +3,9 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    :show-all="true"
                     style="margin-right: 40px; margin-bottom: 0"
                     @change="onFilter"
-                    @init="onFilter"
                 />
                 <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
@@ -76,26 +76,27 @@ export default {
         },
     },
     created () {
-        // this.getData()
+        this.getData()
     },
     methods: {
         async getData () {
             try {
                 const data = await this.$axios.get('home/times')
                 this.source = data.items
-                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+                this.list = this.source
             } catch (err) {
                 console.log(err)
             }
         },
         async onFilter (choosed) {
             this.filterData = choosed
-            if (!this.list.length) {
-                this.getData()
-            }
         },
         onSearch () {
-            this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
         },
     },
 }

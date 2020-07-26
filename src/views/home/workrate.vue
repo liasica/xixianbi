@@ -3,6 +3,7 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    :show-all="true"
                     style="margin-right: 40px; margin-bottom: 0"
                     @change="onFilter"
                     @init="onFilter"
@@ -81,7 +82,7 @@ export default {
             try {
                 const data = await this.$axios.get('home/workrate')
                 this.source = data.items
-                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+                this.list = this.source
             } catch (err) {
                 console.log(err)
             }
@@ -93,7 +94,11 @@ export default {
             }
         },
         onSearch () {
-            this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
         },
     },
 }

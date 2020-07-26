@@ -1,10 +1,15 @@
 <template>
     <div class="container">
         <div class="content">
-            <relation-choose
-                @change="choosed => filterData = choosed"
-                @init="choosed => filterData = choosed"
-            />
+            <div class="filter-box">
+                <relation-choose
+                    style="margin-right: 40px; margin-bottom: 0"
+                    @change="onFilter"
+                />
+                <button class="search-btn" @click="onSearch">
+                    <i class="icon-search" />查询
+                </button>
+            </div>
             <div class="filter-box">
                 <div />
                 <export-excel
@@ -68,11 +73,11 @@ export default {
             return fields
         },
     },
-    watch: {
-        'filterData.lineNo': async function () {
-            await this.getData()
-        },
-    },
+    // watch: {
+    //     'filterData.lineNo': async function () {
+    //         await this.getData()
+    //     },
+    // },
     methods: {
         async getData () {
             try {
@@ -86,6 +91,13 @@ export default {
             } catch (err) {
                 console.log(err)
             }
+        },
+        async onSearch () {
+            this.getData()
+        },
+        async onFilter (choosed) {
+            this.filterData = choosed
+            this.getData()
         },
     },
 }

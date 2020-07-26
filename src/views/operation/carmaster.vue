@@ -3,11 +3,11 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    :show-all="true"
                     style="margin-right: 40px"
-                    @change="choosed => filterData = choosed"
-                    @init="choosed => filterData = choosed"
+                    @change="onFilter"
                 />
-                <button class="search-btn" @click="onFilter">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
@@ -86,8 +86,15 @@ export default {
                 console.log(err)
             }
         },
-        async onFilter () {
-            this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+        async onFilter (choosed) {
+            this.filterData = choosed
+        },
+        onSearch () {
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
         },
     },
 }

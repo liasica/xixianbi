@@ -93,6 +93,7 @@ export const routes = [
                 name: 'home/alarmdemo',
                 meta: {
                     title: '安全报警管理',
+                    hidden: true,
                 },
                 component: alarmdemo,
             },
