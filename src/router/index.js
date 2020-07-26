@@ -371,6 +371,7 @@ export const routes = [
                 name: 'supplies/detail',
                 meta: {
                     title: '详细',
+                    hidden: true,
                 },
                 component: suppliesDetail,
             },

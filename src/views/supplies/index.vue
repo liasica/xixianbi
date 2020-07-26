@@ -17,7 +17,7 @@
                 <div class="bi-title">物资名称</div>
                 <div class="list">
                     <div v-for="item in items" :key="item.id">
-                        <s-btn class="value">PVC胶管{{ item.materialName }}</s-btn>
+                        <s-btn class="value">{{ item.materialName || '-' }}</s-btn>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                         <div class="bi-title">库存数量</div>
                         <div class="num-box">
                             <span class="title">库存数量</span>
-                            <span class="value">{{ items.length }}</span>
+                            <span class="value">{{ number }}</span>
                         </div>
                     </div>
                 </div>
@@ -78,6 +78,7 @@ export default {
             chartOptions: {},
             items: [],
             current: 0,
+            number: 0,
         }
     },
     computed: {
@@ -192,6 +193,7 @@ export default {
             if (!this.inboundNo && inboundNoGroup.length) {
                 this.inboundNo = this.inboundNoOptions[0].id
             }
+            this.number = item.number
             this.items = item.items
         },
         onSearch () {},

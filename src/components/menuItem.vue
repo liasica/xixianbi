@@ -3,12 +3,12 @@
         <span class="title" @click="toggleMenu">{{ item.meta.title }}</span>
         <div v-if="!item.meta.hidden" :class="[{ 'active': isShow || expand },'menu-item-box']">
             <router-link
-                v-for="item in item.children"
-                :key="item.name"
-                :to="item.path"
+                v-for="t in item.children"
+                :key="t.name"
+                :to="t.path"
                 exact
             >
-                <span class="title">{{ item.meta.title }}</span>
+                <span v-if="!t.meta.hidden" class="title">{{ t.meta.title }}</span>
             </router-link>
         </div>
     </div>

@@ -73,6 +73,12 @@ export default {
                 },
                 { prop: 'totalAmount', label: '总金额' },
                 { prop: 'isBooking', label: '是否记账', render: item => `<span>${item === 1 ? '是' : '否'}</span>` },
+                {
+                    prop: '',
+                    label: '详细',
+                    click: this.onClick,
+                    render: () => '<span class="table-btn">详细</span>',
+                },
             ],
             list: [],
         }
@@ -109,6 +115,15 @@ export default {
         },
         onSearch () {
             this.getData()
+        },
+        onClick (row) {
+            // 跳转到详情页
+            this.$router.push({
+                path: '/supplies/detail',
+                query: {
+                    id: row.inboundNo,
+                },
+            })
         },
     },
 }
@@ -190,5 +205,18 @@ export default {
             }
         }
     }
+}
+
+</style>
+<style lang="less" >
+.table-btn{
+    background-color: #42dfff;
+    border-radius: 8px;
+    padding: 10px 30px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
 }
 </style>

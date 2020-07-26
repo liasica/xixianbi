@@ -2,43 +2,12 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公交分类"
-                    :options="cate_options"
-                />
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="场站"
-                    :options="station_options"
-                />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="线路状态"
-                    :options="status_options"
-                />
-                <button class="search-btn">
-                    <i class="icon-search" />查询
+                <BiCheckBox label="物资入库" />
+                <button class="back-btn" @click="onBack">
+                    返回
                 </button>
             </div>
-            <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
-            </div>
             <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
         </div>
     </div>
 </template>
@@ -46,76 +15,51 @@
 <script>
 // TODO
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            cate: '常规公交',
-            station: '场站1',
-            name: '880',
-            start: '泾河新城管委会',
-            start_time: '07:00:00-19:00:00',
-            end: '后卫寨地铁站',
-            end_time: '07:00:00-19:00:00',
-            fleet: '1号车队',
-            statue: '运营',
-        },
-    ],
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            inboundNo: null,
             columns: [
-                { prop: 'cate', label: '公交分类' },
-                { prop: 'station', label: '场站' },
-                { prop: 'name', label: '线路名称' },
-                { prop: 'start', label: '上车发行站点' },
-                { prop: 'start_time', label: '运营时间' },
-                { prop: 'end', label: '下车发行站点' },
-                { prop: 'end_time', label: '运营时间' },
-                { prop: 'fleet', label: '所属车队' },
-                { prop: 'statue', label: '线路状态' },
+                { prop: 'barCode', label: '物资条形码' },
+                { prop: 'printNum', label: '打印数量' },
+                { prop: 'locationCd', label: '货位' },
+                { prop: 'materialCd', label: '物资代码' },
+                { prop: 'materialName', label: '物资名称' },
+                { prop: 'standard', label: '物资规格' },
+                { prop: 'Unit', label: '计量单位' },
+                { prop: 'inboundNum', label: '入库数量' },
+                // { prop: 'inboundNum', label: '库存数量' },
+                { prop: 'price', label: '含税单价' },
+                { prop: 'amount', label: '含税金额' },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
+            data: {},
         }
     },
-    created () {},
+    created () {
+        const { id } = this.$route.query
+        this.inboundNo = id
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            const { item } = await this.$axios.get('supply/detail', {
+                params: {
+                    inboundNo: this.inboundNo,
+                },
+            })
+            this.data = item
+            const { items } = item
+            this.list = items
+        },
+        onBack () {
+            this.$router.back()
         },
     },
 }
@@ -162,39 +106,15 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
-        .search-btn {
+        .back-btn {
             background-color: #42dfff;
-            padding: 10px;
+            padding: 10px 20px;
             height: 50px;
             border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            width: 117px;
-            letter-spacing: 8px;
-        }
-        .icon-search {
-            display: inline-block;
-            background-image: url(~@images/search-white.png);
-            background-size: cover;
-            width: 26px;
-            height: 26px;
-        }
-        .export-btn {
-            width: 210px;
-            height: 60px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            .icon-switch {
-                display: inline-block;
-                width: 44px;
-                height: 42px;
-                background: url(~@images/switch.png);
-                background-size: cover;
-                margin-right: 20px;
-            }
+            letter-spacing: 8px;
         }
     }
 }

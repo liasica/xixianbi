@@ -15,6 +15,7 @@
                             v-for="t in columns"
                             :key="t.prop"
                             :style="`text-align:${t.align}; max-width: ${t.width}px`"
+                            @click="click(t, item)"
                         >
                             <span v-if="t.render" v-html="t.render(item[t.prop])" />
                             <span v-else>{{ item[t.prop] || '-' }}</span>
@@ -73,7 +74,12 @@ export default {
             return this.source
         },
     },
-    methods: {},
+    methods: {
+        click (t, row) {
+            // eslint-disable-next-line no-unused-expressions
+            t.click && t.click(row)
+        },
+    },
 }
 </script>
 <style lang="less">
