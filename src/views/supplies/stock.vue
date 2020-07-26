@@ -12,6 +12,19 @@
                     label="仓库"
                     :options="warehouseGroup"
                 />
+                <div class="input-box">
+                    <span>入库时间</span>
+                    <s-btn class="wrapper">
+                        <datepicker
+                            v-model="query.inboundDate"
+                            :language="lang"
+                            format="yyyy-MM-dd"
+                            calendar-class="calendar-box"
+                            wrapper-class="calendar-wrapper"
+                            input-class="calendar-input"
+                        />
+                    </s-btn>
+                </div>
                 <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
@@ -40,15 +53,20 @@
 import BiTable from '@/components/table'
 import BiCheckBox from '@/components/checkbox'
 import BiInput from '@/components/input'
+import Datepicker from 'vuejs-datepicker'
+import { zh } from 'vuejs-datepicker/dist/locale'
+import { parseTime } from '@/utils'
 
 export default {
     components: {
         BiTable,
         BiCheckBox,
         BiInput,
+        Datepicker,
     },
     data () {
         return {
+            lang: zh,
             query: {
                 inboundNo: '', // 入库单编号
                 warehouseName: '', // 仓库
@@ -100,7 +118,10 @@ export default {
     methods: {
         async getData () {
             const { items, warehouseGroup } = await this.$axios.get('supply/list', {
-                params: this.query,
+                params: {
+                    ...this.query,
+                    inboundDate: this.query.inboundDate ? parseTime(this.query.inboundDate, '{y}-{m}-{d}') : '',
+                },
             })
             if (!this.warehouseGroup.length) {
                 this.warehouseGroup = warehouseGroup.map(value => ({
@@ -206,7 +227,21 @@ export default {
         }
     }
 }
-
+.input-box {
+    display: flex;
+    align-items: center;
+    & > span {
+        height: 100%;
+        max-width: 40px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    .wrapper {
+        height: 100%;
+    }
+}
 </style>
 <style lang="less" >
 .table-btn{
@@ -218,5 +253,28 @@ export default {
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+}
+.calendar-wrapper{
+    height: 100%;
+    >div{
+        &:first-child{
+            height: 100%;
+        }
+    }
+    .calendar-input{
+        height: 100%;
+        width: 200px;
+        padding-left: 20px;
+    }
+    .calendar-box{
+        border: 1px solid rgba(122,255,242,0.3);
+        box-shadow: inset 0 0 15px 0 rgba(122,255,242,0.3);
+        background-color: #121c25;
+    }
+    .prev,.next, .day__month_btn{
+        &:hover{
+            background-color: rgba(122,255,242,0.3) !important;
+        }
+    }
 }
 </style>
