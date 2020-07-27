@@ -6,6 +6,7 @@
                     :show-all="true"
                     style="margin-right: 40px"
                     @change="onFilter"
+                    @reset="onReset"
                 />
                 <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
@@ -95,6 +96,10 @@ export default {
             } else {
                 this.list = this.source
             }
+        },
+        onReset (choosed) {
+            this.filterData = choosed
+            this.onSearch()
         },
     },
 }

@@ -25,6 +25,7 @@
             value-index
             :options="driverList"
         />
+        <button class="btn" @click="onReset">重置</button>
     </div>
 </template>
 
@@ -100,6 +101,10 @@ export default {
                 driver: driver && driver.id,
             }
         },
+        onReset () {
+            this.choosed.lineNo = 0
+            this.$emit('reset', this.getChoosed())
+        },
     },
 }
 </script>
@@ -110,5 +115,14 @@ export default {
     justify-content: space-between;
     width: 100%;
     margin-bottom: 40px;
+}
+.btn{
+    background-color: #42dfff;
+    padding: 10px 20px;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 8px;
 }
 </style>
