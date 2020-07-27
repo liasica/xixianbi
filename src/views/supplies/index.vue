@@ -4,20 +4,17 @@
             <choose
                 v-model="inboundNo"
                 class="choose"
-                :width="300"
+                :width="320"
                 label="入库编号"
                 :options="inboundNoOptions"
             />
-            <button class="search-btn" @click="onSearch">
-                <i class="icon-search" />查询
-            </button>
         </div>
-        <div class="content">
+        <div ref="content" class="content">
             <div class="left">
                 <div class="bi-title">物资名称</div>
                 <div class="list">
-                    <div v-for="item in items" :key="item.id">
-                        <s-btn class="value">{{ item.materialName || '-' }}</s-btn>
+                    <div v-for="(m, index) in items" :key="m.id" @click="current = index">
+                        <s-btn class="value">{{ m.materialName || m.materialCd || '-' }}</s-btn>
                     </div>
                 </div>
             </div>
@@ -83,12 +80,20 @@ export default {
     },
     computed: {
         item () {
-            return this.items.length ? this.items[0] : {}
+            return this.items.length ? this.items[this.current] : {}
         },
     },
-    created () {
-        this.getChartData()
-        this.getData()
+    watch: {
+        inboundNo () {
+            if (this.inboundNoOptions.length > 0) {
+                this.getData()
+            }
+        },
+    },
+    async created () {
+        await this.getChartData()
+        await this.getData()
+        this.$nextTick(() => this.calcHeight())
     },
     methods: {
         async getChartData () {
@@ -186,10 +191,12 @@ export default {
                     inboundNo: this.inboundNo,
                 },
             })
-            this.inboundNoOptions = inboundNoGroup.map(value => ({
-                id: value,
-                label: value,
-            }))
+            if (inboundNoGroup) {
+                this.inboundNoOptions = inboundNoGroup.map(value => ({
+                    id: value,
+                    label: value,
+                }))
+            }
             if (!this.inboundNo && inboundNoGroup.length) {
                 this.inboundNo = this.inboundNoOptions[0].id
             }
@@ -197,6 +204,11 @@ export default {
             this.items = item.items
         },
         onSearch () {},
+        calcHeight () {
+            const $c = this.$refs.content
+            const h = window.innerHeight - document.querySelector('.header').clientHeight - document.querySelector('.filter-box').clientHeight - 50
+            $c.style.height = `${h}px`
+        },
     },
 }
 </script>
@@ -252,11 +264,16 @@ export default {
 .left {
     width: 310px;
     flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     .list{
         min-height: 780px;
         background-color: rgba(42, 75, 112, 0.2);
         padding: 25px;
         overflow: auto;
+        flex: 1;
+        scroll-behavior: smooth;
         .value{
             padding: 12px 60px;
             margin-bottom: 16px;
@@ -304,4 +321,7 @@ export default {
     width: 100%;
     height: 300px;
 }
+// .choose ::v-deep .value {
+//     width
+// }
 </style>
