@@ -126,7 +126,7 @@ export default {
                 age: '',
                 busAge: '',
             }
-            this.this.getData()
+            this.getData()
         },
     },
 }

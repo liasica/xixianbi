@@ -2,46 +2,29 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公司"
-                    :options="cate_options"
+                <relation-choose
+                    :show-all="true"
+                    style="margin-right: 40px; margin-bottom: 0"
+                    @change="onFilter"
+                    @reset="onReset"
                 />
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="线路"
-                    :options="station_options"
-                />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="车长"
-                    :options="status_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="开始结束日期"
-                    :options="status_options"
-                />
-                <button class="search-btn">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="安全管理" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <div />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -50,76 +33,70 @@
 
 <script>
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '西咸公司',
-            station: '西咸通勤2号线',
-            carno: '陕AV9575',
-            driver: '李三',
-            mile: '487.96',
-            warntime: '48秒',
-            begin: '2019-07-30 17:31:21',
-            end: '2019-07-30 17:31:21',
-            statue: '未处理',
-        },
-    ],
-})
+import RelationChoose from '@/components/relationChoose'
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
+        RelationChoose,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
             columns: [
-                { prop: 'company', label: '公司' },
-                { prop: 'station', label: '场站' },
-                { prop: 'carno', label: '车牌号' },
-                { prop: 'driver', label: '司机' },
-                { prop: 'mile', label: '偏线里程' },
-                { prop: 'warntime', label: '报警时长' },
-                { prop: 'begin', label: '报警开始时间' },
-                { prop: 'end', label: '报警结束时间' },
-                { prop: 'statue', label: '状态' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '场站' },
+                { prop: 'busNoChar', label: '车牌号' },
+                { prop: 'driverName', label: '司机' },
+                { prop: 'offlineDistance', label: '偏线里程' },
+                { prop: 'time', label: '报警时长' },
+                { prop: 'departLineTime', label: '报警开始时间' },
+                { prop: 'onLineTime', label: '报警结束时间' },
+                { prop: 'state', label: '状态', render: value => `<span>${value === 1 ? '已处理' : '未处理'}</span>` },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
+            source: [],
         }
+    },
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
     },
     created () {},
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('safe')
+                this.source = data.items
+                this.list = this.source
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter (choosed) {
+            this.filterData = choosed
+            if (!this.list.length) {
+                this.getData()
+            }
+        },
+        onSearch () {
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
+        },
+        onReset (choosed) {
+            this.filterData = choosed
+            this.onSearch()
         },
     },
 }
@@ -166,7 +143,6 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
-        flex-wrap: wrap;
         .search-btn {
             background-color: #42dfff;
             padding: 10px;

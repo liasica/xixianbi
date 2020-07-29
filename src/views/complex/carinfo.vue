@@ -2,34 +2,29 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="场站"
-                    :options="station_options"
+                <relation-choose
+                    :show-all="true"
+                    style="margin-right: 40px; margin-bottom: 0"
+                    @change="onFilter"
+                    @reset="onReset"
                 />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="车辆类型"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
-                    class="choose"
-                    label="车龄"
-                    :options="status_options"
-                />
-                <button class="search-btn">
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="车辆信息" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <div />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -37,78 +32,72 @@
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            compnay: '西咸公司',
-            station: '场站1',
-            total: '120',
-            new_energy: '70',
-            old_energy: '50',
-            down5: '70',
-            up5: '50',
-            line_total: '65',
-            station_total: '20个',
-            time: '6:00-10:00',
-            cars: '80/110',
-            oprate: '车辆耗能',
-        },
-    ],
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
+        RelationChoose,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
             columns: [
-                { prop: 'compnay', label: '公司' },
-                { prop: 'station', label: '场站' },
-                { prop: 'total', label: '总车辆' },
-                { prop: 'new_energy', label: '新能源数' },
-                { prop: 'old_energy', label: '柴油数' },
-                { prop: 'down5', label: '车龄五年以下' },
-                { prop: 'up5', label: '车龄五年以上' },
-                { prop: 'line_total', label: '总线路' },
-                { prop: 'station_total', label: '站点数量' },
-                { prop: 'time', label: '运行时间' },
-                { prop: 'cars', label: '运行车辆' },
-                { prop: 'oprate', label: '操作' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '车队' },
+                { prop: 'lineNo', label: '线路' },
+                { prop: 'busNo', label: '车辆编号' },
+                { prop: 'motorcadeNo', label: '部位号' },
+                { prop: 'busNoChar', label: '车牌号码' },
+                { prop: 'machNo', label: '车载机号' },
+                { prop: 'willRun', label: '调度设置' },
+                { prop: 'runState', label: '运营状态', render: value => `<span>${value === 1 ? '运营中' : '非运营'}</span>` },
+                { prop: 'isSpecial', label: '是否大班车', render: value => `<span>${value ? '是' : '否'}</span>` },
             ],
-            list: data.list,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '纯电动' },
-                { id: 2, label: '柴油' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '<5' },
-                { id: 2, label: '>5' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
+            source: [],
         }
+    },
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
     },
     created () {},
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('bus')
+                this.source = data.items
+                this.list = this.source
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onFilter (choosed) {
+            this.filterData = choosed
+            if (!this.list.length) {
+                this.getData()
+            }
+        },
+        onSearch () {
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
+        },
+        onReset (choosed) {
+            this.filterData = choosed
+            this.onSearch()
         },
     },
 }
