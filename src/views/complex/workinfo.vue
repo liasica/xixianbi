@@ -12,7 +12,7 @@
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="综合信息" />
+                <BiCheckBox label="运行数据" />
                 <export-excel
                     :data="list"
                     :fields="fields"

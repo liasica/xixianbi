@@ -31,7 +31,7 @@
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
+                <BiCheckBox label="角色管理" :value.sync="isShowToday" />
                 <s-btn class="export-btn">
                     <i class="icon-switch" />
                     <span>导出数据</span>

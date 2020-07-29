@@ -3,39 +3,41 @@
         <div class="content">
             <div class="filter-box">
                 <choose
-                    v-model="cate_id"
+                    v-model="query.position"
                     class="choose"
                     label="职工类型"
-                    :options="cate_options"
+                    :options="position_options"
                 />
                 <choose
-                    v-model="station_id"
+                    v-model="query.age"
                     class="choose"
                     label="年龄范围"
-                    :options="station_options"
+                    :options="age_options"
                 />
                 <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="车辆类型"
-                    :options="name_options"
-                />
-                <choose
-                    v-model="status_id"
+                    v-model="query.busAge"
                     class="choose"
                     label="车龄"
-                    :options="status_options"
+                    :options="busAge_options"
                 />
-                <button class="search-btn">
+                <button class="btn" @click="onReset">重置</button>
+                <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
                 </button>
             </div>
             <div class="filter-box">
-                <BiCheckBox label="当日公交上线情况" :value.sync="isShowToday" />
-                <s-btn class="export-btn">
-                    <i class="icon-switch" />
-                    <span>导出数据</span>
-                </s-btn>
+                <BiCheckBox label="综合信息" />
+                <export-excel
+                    :data="list"
+                    :fields="fields"
+                    type="xlsx"
+                    :name="`${$route.meta.title}.xlsx`"
+                >
+                    <s-btn class="export-btn">
+                        <i class="icon-switch" />
+                        <span>导出数据</span>
+                    </s-btn>
+                </export-excel>
             </div>
             <BiTable :columns="columns" :source="list" />
         </div>
@@ -44,80 +46,87 @@
 
 <script>
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '西咸公司',
-            station: '场站1',
-            total: '34444公里',
-            cate: '从业人员',
-            name: '王三',
-            age: '45',
-            car: '无',
-            carage: '无',
-            line: '880',
-            time: '6:00-10:00',
-            statue: '运行',
-        },
-    ],
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
     },
     data () {
         return {
-            total: 150,
-            page: 12,
+            query: {
+                position: '',
+                age: '',
+                busAge: '',
+            },
             columns: [
-                { prop: 'company', label: '公司' },
-                { prop: 'station', label: '场站' },
-                { prop: 'total', label: '总里程' },
-                { prop: 'cate', label: '职工类型' },
-                { prop: 'name', label: '员工姓名' },
+                { prop: 'filaName', label: '公司' },
+                { prop: 'groupName', label: '场站' },
+                { prop: 'totalDistance', label: '总里程' },
+                { prop: 'position', label: '职工类型' },
+                { prop: 'empName', label: '员工姓名' },
                 { prop: 'age', label: '年龄' },
-                { prop: 'car', label: '驾驶车辆' },
-                { prop: 'carage', label: '车龄' },
-                { prop: 'line', label: '线路' },
-                { prop: 'time', label: '运行时间' },
-                { prop: 'statue', label: '车辆状态' },
+                { prop: 'busNo', label: '驾驶车辆' },
+                { prop: 'busAge', label: '车龄' },
+                { prop: 'lineNo', label: '线路' },
+                { prop: 'operateDate', label: '运行时间' },
+                // { prop: 'statue', label: '车辆状态' },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '从业人员' },
-                { id: 2, label: '驾驶人员' },
+            list: [],
+            position_options: [
+                { id: '', label: '全部' },
+                { id: '车长', label: '车长' },
             ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '20-30' },
-                { id: 2, label: '30-40' },
+            age_options: [
+                { id: '', label: '全部' },
+                { id: '20-30', label: '20-30' },
+                { id: '31-40', label: '31-40' },
+                { id: '41-50', label: '41-50' },
+                { id: 'gt50', label: '51+' },
             ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '纯电动' },
-                { id: 2, label: '柴油' },
+            busAge_options: [
+                { id: '', label: '全部' },
+                { id: 'le5', label: '<=5' },
+                { id: 'gt5', label: '>5' },
             ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '<5' },
-                { id: 2, label: '>5' },
-            ],
-            status_id: 1,
-            isShowToday: false,
         }
     },
-    created () {},
+    computed: {
+        fields () {
+            const fields = {}
+            this.columns.forEach(column => {
+                if (column.label !== '序号') {
+                    fields[column.label] = column.prop
+                }
+            })
+            return fields
+        },
+    },
+    created () {
+        this.getData()
+    },
     methods: {
-        handleChange () {
-            console.log(1)
+        async getData () {
+            try {
+                const data = await this.$axios.get('complex/info', {
+                    params: this.query,
+                })
+                this.list = data.items
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async onSearch () {
+            this.getData()
+        },
+        onReset () {
+            this.query = {
+                position: '',
+                age: '',
+                busAge: '',
+            }
+            this.this.getData()
         },
     },
 }
@@ -199,5 +208,14 @@ export default {
             }
         }
     }
+}
+.btn{
+    background-color: #42dfff;
+    padding: 10px 20px;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 8px;
 }
 </style>
