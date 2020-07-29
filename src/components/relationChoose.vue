@@ -25,7 +25,7 @@
             value-index
             :options="driverList"
         />
-        <button class="btn" @click="onReset">重置</button>
+        <button v-if="showAll" class="btn" @click="onReset">重置</button>
     </div>
 </template>
 

@@ -13,9 +13,9 @@
                     :options="status_options"
                     v-model="status_id"
                 />-->
-                <button class="search-btn">
+                <!-- <button class="search-btn">
                     <i class="icon-search" />查询
-                </button>
+                </button> -->
             </div>
             <div class="filter-box">
                 <div />
