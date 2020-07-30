@@ -57,6 +57,7 @@ export default {
                 { prop: 'planTimes', label: '总班次' },
                 { prop: 'ontimeNum', label: '准点班次' },
                 { prop: 'ontimeRatio', label: '线路首末班准点率' },
+                { prop: 'onBusRatio', label: '平均出车率' },
             ],
             source: [],
             list: [],

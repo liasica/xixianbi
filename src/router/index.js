@@ -101,7 +101,7 @@ export const routes = [
                 path: '/home/workrate',
                 name: 'home/workrate',
                 meta: {
-                    title: '早高峰平均出车率',
+                    title: '当日平均出车率',
                 },
                 component: workrate,
             },

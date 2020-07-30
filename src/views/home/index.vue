@@ -26,7 +26,7 @@
                 <tie-number :number="home.busOnline.inactive" label="非活跃车数" />
             </div>
             <div v-if="home.alarmToday" class="violation">
-                <div class="bi-title">车辆违规统计</div>
+                <div class="bi-title">当日车辆违规统计</div>
                 <ul>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
@@ -59,7 +59,7 @@
                 </ul>
             </div>
             <div class="radials">
-                <div class="bi-title">早高峰平均出车率（日）</div>
+                <div class="bi-title">平均出车率（日）</div>
                 <div v-if="home.avgBusRate" class="items">
                     <s-btn :corner="{ leftTop: '#42DFFF', rightTop: '#42DFFF' }" class="radial">
                         <radial radial-id="radial1" :schedule="home.avgBusRate[0]" />
@@ -119,7 +119,7 @@
                         <div class="speed-body">
                             <div class="speed">{{ item.speed.toFixed(2) }}km/h</div>
                             <div class="rank-info">
-                                <span class="busline">{{ item.line }}线路</span>
+                                <span class="busline">{{ item.label }}</span>
                                 <span class="rank">{{ index+1 }}</span>
                             </div>
                         </div>
@@ -286,37 +286,37 @@ export default {
                 {
                     color: '#42DFFF',
                     bgColor: '#0A2E41',
-                    busline: '',
+                    label: '',
                     speed: 0,
                 },
                 {
                     color: '#F4BE45',
                     bgColor: '#3B2E17',
-                    busline: '',
+                    label: '',
                     speed: 0,
                 },
                 {
                     color: '#F06060',
                     bgColor: '#3F1E22',
-                    busline: '',
+                    label: '',
                     speed: 0,
                 },
                 {
                     color: '#08F0C9',
                     bgColor: '#045648',
-                    busline: '',
+                    label: '',
                     speed: 0,
                 },
                 {
                     color: '#3C77FF',
                     bgColor: '#0C2357',
-                    busline: '',
+                    label: '',
                     speed: 0,
                 },
                 {
                     color: '#FFFFFF',
                     bgColor: '#393A3B',
-                    busline: '',
+                    label: '',
                     speed: 0,
                 },
             ],
@@ -536,7 +536,7 @@ export default {
         align-items: center;
     }
     .busline {
-        font-size: 14px;
+        font-size: 12px;
         opacity: 0.8;
     }
     .rank {

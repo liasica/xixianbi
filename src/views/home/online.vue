@@ -51,10 +51,10 @@ export default {
                 { prop: 'filaName', label: '公司名称' },
                 { prop: 'lineName', label: '线路名称' },
                 { prop: 'upStation', label: '上车发行站点' },
-                { prop: 'upTime', label: '运营时间' },
+                { prop: 'upTime', label: '运营时间', render: value => (value.indexOf('null') > -1 ? '-' : value) },
                 { prop: 'downStation', label: '下车发行站点' },
-                { prop: 'downTime', label: '运营时间' },
-                { prop: 'groupNo', label: '所属车队' },
+                { prop: 'downTime', label: '运营时间', render: value => (value.indexOf('null') > -1 ? '-' : value) },
+                // { prop: 'groupNo', label: '所属车队' },
                 {
                     prop: 'lineState',
                     label: '线路状态',

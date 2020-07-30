@@ -3,12 +3,17 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    :show-all="true"
                     style="margin-right: 40px; margin-bottom: 0"
                     @change="onFilter"
+                    @reset="onReset"
                 />
+                <button class="search-btn" @click="onSearch">
+                    <i class="icon-search" />查询
+                </button>
             </div>
             <div class="filter-box">
-                <div />
+                <BiCheckBox label="当日完成班次数" />
                 <export-excel
                     :data="list"
                     :fields="fields"
@@ -47,10 +52,8 @@ export default {
             columns: [
                 { prop: 'filaName', label: '场站' },
                 { prop: 'groupName', label: '车队' },
-                { prop: 'lineName', label: '线路名称' },
-                { prop: 'busNoChar', label: '车辆牌照' },
-                { prop: 'startDate', label: '线路发车日期' },
-                { prop: 'startTime', label: '发车时间' },
+                { prop: 'lineNo', label: '线路名称' },
+                { prop: 'startTime', label: '线路发车日期' },
                 { prop: 'planTimes', label: '计划完成趟次' },
                 { prop: 'realTimes', label: '实际完成趟次' },
                 { prop: 'schedule', label: '计划正班率' },
@@ -77,11 +80,7 @@ export default {
     methods: {
         async getData () {
             try {
-                const data = await this.$axios.get('home/timestoday', {
-                    params: {
-                        lineNo: this.filterData.lineNo,
-                    },
-                })
+                const data = await this.$axios.get('home/times')
                 this.source = data.items
                 this.list = this.source
             } catch (err) {
@@ -90,7 +89,17 @@ export default {
         },
         async onFilter (choosed) {
             this.filterData = choosed
-            this.getData()
+        },
+        onSearch () {
+            if (this.filterData.lineNo) {
+                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+            } else {
+                this.list = this.source
+            }
+        },
+        onReset (choosed) {
+            this.filterData = choosed
+            this.onSearch()
         },
     },
 }

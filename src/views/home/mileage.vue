@@ -52,7 +52,7 @@ export default {
                 { prop: 'filaName', label: '场站' },
                 { prop: 'groupName', label: '车队' },
                 { prop: 'lineNo', label: '线路名称' },
-                { prop: 'car_no', label: '车辆牌照' },
+                { prop: 'busNoChar', label: '车辆牌照' },
                 { prop: 'allotTime', label: '线路时间' },
                 { prop: 'totalDis', label: '总里程' },
                 { prop: 'distance', label: '运营里程' },
