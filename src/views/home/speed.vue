@@ -6,9 +6,6 @@
                     style="margin-right: 40px; margin-bottom: 0"
                     @change="onFilter"
                 />
-                <button class="search-btn" @click="onSearch">
-                    <i class="icon-search" />查询
-                </button>
             </div>
             <div class="filter-box">
                 <div />
@@ -24,7 +21,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -42,6 +39,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 车队
@@ -92,10 +90,8 @@ export default {
                 console.log(err)
             }
         },
-        async onSearch () {
-            this.getData()
-        },
         async onFilter (choosed) {
+            this.page = 1
             this.filterData = choosed
             this.getData()
         },

@@ -25,7 +25,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -43,6 +43,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
@@ -95,6 +96,7 @@ export default {
             }
         },
         async onFilter () {
+            this.page = 1
             this.getData()
         },
     },

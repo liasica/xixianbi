@@ -37,8 +37,7 @@
                     <span>导出数据</span>
                 </s-btn>
             </div>
-            <BiTable :columns="columns" :source="list" />
-            <BiPagination :total="total" :page.sync="page" @pagination="handleChange" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -76,7 +75,7 @@ export default {
     data () {
         return {
             total: 150,
-            page: 12,
+            page: 1,
             columns: [
                 { prop: 'cate', label: '公交分类' },
                 { prop: 'station', label: '场站' },

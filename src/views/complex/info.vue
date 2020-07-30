@@ -39,7 +39,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -55,6 +55,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             query: {
                 position: '',
                 age: '',
@@ -118,6 +119,7 @@ export default {
             }
         },
         async onSearch () {
+            this.page = 1
             this.getData()
         },
         onReset () {
@@ -126,7 +128,7 @@ export default {
                 age: '',
                 busAge: '',
             }
-            this.getData()
+            this.onSearch()
         },
     },
 }

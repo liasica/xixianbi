@@ -34,8 +34,7 @@
                     </div>
                 </div>
             </div>
-            <BiTable :columns="columns" :source="list" />
-            <!-- <BiPagination :total="total" :page.sync="page" @pagination="handleChange" /> -->
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -78,7 +77,7 @@ export default {
     data () {
         return {
             total: 150,
-            page: 12,
+            page: 1,
             columns: [
                 { prop: 'way_name', label: '线路名称' },
                 { prop: 'driver', label: '驾驶员' },

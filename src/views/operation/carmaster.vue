@@ -26,7 +26,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -44,6 +44,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
@@ -91,6 +92,7 @@ export default {
             this.filterData = choosed
         },
         onSearch () {
+            this.page = 1
             if (this.filterData.lineNo) {
                 this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
             } else {

@@ -128,8 +128,10 @@ export default {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 34px;
+        min-width: 34px;
         height: 34px;
+        margin: 0 5px;
+        padding: 0 3px;
         &.item {
             border-radius: 100%;
             &.active,

@@ -8,7 +8,7 @@
                     <span>导出数据</span>
                 </s-btn>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -24,6 +24,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             columns: [
                 { prop: 'planNo', label: '维修计划编号' },
                 { prop: 'busNo', label: '车辆编号' },

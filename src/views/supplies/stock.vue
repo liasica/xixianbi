@@ -43,7 +43,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -66,6 +66,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             lang: zh,
             query: {
                 inboundNo: '', // 入库单编号
@@ -135,6 +136,7 @@ export default {
             this.list = items
         },
         onSearch () {
+            this.page = 1
             this.getData()
         },
         onClick (row) {
