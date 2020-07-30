@@ -7,7 +7,7 @@
             <ul>
                 <li class="thin-border border-bottom">
                     <img class="icon-users" :src="require('./assets/users.png')">
-                    <span>本月30内报警数</span>
+                    <span>本月报警数</span>
                     <div class="value">20</div>
                 </li>
                 <li class="thin-border border-bottom">

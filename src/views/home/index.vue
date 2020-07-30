@@ -26,13 +26,13 @@
                 <tie-number :number="home.busOnline.inactive" label="非活跃车数" />
             </div>
             <div v-if="home.alarmToday" class="violation">
-                <div class="bi-title">当日车辆违规统计</div>
+                <div class="bi-title">车辆违规统计</div>
                 <ul>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-alert.png')">
                         </s-btn>
-                        <span>本月30内报警数</span>
+                        <span>本月报警数</span>
                         <div class="value">{{ home.alarmToday.month }}</div>
                     </li>
                     <li class="thin-border border-bottom">
