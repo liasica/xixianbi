@@ -56,11 +56,11 @@ export default {
                 { prop: 'downStation', label: '下车发行站点' },
                 { prop: 'downTime', label: '运营时间', render: value => (value.indexOf('null') > -1 ? '-' : value) },
                 // { prop: 'groupNo', label: '所属车队' },
-                {
-                    prop: 'lineState',
-                    label: '线路状态',
-                    render: item => `<span>${item === 1 ? '营运中' : '已停运'}</span>`,
-                },
+                // {
+                //     prop: 'lineState',
+                //     label: '线路状态',
+                //     render: item => `<span>${item === 1 ? '营运中' : '已停运'}</span>`,
+                // },
             ],
             source: [],
             list: [],

@@ -68,7 +68,7 @@ export const routes = [
                 path: '/online',
                 name: 'online',
                 meta: {
-                    title: '当日公交上线情况',
+                    title: '营运线路信息',
                 },
                 component: online,
             },
