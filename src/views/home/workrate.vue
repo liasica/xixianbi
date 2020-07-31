@@ -5,6 +5,7 @@
                 <relation-choose
                     :show-all="true"
                     style="margin-right: 40px; margin-bottom: 0"
+                    @init="onInit"
                     @change="onFilter"
                     @reset="onReset"
                 />
@@ -89,11 +90,12 @@ export default {
                 console.log(err)
             }
         },
+        onInit (choosed) {
+            this.filterData = choosed
+            this.getData()
+        },
         async onFilter (choosed) {
             this.filterData = choosed
-            if (!this.list.length) {
-                this.getData()
-            }
         },
         onSearch () {
             this.page = 1
