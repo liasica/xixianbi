@@ -45,6 +45,8 @@
 </template>
 
 <script>
+// TODO: 默认显示有数据的
+
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import RelationChoose from '@/components/relationChoose'

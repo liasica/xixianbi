@@ -38,24 +38,25 @@ export default {
             ageChart: {},
             jobChart: {},
             energyOptions: {},
+            // TODO: 都改成本月的
             info: {
                 income: {
                     icon: 'rmb',
-                    label: '昨日收入',
+                    label: '本月收入',
                     value: '-',
                     unit: 'RMB',
                     color: '#42DFFF',
                 },
                 distance: {
                     icon: 'dashboard',
-                    label: '累计里程',
+                    label: '本月里程',
                     value: '-',
                     unit: 'KM',
                     color: '#08F0C9',
                 },
                 passenger: {
                     icon: 'users',
-                    label: '当日人次',
+                    label: '本月人次',
                     value: '2401679',
                     unit: '人次',
                     color: '#3C77FF',

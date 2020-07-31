@@ -118,7 +118,7 @@
                         v-for="(item, index) in overspeed"
                         :key="index"
                         class="pbar"
-                        :label="`${item.time}秒`"
+                        :label="`<span style='font-size:12px;margin-right:6px;'>${item.busNoChar}</span>${item.time}秒`"
                         :schedule="item.speed"
                         right-text="km/h"
                         :no-border="true"
