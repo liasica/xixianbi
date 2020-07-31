@@ -33,9 +33,9 @@
             v-if="pagination && total > 0"
             :total="total"
             :page.sync="current"
-            :page-size="pagination && pagination.pageSize"
-            :jump="pagination && pagination.jump"
-            :show-total="pagination && pagination.showTotal"
+            :page-size="pageSize"
+            :jump="showJump"
+            :show-total="showTotal"
         />
     </div>
 </template>
@@ -51,29 +51,41 @@ export default {
         columns: { type: Array, default: () => [] },
         source: { type: Array, default: () => [] },
         showNumber: { type: Boolean, default: true },
-        pagination: {
-            type: [Object, Boolean],
-            default: () => ({
-                pageSize: 10,
-                jump: true,
-                showTotal: true,
-            }),
-        },
+        pagination: { type: Boolean, default: true },
+        page: { type: Number, default: 1 },
+        pageSize: { type: Number, default: 10 },
+        showJump: { type: Boolean, default: true },
+        showTotal: { type: Boolean, default: true },
+        // pagination: {
+        //     type: [Object, Boolean],
+        //     default: () => ({
+        //         pageSize: 10,
+        //         jump: true,
+        //         showTotal: true,
+        //     }),
+        // },
     },
     data () {
         return {
-            current: 1,
         }
     },
     computed: {
+        current: {
+            get () {
+                return this.page
+            },
+            set (value) {
+                this.$emit('update:page', value)
+            },
+        },
         total () {
             return this.source.length
         },
         list () {
             if (this.pagination) {
                 return this.source.slice(
-                    (this.current - 1) * this.pagination.pageSize,
-                    this.current * this.pagination.pageSize,
+                    (this.current - 1) * this.pageSize,
+                    this.current * this.pageSize,
                 )
             }
             return this.source

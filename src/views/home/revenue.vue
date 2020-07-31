@@ -25,7 +25,7 @@
                     <span>导出数据</span>
                 </s-btn>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -58,7 +58,7 @@ export default {
     data () {
         return {
             total: 150,
-            page: 12,
+            page: 1,
             columns: [
                 { prop: 'station', label: '场站' },
                 { prop: 'carteam', label: '车队' },

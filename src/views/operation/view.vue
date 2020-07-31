@@ -74,7 +74,10 @@
                         :columns="orderColumns"
                         :source="orderData"
                         class="s-table"
-                        :pagination="{pageSize: 5, jump: false, showTotal: false}"
+                        :show-jump="false"
+                        :show-total="false"
+                        :page-size="5"
+                        :page.sync="page"
                     />
                 </div>
             </div>
@@ -142,6 +145,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             late: {},
             lateOptions: {},
             filterData: {

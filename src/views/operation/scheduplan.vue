@@ -32,7 +32,12 @@
                 </export-excel>
             </div>
             <div class="scroll-table">
-                <BiTable v-if="items.length > 0" :columns="columns" :source="items" />
+                <BiTable
+                    v-if="items.length > 0"
+                    :columns="columns"
+                    :source="items"
+                    :page.sync="page"
+                />
                 <div v-else>该线路暂无调度排班计划</div>
             </div>
         </div>
@@ -52,6 +57,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
@@ -84,6 +90,7 @@ export default {
     },
     watch: {
         'filterData.lineNo': async function () {
+            this.page = 1
             await this.getPlans()
         },
     },

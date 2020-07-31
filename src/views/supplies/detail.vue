@@ -7,7 +7,7 @@
                     返回
                 </button>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -24,6 +24,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             inboundNo: null,
             columns: [
                 { prop: 'barCode', label: '物资条形码' },

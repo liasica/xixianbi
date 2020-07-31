@@ -31,7 +31,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -47,6 +47,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             columns: [
                 { prop: 'type', label: '分类' },
                 { prop: 'auditId', label: '违法违规处罚编号' },
@@ -107,6 +108,7 @@ export default {
             }
         },
         onSearch () {
+            this.page = 1
             this.getData()
         },
     },

@@ -26,7 +26,7 @@
                     </s-btn>
                 </export-excel>
             </div>
-            <BiTable :columns="columns" :source="list" />
+            <BiTable :columns="columns" :source="list" :page.sync="page" />
         </div>
     </div>
 </template>
@@ -42,6 +42,7 @@ export default {
     },
     data () {
         return {
+            page: 1,
             columns: [
                 { prop: 'filaName', label: '公司名称' },
                 { prop: 'groupName', label: '车队号' },
@@ -100,6 +101,7 @@ export default {
             }
         },
         onSearch () {
+            this.page = 1
             this.getData()
         },
     },
