@@ -53,7 +53,7 @@ export default {
                 { prop: 'lineNo', label: '线路' },
                 { prop: 'busNoChar', label: '车辆牌照' },
                 { prop: 'lineTime', label: '线路时间' },
-                { prop: 'total', label: '总里程' },
+                // { prop: 'total', label: '总里程' },
                 { prop: 'lineLen', label: '线路里程' },
                 { prop: 'lineSpeed', label: '平均速度' },
             ],
