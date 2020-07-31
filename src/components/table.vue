@@ -5,15 +5,15 @@
                 <thead>
                     <tr>
                         <th v-if="showNumber">序号</th>
-                        <th v-for="item in columns" :key="item.prop">{{ item.label }}</th>
+                        <th v-for="(item, ck) in columns" :key="ck">{{ item.label }}</th>
                     </tr>
                 </thead>
                 <tbody v-if="total>0">
                     <tr v-for="(item, index) in list" :key="index">
                         <td v-if="showNumber">{{ index + 1 + 10* (current -1) }}</td>
                         <td
-                            v-for="t in columns"
-                            :key="t.prop"
+                            v-for="(t, k) in columns"
+                            :key="k"
                             :style="`text-align:${t.align}; max-width: ${t.width}px`"
                             @click="click(t, item)"
                         >

@@ -38,7 +38,6 @@ export default {
             ageChart: {},
             jobChart: {},
             energyOptions: {},
-            // TODO: 都改成本月的
             info: {
                 income: {
                     icon: 'rmb',
@@ -74,7 +73,7 @@ export default {
     async created () {
         const { info, busAgeItems, posItems, energyItems } = await this.$axios.get('complex')
         Object.keys(info).forEach(k => {
-            this.$set(this.info[k], 'value', info[k] || '-')
+            this.$set(this.info[k], 'value', info[k] || 0)
         })
         this.setAgeChart(busAgeItems)
         this.setJobChart(posItems)

@@ -3,9 +3,10 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
+                    v-if="init"
+                    ref="rc"
                     style="margin-right: 40px; margin-bottom: 0"
-                    @change="choosed => filterData = choosed"
-                    @init="choosed => filterData = choosed"
+                    @change="handleChange"
                 />
                 <!-- <choose
                     class="choose"
@@ -34,6 +35,7 @@
             <div class="scroll-table">
                 <BiTable
                     v-if="items.length > 0"
+                    :key="filterData.lineNo"
                     :columns="columns"
                     :source="items"
                     :page.sync="page"
@@ -45,8 +47,6 @@
 </template>
 
 <script>
-// TODO: 默认显示有数据的
-
 import BiTable from '@/components/table'
 import BiPagination from '@/components/pagination'
 import RelationChoose from '@/components/relationChoose'
@@ -60,6 +60,8 @@ export default {
     data () {
         return {
             page: 1,
+            init: false,
+            chooseInit: false,
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 场站
@@ -96,10 +98,26 @@ export default {
             await this.getPlans()
         },
     },
+    async created () {
+        await this.getPlans()
+        this.init = true
+    },
     methods: {
+        handleChange (choosed) {
+            if (this.chooseInit) {
+                this.filterData = choosed
+            } else {
+                const { items } = this
+                if (items.length > 0) {
+                    const { filaName, groupName, lineNo } = items[0]
+                    this.$refs.rc.setValue({ filaName, groupName, lineNo })
+                }
+                this.chooseInit = true
+            }
+        },
         async getPlans () {
             const { items, max } = await this.$axios.get(
-                `operation/plan?line=${this.filterData.lineNo}`,
+                `operation/plan?line=${this.filterData.lineNo || ''}`,
             )
             for (let i = 1; i <= max; i += 1) {
                 this.columns.push({
@@ -122,9 +140,6 @@ export default {
                 })
                 return { filaName, groupName, lineNo, projectName, ...plans }
             })
-        },
-        handleChange () {
-            console.log(1)
         },
     },
 }

@@ -37,6 +37,7 @@ export default {
     },
     data () {
         return {
+            locked: false,
             lines: [],
             choosed: {
                 filaName: 0, // 公司
@@ -60,22 +61,28 @@ export default {
     },
     watch: {
         'choosed.filaName': function () {
-            const { groupName, lineNo } = this.choosed
-            if (groupName === 0 && lineNo === 0) {
-                this.$emit('change', this.getChoosed())
+            if (!this.locked) {
+                const { groupName, lineNo } = this.choosed
+                if (groupName === 0 && lineNo === 0) {
+                    this.$emit('change', this.getChoosed())
+                }
+                this.$set(this.choosed, 'lineNo', 0)
+                this.$set(this.choosed, 'groupName', 0)
             }
-            this.$set(this.choosed, 'lineNo', 0)
-            this.$set(this.choosed, 'groupName', 0)
         },
         'choosed.groupName': function () {
-            const { lineNo } = this.choosed
-            if (lineNo === 0) {
-                this.$emit('change', this.getChoosed())
+            if (!this.locked) {
+                const { lineNo } = this.choosed
+                if (lineNo === 0) {
+                    this.$emit('change', this.getChoosed())
+                }
+                this.$set(this.choosed, 'lineNo', 0)
             }
-            this.$set(this.choosed, 'lineNo', 0)
         },
         'choosed.lineNo': function () {
-            this.$emit('change', this.getChoosed())
+            if (!this.locked) {
+                this.$emit('change', this.getChoosed())
+            }
         },
         'choosed.driver': function () {
             this.$emit('change', this.getChoosed())
@@ -84,8 +91,8 @@ export default {
     async created () {
         const { lines } = await this.$axios.get('basic/line')
         this.lines = lines
-        this.$emit('init', this.getChoosed())
         this.$emit('change', this.getChoosed())
+        this.$emit('init', this.getChoosed())
     },
     methods: {
         getChoosed () {
@@ -104,6 +111,28 @@ export default {
         onReset () {
             this.choosed.lineNo = 0
             this.$emit('reset', this.getChoosed())
+        },
+        setValue ({ filaName, groupName, lineNo }) {
+            if (filaName) {
+                this.locked = true
+                const choosed = {}
+                const fIndex = this.lines.findIndex(line => line.id === filaName)
+                choosed.filaName = fIndex
+                if (groupName) {
+                    const groups = this.lines[fIndex].children
+                    const gIndex = groups.findIndex(group => group.id === groupName)
+                    choosed.groupName = gIndex
+                    if (lineNo) {
+                        const lines = groups[gIndex].children
+                        const lIndex = lines.findIndex(line => line.id === lineNo)
+                        choosed.lineNo = lIndex
+                    }
+                }
+                this.choosed = choosed
+                this.$nextTick(() => {
+                    this.locked = false
+                })
+            }
         },
     },
 }
