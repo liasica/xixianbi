@@ -8,15 +8,6 @@
                     style="margin-right: 40px; margin-bottom: 0"
                     @change="handleChange"
                 />
-                <!-- <choose
-                    class="choose"
-                    label="发车点当/次日"
-                    :options="status_options"
-                    v-model="status_id"
-                />-->
-                <!-- <button class="search-btn">
-                    <i class="icon-search" />查询
-                </button> -->
             </div>
             <div class="filter-box">
                 <div />
