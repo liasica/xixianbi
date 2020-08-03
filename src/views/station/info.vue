@@ -2,119 +2,48 @@
     <div class="container">
         <div class="content">
             <div class="filter-box">
-                <choose
-                    v-model="cate_id"
-                    class="choose"
-                    label="公司"
-                    :options="cate_options"
-                />
-                <choose
-                    v-model="station_id"
-                    class="choose"
-                    label="场站"
-                    :options="station_options"
-                />
-                <choose
-                    v-model="name_id"
-                    class="choose"
-                    label="线路名称"
-                    :options="name_options"
-                />
-                <button class="search-btn">
-                    <i class="icon-search" />查询
-                </button>
-            </div>
-            <div class="filter-box">
-                <BiCheckBox label="综合信息" :value.sync="isShowToday" />
+                <BiCheckBox label="场站信息" />
                 <s-btn class="export-btn">
                     <i class="icon-switch" />
                     <span>导出数据</span>
                 </s-btn>
             </div>
-            <BiTable :columns="columns" :source="list" :page.sync="page" />
+            <BiTable :columns="columns" :source="list" :pagination="false" />
         </div>
     </div>
 </template>
 
 <script>
 import BiTable from '@/components/table'
-import BiPagination from '@/components/pagination'
 import BiCheckBox from '@/components/checkbox'
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-    'list|11': [
-        {
-            id: '01',
-            company: '西咸公司',
-            station: '场站1',
-            area: '544',
-            position: '东单头',
-            size: '大型',
-            distributed: '1,2,3号位',
-            people: '455',
-            master: '55',
-            premaster: '22',
-            parking: '400',
-            total: '666',
-            energysize: '45',
-        },
-    ],
-})
 
 export default {
     components: {
         BiTable,
-        BiPagination,
         BiCheckBox,
     },
     data () {
         return {
             total: 150,
-            page: 1,
             columns: [
-                { prop: 'company', label: '公司' },
                 { prop: 'station', label: '场站' },
                 { prop: 'area', label: '场地面积' },
                 { prop: 'position', label: '场地位置' },
-                { prop: 'size', label: '场地规模' },
-                { prop: 'distributed', label: '场地分布' },
-                { prop: 'people', label: '场站人员' },
-                { prop: 'master', label: '车辆车长' },
-                { prop: 'premaster', label: '见习车长' },
+                { prop: 'scale', label: '场地规模' },
+                { prop: 'distribut', label: '场地分布' },
+                { prop: 'peoples', label: '场站人员' },
+                { prop: 'drivers', label: '车辆车长' },
+                { prop: 'novitiates', label: '见习车长' },
                 { prop: 'parking', label: '停泊总数' },
-                { prop: 'total', label: '累计进出量' },
-                { prop: 'energysize', label: '充电桩规模' },
+                { prop: 'flow', label: '累计进出量' },
+                { prop: 'energy', label: '充电桩规模' },
             ],
-            list: data.list,
-            cate_options: [
-                { id: 1, label: '常规公交' },
-                { id: 2, label: '双层公交' },
-            ],
-            cate_id: 1,
-            station_options: [
-                { id: 1, label: '场站一' },
-                { id: 2, label: '场站二' },
-            ],
-            station_id: 1,
-            name_options: [
-                { id: 1, label: '880' },
-                { id: 2, label: '930' },
-            ],
-            name_id: 1,
-            status_options: [
-                { id: 1, label: '运营' },
-                { id: 2, label: '停运' },
-            ],
-            status_id: 1,
-            isShowToday: false,
+            list: [],
         }
     },
-    created () {},
-    methods: {
-        handleChange () {
-            console.log(1)
-        },
+    async created () {
+        const { items } = await this.$axios.get('station/info')
+        this.list = items || []
     },
 }
 </script>
