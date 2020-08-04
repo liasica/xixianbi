@@ -17,7 +17,7 @@
                             :style="`text-align:${t.align}; max-width: ${t.width}px`"
                             @click="click(t, item)"
                         >
-                            <span v-if="t.render" v-html="t.render(item[t.prop])" />
+                            <span v-if="t.render" v-html="t.render(item[t.prop], item)" />
                             <span v-else>{{ item[t.prop] === undefined ? '-' :item[t.prop] }}</span>
                         </td>
                     </tr>
