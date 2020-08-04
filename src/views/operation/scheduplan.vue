@@ -11,17 +11,17 @@
             </div>
             <div class="filter-box">
                 <div />
-                <export-excel
+                <vue-excel-xlsx
                     :data="items"
-                    :fields="fields"
-                    type="xlsx"
-                    :name="`${$route.meta.title}.xlsx`"
+                    :columns="fields"
+                    :filename="$route.meta.title"
+                    :sheetname="$route.meta.title"
                 >
                     <s-btn class="export-btn">
                         <i class="icon-switch" />
                         <span>导出数据</span>
                     </s-btn>
-                </export-excel>
+                </vue-excel-xlsx>
             </div>
             <div class="scroll-table">
                 <BiTable
@@ -74,10 +74,10 @@ export default {
     },
     computed: {
         fields () {
-            const fields = {}
+            const fields = []
             this.columns.forEach(column => {
                 if (column.label !== '序号') {
-                    fields[column.label] = column.prop
+                    fields.push({ label: column.label, field: column.prop })
                 }
             })
             return fields
