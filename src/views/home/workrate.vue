@@ -76,6 +76,9 @@ export default {
             })
             return fields
         },
+        fData () {
+            return this.source.filter(item => item.groupName === this.filterData.groupName)
+        },
     },
     created () {
         // this.getData()
@@ -85,7 +88,7 @@ export default {
             try {
                 const data = await this.$axios.get('home/workrate')
                 this.source = data.items
-                this.list = this.source
+                this.list = this.fData
             } catch (err) {
                 console.log(err)
             }
@@ -100,9 +103,9 @@ export default {
         onSearch () {
             this.page = 1
             if (this.filterData.lineNo) {
-                this.list = this.source.filter(item => item.lineNo === this.filterData.lineNo)
+                this.list = this.fData.filter(item => item.lineNo === this.filterData.lineNo)
             } else {
-                this.list = this.source
+                this.list = this.fData
             }
         },
         onReset (choosed) {
