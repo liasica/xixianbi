@@ -56,7 +56,7 @@ export default {
                 { prop: 'groupName', label: '场站' },
                 { prop: 'lineNo', label: '线路名称' },
                 { prop: 'startDate', label: '日期' },
-                { prop: 'planTimes', label: '总班次' },
+                { prop: 'times', label: '总班次' },
                 { prop: 'ontimeNum', label: '准点班次' },
                 { prop: 'ontimeRatio', label: '线路首末班准点率' },
                 { prop: 'onBusRatio', label: '平均出车率' },
