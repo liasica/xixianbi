@@ -5,6 +5,7 @@
                 <relation-choose
                     :show-all="true"
                     style="margin-right: 40px"
+                    @init="onInit"
                     @change="onFilter"
                     @reset="onReset"
                 />
@@ -79,7 +80,7 @@ export default {
         },
     },
     created () {
-        this.getData()
+        // this.getData()
     },
     methods: {
         async getData () {
@@ -90,6 +91,10 @@ export default {
             } catch (err) {
                 console.log(err)
             }
+        },
+        onInit (choosed) {
+            this.filterData = choosed
+            this.getData()
         },
         async onFilter (choosed) {
             this.filterData = choosed
