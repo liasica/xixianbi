@@ -134,7 +134,7 @@ import TieText from '@/components/tieText'
 import BiTable from '@/components/table'
 import ProgressBar from '@/components/progressBar'
 
-import { scheduColumns, scheduData, orderColumns } from './mock'
+import { scheduColumns, scheduData } from './mock'
 
 export default {
     components: {
@@ -155,7 +155,12 @@ export default {
             },
             scheduColumns,
             scheduData,
-            orderColumns,
+            orderColumns: [
+                { prop: 'up', label: '时间点' },
+                { prop: 'upStations', label: '开往上行', render: (v, item) => (item.up ? v : '') },
+                { prop: 'down', label: '时间点' },
+                { prop: 'downStations', label: '开往下行', render: (v, item) => (item.down ? v : '') },
+            ],
             orderSource: [],
             orderData: [],
             list1: [],
