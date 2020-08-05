@@ -21,7 +21,7 @@
             <div class="right">
                 <div class="top">
                     <div class="info">
-                        <div class="bi-title">物资名称</div>
+                        <div class="bi-title">物资详细</div>
                         <div class="info-list">
                             <div class="item">
                                 <span class="title">物资条形码</span>
