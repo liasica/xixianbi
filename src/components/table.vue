@@ -100,8 +100,14 @@ export default {
 }
 </script>
 <style lang="less">
+.table-entity{
+    width: 100%;
+    max-width: 1260px;
+    overflow: auto;
+}
 .table {
     width: 100%;
+    white-space: nowrap;
     thead {
         border-bottom: 1px solid #42dfff;
         font-size: 18px;
@@ -110,6 +116,12 @@ export default {
         tr {
             &:nth-child(2n) {
                 background-color: fade(#2a4b70, 20);
+            }
+            th{
+                word-break: keep-all;
+                white-space:nowrap;
+                padding: 0 10px;
+                margin: 0 10px;
             }
         }
     }
@@ -120,6 +132,8 @@ export default {
         line-height: 50px;
         padding: 0 10px;
         font-size: 16px;
+        word-break: keep-all;
+        white-space:nowrap;
     }
     .empty{
         text-align: center;
