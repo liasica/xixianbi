@@ -71,7 +71,7 @@ export default {
                 { prop: 'busNo', label: '驾驶车辆' },
                 { prop: 'busAge', label: '车龄' },
                 { prop: 'lineNo', label: '线路' },
-                { prop: 'operateDate', label: '运行时间' },
+                { prop: 'operateDate', label: '营运时间' },
                 // { prop: 'statue', label: '车辆状态' },
             ],
             list: [],

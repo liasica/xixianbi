@@ -200,7 +200,7 @@ export default {
                         start: 0,
                         end: 10,
                         height: 16,
-                        top: '96%',
+                        top: '94%',
                     },
                 ],
                 grid: {
@@ -603,7 +603,8 @@ export default {
         .echarts {
             position: relative;
             width: 100%;
-            height: 450px;
+            // height: 450px;
+            height: 300px;
             // border-bottom: 1px solid #42dfff;
             // border-left: 1px solid #42dfff;
             // &:before {
