@@ -50,15 +50,15 @@
                         </div>
                     </div>
                     <div class="num">
-                        <div class="bi-title">库存数量</div>
+                        <div class="bi-title">物资数量</div>
                         <div class="num-box">
-                            <span class="title">库存数量</span>
+                            <span class="title">物资数量</span>
                             <span class="value">{{ number }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="bottom">
-                    <div class="bi-title">每月入库数量</div>
+                    <div class="bi-title">每月入库物资</div>
                     <v-chart :options="chartOptions" class="bottom-chart" />
                 </div>
             </div>
