@@ -104,6 +104,7 @@ export default {
     width: 100%;
     thead {
         border-bottom: 1px solid #42dfff;
+        font-size: 18px;
     }
     tbody {
         tr {
@@ -117,6 +118,8 @@ export default {
         color: fade(#ffffff, 80);
         height: 50px;
         line-height: 50px;
+        padding: 0 10px;
+        font-size: 16px;
     }
     .empty{
         text-align: center;

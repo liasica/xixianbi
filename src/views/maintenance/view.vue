@@ -42,13 +42,9 @@
                         class="value-level"
                         :corner="{leftTop: '#42dfff', leftBottom: '#42dfff', rightTop: '#42dfff', rightBottom: '#42dfff'}"
                     >
-                        <span>二级维护</span>
+                        <span>{{ item.degreeCode }}</span>
                         <div class="repair-list">
-                            <i class="icon-repair" />
-                            <i class="icon-repair" />
-                            <i class="icon-repair" />
-                            <i class="icon-repair" />
-                            <i class="icon-repair" />
+                            <i v-for="n in item.level" :key="n" class="icon-repair" />
                         </div>
                     </s-btn>
                 </div>
@@ -190,6 +186,17 @@ export default {
             // 获取维修计划
             const { item, busGroup } = await this.$axios.get(`maintenance/plan?busLicense=${busLicense || ''}`)
             // this.busGroup = busGroup
+            switch (item.degreeCode) {
+                default:
+                    item.level = 1
+                    break
+                case '二级维护':
+                    item.level = 2
+                    break
+                case '二级加强':
+                    item.level = 3
+                    break
+            }
             this.item = item
             if (busGroup) {
                 busGroup.forEach(b => {
