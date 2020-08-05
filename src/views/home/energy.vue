@@ -8,9 +8,9 @@
                     label="日期"
                     :options="date_options"
                 />
-                <button class="search-btn" @click="onSearch">
+                <!-- <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
-                </button>
+                </button> -->
             </div>
             <div class="filter-box">
                 <BiCheckBox label="车辆运行能耗比较统计" />
@@ -67,6 +67,12 @@ export default {
                 }
             })
             return fields
+        },
+    },
+    watch: {
+        async date () {
+            this.page = 1
+            this.getData()
         },
     },
     created () {
