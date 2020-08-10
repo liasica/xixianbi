@@ -15,19 +15,14 @@
                 </div>
             </div>
         </div>
-        <div class="chart job">
-            <div class="bi-title">岗位占比</div>
-            <!-- <img :src="require('@images/demo/3.png')"> -->
-            <v-chart :options="jobChart" class="job-chart" />
-        </div>
-        <div class="chart age-cars">
-            <div class="bi-title">场站车龄</div>
-            <img :src="require('@images/demo/4.png')">
-        </div>
         <div class="chart energy">
             <div class="bi-title">车辆耗能</div>
             <!-- <img :src="require('@images/demo/5.png')"> -->
             <v-chart :options="energyOptions" class="energy-chart" />
+        </div>
+        <div class="chart job">
+            <div class="bi-title">岗位占比</div>
+            <v-chart :options="jobChart" class="job-chart" />
         </div>
     </div>
 </template>
@@ -367,11 +362,8 @@ export default {
 .chart {
     margin-bottom: 60px;
 }
-.age {
-    width: 502px;
-}
 .age-chart {
-    width: 502px;
+    width: 800px;
     height: 440px;
 }
 .info {
@@ -400,21 +392,17 @@ export default {
     }
 }
 .job {
-    width: 300px;
+    width: 400px;
 }
-.age-cars,
 .energy {
-    width: 620px;
-    img {
-        margin-top: -40px;
-    }
+    width: 800px;
 }
 .job-chart {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
 }
 .energy-chart {
-    width: 620px;
+    width: 800px;
     height: 410px;
 }
 </style>

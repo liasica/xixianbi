@@ -44,6 +44,7 @@ import energy from '@/views/energy'
 import settingEnergy from '@/views/setting/energy'
 import settingGroup from '@/views/setting/group'
 import settingBus from '@/views/setting/bus'
+import settingPosition from '@/views/setting/position'
 
 import layout from '@/components/layout'
 
@@ -202,7 +203,7 @@ export const routes = [
                 path: '/energy',
                 name: 'energy',
                 meta: {
-                    title: '耗能数据',
+                    title: '本月能耗',
                 },
                 component: energy,
             },
@@ -424,6 +425,7 @@ export const routes = [
             { path: '/setting/energy', name: 'setting-energy', meta: { title: '充电桩设置' }, component: settingEnergy },
             { path: '/setting/group', name: 'setting-group', meta: { title: '场站设置' }, component: settingGroup },
             { path: '/setting/bus', name: 'setting-bus', meta: { title: '公交设置' }, component: settingBus },
+            { path: '/setting/position', name: 'setting-position', meta: { title: '岗位设置' }, component: settingPosition },
         ],
     },
     {
