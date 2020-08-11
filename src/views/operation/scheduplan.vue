@@ -3,9 +3,8 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
-                    v-if="init"
                     ref="rc"
-                    style="margin-right: 40px; margin-bottom: 0"
+                    style="margin-bottom: 0"
                     @change="handleChange"
                 />
             </div>
@@ -51,7 +50,6 @@ export default {
     data () {
         return {
             page: 1,
-            init: false,
             chooseInit: false,
             filterData: {
                 filaName: '', // 公司
@@ -89,22 +87,9 @@ export default {
             await this.getPlans()
         },
     },
-    async created () {
-        await this.getPlans()
-        this.init = true
-    },
     methods: {
         handleChange (choosed) {
-            if (this.chooseInit) {
-                this.filterData = choosed
-            } else {
-                const { items } = this
-                if (items.length > 0) {
-                    const { filaName, groupName, lineNo } = items[0]
-                    this.$refs.rc.setValue({ filaName, groupName, lineNo })
-                }
-                this.chooseInit = true
-            }
+            this.filterData = choosed
         },
         async getPlans () {
             const { items, max } = await this.$axios.get(
@@ -120,17 +105,18 @@ export default {
                     label: `开往方向${i}`,
                 })
             }
-            this.items = items.map(item => {
-                const { filaName, groupName, lineNo, projectName } = item
-                const plans = {}
-                item.plans.forEach((plan, i) => {
-                    plans[`time-${i + 1}`] = plan.planTime
-                    plans[`direction-${i + 1}`] = `${
-                        plan.isUpDown ? '下行' : '上行'
-                    } - ${plan.toStation}`
-                })
-                return { filaName, groupName, lineNo, projectName, ...plans }
-            })
+            this.items = items
+            // this.items = items.map(item => {
+            //     const { filaName, groupName, lineNo, projectName } = item
+            //     const plans = {}
+            //     item.plans.forEach((plan, i) => {
+            //         plans[`time-${i + 1}`] = plan.planTime
+            //         plans[`direction-${i + 1}`] = `${
+            //             plan.isUpDown ? '下行' : '上行'
+            //         } - ${plan.toStation}`
+            //     })
+            //     return { filaName, groupName, lineNo, projectName, ...plans }
+            // })
         },
     },
 }

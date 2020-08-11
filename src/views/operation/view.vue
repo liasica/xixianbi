@@ -3,7 +3,7 @@
         <relation-choose
             style="margin-right: 40px"
             @change="onFilter"
-            @init="onFilter"
+            @init="rcInit = true"
         />
         <div class="filter" />
         <div class="left">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="bottom">
-                <div class="bi-title">调度计划</div>
+                <div class="bi-title">调度信息</div>
                 <BiTable
                     :columns="columns1"
                     :source="list1"
@@ -153,15 +153,15 @@ export default {
                 groupName: '', // 场站
                 lineNo: '', // 线路
             },
+            rcInit: false,
             scheduColumns,
             scheduData,
             orderColumns: [
                 { prop: 'up', label: '时间点' },
-                { prop: 'upStations', label: '开往上行', render: (v, item) => (item.up ? v : '') },
+                { prop: 'upStation', label: '开往上行', render: (v, item) => (item.up ? v : '') },
                 { prop: 'down', label: '时间点' },
-                { prop: 'downStations', label: '开往下行', render: (v, item) => (item.down ? v : '') },
+                { prop: 'downStation', label: '开往下行', render: (v, item) => (item.down ? v : '') },
             ],
-            orderSource: [],
             orderData: [],
             list1: [],
             busChart: {},
@@ -261,17 +261,10 @@ export default {
             buses: [],
             driverIndex: 0,
             drivers: [],
+            columns1: [],
         }
     },
     computed: {
-        columns1 () {
-            const list = [
-                { prop: 'plan', label: `${this.filterData.lineNo}摆渡车计划`, align: 'left' },
-                { prop: 'up', label: '上行方向' },
-                { prop: 'down', label: '下行方向' },
-            ]
-            return list
-        },
         driver () {
             return this.drivers[this.driverIndex] || {}
         },
@@ -495,18 +488,12 @@ export default {
         },
         async getData () {
             try {
-                const data = await this.$axios.get('operation/planlist', {
+                const { items } = await this.$axios.get('operation/planlist', {
                     params: {
                         line: this.filterData.lineNo,
                     },
                 })
-                const list = data.items.map(item => ({
-                    ...item,
-                    upStations: data.upStations[1],
-                    downStations: data.downStations[1],
-                }))
-                this.orderSource = list
-                this.orderData = list
+                this.orderData = items
             } catch (err) {
                 console.log(err)
             }
@@ -523,12 +510,20 @@ export default {
         },
         async getLineplan () {
             try {
-                const data = await this.$axios.get('operation/lineplan', {
+                const { items, planProjectName } = await this.$axios.get('operation/lineplan', {
                     params: {
                         lineNo: this.filterData.lineNo,
                     },
                 })
-                const list = data.items
+                if (!planProjectName || items.length < 1) {
+                    return
+                }
+                this.columns1 = [
+                    { prop: 'plan', label: planProjectName, align: 'left' },
+                    { prop: 'up', label: '上行方向' },
+                    { prop: 'down', label: '下行方向' },
+                ]
+                const list = items
                 let rlt = []
                 if (list.length === 2) {
                     rlt = [
@@ -570,6 +565,9 @@ export default {
             }
         },
         async onFilter (choosed) {
+            if (this.rcInit) {
+                return
+            }
             this.filterData = choosed
             this.getData()
             this.getDriverInfo()
@@ -744,5 +742,12 @@ export default {
             opacity: 0.8;
         }
     }
+}
+.bottom /deep/ th:first-child {
+    width: 100px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: normal;
 }
 </style>
