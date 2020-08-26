@@ -8,6 +8,8 @@ import login from '@/views/login'
 import home from '@/views/home/index'
 import online from '@/views/home/online'
 import violation from '@/views/home/violation'
+import accident from '@/views/home/accident'
+import insure from '@/views/home/insure'
 import alarm from '@/views/home/alarm'
 import alarmdemo from '@/views/home/alarmdemo'
 import workrate from '@/views/home/workrate'
@@ -82,6 +84,22 @@ export const routes = [
                     title: '车辆违规统计',
                 },
                 component: violation,
+            },
+            {
+                path: '/home/accident',
+                name: 'home/accident',
+                meta: {
+                    title: '车辆事故统计',
+                },
+                component: accident,
+            },
+            {
+                path: '/home/insure',
+                name: 'home/insure',
+                meta: {
+                    title: '车辆保险统计',
+                },
+                component: insure,
             },
             {
                 path: '/home/alarm',
@@ -324,7 +342,6 @@ export const routes = [
         name: 'finance',
         meta: {
             title: '财务管理',
-            hidden: true,
         },
         component: layout,
         children: [

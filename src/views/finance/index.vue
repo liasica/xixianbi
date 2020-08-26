@@ -2,29 +2,10 @@
     <div class="container finance-container">
         <div class="filter">
             <choose
-                label="公司"
-                :value="1"
-                :options="[{id: 1, label: '西咸公交集团'}, {id: 2, label: '西咸公交子公司'}]"
-            />
-            <choose
-                label="场站"
-                :value="1"
-                :options="[{id: 1, label: '场站一'}, {id: 2, label: '场站二'}, {id: 3, label: '场站三'}]"
-            />
-            <choose
-                label="线路"
-                :value="1"
-                :options="[{id: 1, label: '880'}, {id: 2, label: '600'}, {id: 3, label: '1101'}]"
-            />
-            <choose
-                label="司机"
-                :value="1"
-                :options="[{id: 1, label: '陈志强'}, {id: 2, label: '王慧波'}, {id: 2, label: '李彦'}]"
-            />
-            <choose
+                v-model="date"
+                class="choose-date"
                 label="数据日期"
-                :value="1"
-                :options="[{id: 1, label: '2019-07-28'}, {id: 2, label: '2019-07-29'}, {id: 2, label: '2019-07-30'}]"
+                :options="options"
             />
         </div>
         <div class="finance-box">
@@ -33,41 +14,160 @@
                 <Card
                     :type="1"
                     label="IC卡人次"
-                    :value="0"
+                    :value="item.icTimes"
                     color="#42DFFF"
                 />
                 <Card
                     :type="2"
                     label="IC卡金额"
-                    :value="0"
+                    :value="item.icMoney"
                     color="#3C77FF"
                 />
                 <Card
                     :type="3"
-                    label="IC卡人次"
-                    :value="0"
+                    label="投币人次"
+                    :value="item.tbTimes"
                     color="#08F0C9"
                 />
                 <Card
                     :type="4"
                     label="投币收入"
-                    :value="0"
+                    :value="item.tbMoney"
                     color="#F2F2F2"
                 />
             </div>
         </div>
         <div class="icnum-box">
             <div class="bi-title">IC卡人次</div>
+            <v-chart :options="chartOptions" class="bottom-chart" />
         </div>
     </div>
 </template>
 
 <script>
+import RelationChoose from '@/components/relationChoose'
 import Card from './widget/card'
 
 export default {
     components: {
         Card,
+        RelationChoose,
+    },
+    data () {
+        return {
+            items: {},
+            date: '',
+            options: [],
+            chartOptions: {},
+        }
+    },
+    computed: {
+        item () {
+            const item = this.items[this.date]
+            return item || { icMoney: 0, icTimes: 0, tbMoney: 0, tbTimes: 0 }
+        },
+    },
+    async created () {
+        await this.getChartData()
+        const { items } = await this.$axios.get('financial')
+        this.options = Object.keys(items).map((date, index) => {
+            if (index === 0) {
+                this.date = date
+            }
+            return { id: date, label: date }
+        })
+        this.items = items
+    },
+    methods: {
+        async getChartData () {
+            const { items } = await this.$axios.get('financial/chart')
+            const data = []
+            const xdata = []
+            items.forEach(item => {
+                data.push(item.num)
+                xdata.push(item.month)
+            })
+
+            this.chartOptions = {
+                legend: false,
+                tooltip: {
+                    formatter: p => `${p.name}: ${p.data}个`,
+                },
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 0,
+                        end: 10,
+                    },
+                ],
+                xAxis: {
+                    type: 'category',
+                    splitLine: { show: false },
+                    axisTick: { show: false },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                        rotate: 45,
+                    },
+                    data: xdata,
+                },
+                yAxis: {
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#42DFFF',
+                            opacity: 0.6,
+                        },
+                    },
+                    axisTick: { show: false },
+                    axisLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#42DFFF',
+                        },
+                    },
+                    axisLabel: {
+                        // show: false,
+                        // inside: true,
+                        color: '#ffffff',
+                        fontFamily: 'BDZongYi',
+                        formatter: value => (value > 0 ? value : null),
+                        textStyle: {
+                            baseline: 'bottom',
+                        },
+                    },
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'bar',
+                        barWidth: 34,
+                        itemStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0, color: '#08F0C9', // 0% 处的颜色
+                                }, {
+                                    offset: 1, color: 'rgba(19, 249, 230, 0)', // 100% 处的颜色
+                                }],
+                                global: false, // 缺省为 false
+                            },
+                        },
+                        data,
+                    },
+                ],
+            }
+        },
     },
 }
 </script>
@@ -95,8 +195,16 @@ export default {
         }
     }
     .icnum-box {
-        display: flex;
         width: 100%;
     }
+}
+
+.choose-date {
+    flex-shrink: 0;
+}
+
+.bottom-chart {
+    width: 100%;
+    height: 300px;
 }
 </style>

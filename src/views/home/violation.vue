@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="content">
-            <div class="filter-box">
+            <!-- <div class="filter-box">
                 <choose
                     v-model="type"
                     class="choose"
@@ -9,14 +9,11 @@
                     :options="type_options"
                 />
                 <div class="btn-box">
-                    <!-- <button class="search-btn">
-                        安全报警
-                    </button> -->
                     <button class="search-btn" @click="onSearch">
                         <i class="icon-search" />查询
                     </button>
                 </div>
-            </div>
+            </div> -->
             <div class="filter-box">
                 <BiCheckBox label="当日车辆违规统计" />
                 <vue-excel-xlsx
@@ -114,86 +111,3 @@ export default {
     },
 }
 </script>
-<style lang="less" scoped>
-.container {
-    display: flex;
-    // min-height: calc(100vh - 130px);
-    .sidebar {
-        min-height: 100%;
-        width: 121px;
-        font-size: 16px;
-        background-color: #122836;
-        padding: 50px 6px 0;
-        .title {
-            font-size: 20px;
-            color: #42dfff;
-        }
-        .icon-home {
-            display: inline-block;
-            background-image: url('~@images/home.png');
-            background-size: cover;
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 54px;
-            color: fade(#d8d8d8, 50);
-            cursor: pointer;
-            &.active,
-            &:hover {
-                color: #ffffff;
-            }
-        }
-    }
-    .content {
-        flex: 1;
-        height: 100%;
-        margin-left: 20px;
-    }
-    .filter-box {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 25px;
-        .btn-box{
-            display: flex;
-        }
-        .search-btn {
-            background-color: #42dfff;
-            padding: 10px;
-            height: 50px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 117px;
-            letter-spacing: 8px;
-            margin-left: 20px;
-        }
-        .icon-search {
-            display: inline-block;
-            background-image: url(~@images/search-white.png);
-            background-size: cover;
-            width: 26px;
-            height: 26px;
-        }
-        .export-btn {
-            width: 210px;
-            height: 60px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .icon-switch {
-                display: inline-block;
-                width: 44px;
-                height: 42px;
-                background: url(~@images/switch.png);
-                background-size: cover;
-                margin-right: 20px;
-            }
-        }
-    }
-}
-</style>

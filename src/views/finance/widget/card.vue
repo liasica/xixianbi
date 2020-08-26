@@ -51,7 +51,7 @@ export default {
     }
     .value {
         display: flex;
-        font-size: 70px;
+        font-size: 40px;
         margin-top: 20px;
     }
 }

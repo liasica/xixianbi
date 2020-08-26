@@ -40,21 +40,21 @@
                             <img :src="require('@images/violation-illegal.png')">
                         </s-btn>
                         <span>驾驶员违法违规</span>
-                        <div class="value">{{ home.alarmToday.items[0] ? home.alarmToday.items[0].num : 0 }}</div>
+                        <div class="value">{{ home.alarmToday.illegals || 0 }}</div>
                     </li>
                     <li class="thin-border border-bottom">
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-accident.png')">
                         </s-btn>
                         <span>驾驶员事故次数</span>
-                        <div class="value">{{ home.alarmToday.items[1] ? home.alarmToday.items[1].num : 0 }}</div>
+                        <div class="value">{{ home.alarmToday.accidents || 0 }}</div>
                     </li>
                     <li>
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-insurance.png')">
                         </s-btn>
                         <span>车辆保险到期</span>
-                        <div class="value">{{ home.alarmToday.items[2] ? home.alarmToday.items[2].num : 0 }}</div>
+                        <div class="value">{{ home.alarmToday.insures || 0 }}</div>
                     </li>
                 </ul>
             </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="charts">
                 <div class="chart-item">
-                    <div class="title">车辆营收统计时间分布图（日）</div>
+                    <div class="title">车辆营收比较统计（日）</div>
                     <v-chart :options="incomeChart" />
                 </div>
                 <div class="chart-item">
@@ -334,22 +334,25 @@ export default {
             })
         }
 
+        this.setIcome(data.income)
         this.setEnergyChart(data.energies)
-
-        // this.energySeries = JSON.parse(JSON.stringify(this.options))
-        // const energySeries = this.energySeries.series[0]
-        // energySeries.name = '能耗'
-        // data.energies.forEach(energy => {
-        //     energySeries.data.push(energy.num)
-        // })
-        // this.energyChart = {
-        //     ...this.energySeries,
-        //     ...{
-        //         series: [energySeries],
-        //     },
-        // }
     },
     methods: {
+        setIcome (items) {
+            const options = JSON.parse(JSON.stringify(this.options))
+            const data = []
+            const xdata = []
+            items.forEach(item => {
+                data.push(item.num)
+                xdata.push(item.date)
+            })
+
+            options.xAxis.data = xdata
+            options.series[0].data = data
+            options.series[0].name = '收入'
+
+            this.incomeChart = options
+        },
         setEnergyChart (items) {
             const options = JSON.parse(JSON.stringify(this.options))
             const data = []
