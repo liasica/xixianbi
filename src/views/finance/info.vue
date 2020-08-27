@@ -61,7 +61,7 @@ export default {
                 { prop: 'icMoney', label: 'IC卡金额', render: value => value || 0 },
                 { prop: 'icTimes', label: 'IC卡人次', render: value => value || 0 },
                 { prop: 'tbMoney', label: '现金合计收入', render: value => value || 0 },
-                { prop: 'tbTimes', label: '现金合计人次', render: value => value || 0 },
+                { prop: 'tbTimes', label: '现金合计人次', render: (_, item) => Math.ceil(item.tbMoney / 2) || 0 },
             ],
             source: [],
             list: [],

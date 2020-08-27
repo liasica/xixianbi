@@ -26,7 +26,7 @@
                 <Card
                     :type="3"
                     label="投币人次"
-                    :value="item.tbTimes"
+                    :value="Math.ceil(item.tbMoney / 2)"
                     color="#08F0C9"
                 />
                 <Card

@@ -50,7 +50,7 @@ export default {
                 { prop: 'filaName', label: '公司' },
                 { prop: 'groupName', label: '场站' },
                 { prop: 'lineNo', label: '线路名称' },
-                { prop: 'busModelCode', label: '车辆类型' },
+                { prop: 'busNo', label: '车辆编号' },
                 // { prop: 'age', label: '车龄' }, // ?
                 { prop: 'amount', label: '前日现金收入' },
                 { prop: 'times', label: '当日人次' },
@@ -58,7 +58,7 @@ export default {
                 { prop: 'energy', label: '当日能耗' },
                 // { prop: 'byspeed', label: '超速' }, // ?
                 // { prop: 'total', label: '累计' }, // ?
-                { prop: 'busState', label: '车辆状态' },
+                // { prop: 'busState', label: '车辆状态' },
             ],
             source: [],
             list: [],

@@ -2,7 +2,7 @@
     <div class="container station-container">
         <div class="bi-title">场站信息</div>
         <choose v-model="station" class="station-choose" :options="companies" />
-        <div class="violation">
+        <!-- <div class="violation">
             <div class="bi-title">当日车辆违规统计</div>
             <ul>
                 <li class="thin-border border-bottom">
@@ -21,24 +21,24 @@
                     <div class="value">0</div>
                 </li>
             </ul>
-        </div>
-        <div class="bi-title">累计进出量</div>
-        <div class="progress-bars">
-            <progress-bar class="pbar" label="常规公交" :schedule="[12, 370]" />
+        </div> -->
+        <div class="bi-title" style="margin-top: 20px;">累计进出量</div>
+        <div v-if="settings && busInfo" class="progress-bars">
+            <progress-bar class="pbar" label="常规公交" :schedule="[settings.normal, busInfo.normal]" />
             <progress-bar
                 class="pbar"
                 label="定制公交"
-                :schedule="[3, 22]"
+                :schedule="[settings.custom, busInfo.custom]"
                 color="#08F0C9"
             />
             <progress-bar
                 class="pbar"
                 label="通勤公交"
-                :schedule="[2, 29]"
+                :schedule="[settings.commute, busInfo.commute]"
                 color="#3C77FF"
             />
         </div>
-        <div class="bi-title">充电桩规模</div>
+        <div class="bi-title" style="margin-top: 20px;">充电桩规模</div>
         <div v-if="chargingPosts" class="charge-places">
             <img src="./assets/charge-places.png" alt>
             <p>电桩类别: {{ Object.keys(chargingPosts.type).map(key => key + '/' + chargingPosts.type[key]).join(' ') }}</p>
@@ -61,14 +61,18 @@ export default {
             station: '',
             companies: [],
             chargingPosts: null,
+            settings: null,
+            busInfo: null,
         }
     },
     watch: {
         async station (v) {
-            const { chargingPosts } = await this.$axios.get(
+            const { chargingPosts, settings, busInfo } = await this.$axios.get(
                 `station?station=${v}`,
             )
             this.chargingPosts = chargingPosts
+            this.settings = settings
+            this.busInfo = busInfo
         },
     },
     async created () {

@@ -14,6 +14,15 @@
         <el-form-item label="场地位置">
             <el-input v-model="form.position" />
         </el-form-item>
+        <el-form-item label="常规公交">
+            <el-input v-model.number="form.normal" />
+        </el-form-item>
+        <el-form-item label="定制公交">
+            <el-input v-model.number="form.custom" />
+        </el-form-item>
+        <el-form-item label="通勤公交">
+            <el-input v-model.number="form.commute" />
+        </el-form-item>
         <el-form-item label="场地规模">
             <el-input v-model="form.scale" />
         </el-form-item>

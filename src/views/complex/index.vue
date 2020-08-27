@@ -57,7 +57,7 @@ export default {
                 },
                 oil: {
                     icon: 'battery',
-                    label: '累计耗能',
+                    label: '本月耗能',
                     value: '-',
                     unit: '度',
                     color: '#EBEBEB',

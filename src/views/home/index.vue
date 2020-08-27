@@ -32,7 +32,7 @@
                         <s-btn class="icon" :corner="true">
                             <img :src="require('@images/violation-alert.png')">
                         </s-btn>
-                        <span>本月报警数</span>
+                        <span>当日报警数</span>
                         <div class="value">{{ home.alarmToday.month }}</div>
                     </li>
                     <li class="thin-border border-bottom">
