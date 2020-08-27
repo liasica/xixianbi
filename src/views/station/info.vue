@@ -27,6 +27,9 @@ export default {
             total: 150,
             columns: [
                 { prop: 'station', label: '场站' },
+                { prop: 'normal', label: '常规公交' },
+                { prop: 'custom', label: '定制公交' },
+                { prop: 'commute', label: '通勤公交' },
                 { prop: 'area', label: '场地面积' },
                 { prop: 'position', label: '场地位置' },
                 { prop: 'scale', label: '场地规模' },

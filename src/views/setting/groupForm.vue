@@ -8,12 +8,6 @@
         size="small"
         :rules="rules"
     >
-        <el-form-item label="占地面积" prop="area">
-            <el-input v-model.number="form.area" />
-        </el-form-item>
-        <el-form-item label="场地位置">
-            <el-input v-model="form.position" />
-        </el-form-item>
         <el-form-item label="常规公交">
             <el-input v-model.number="form.normal" />
         </el-form-item>
@@ -22,6 +16,12 @@
         </el-form-item>
         <el-form-item label="通勤公交">
             <el-input v-model.number="form.commute" />
+        </el-form-item>
+        <el-form-item label="占地面积" prop="area">
+            <el-input v-model.number="form.area" />
+        </el-form-item>
+        <el-form-item label="场地位置">
+            <el-input v-model="form.position" />
         </el-form-item>
         <el-form-item label="场地规模">
             <el-input v-model="form.scale" />
