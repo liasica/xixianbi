@@ -131,6 +131,7 @@ export const routes = [
                 name: 'home/revenue',
                 meta: {
                     title: '车辆营收统计时间分布',
+                    hidden: true,
                 },
                 component: revenue,
             },
