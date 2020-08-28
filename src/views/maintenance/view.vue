@@ -228,7 +228,6 @@ export default {
     background-size: auto 320px;
     .content {
         display: flex;
-        align-items: center;
         .title {
             font-size: 24px;
             color: fade(#ffffff, 80);
