@@ -6,10 +6,6 @@
                     :value.sync="query.moveApplyNo"
                     label="调拨申请编号"
                 />
-                <BiInput
-                    :value.sync="query.moveApplyNo"
-                    label="调拨申请编号"
-                />
                 <choose
                     v-model="query.moveType"
                     class="choose"
@@ -25,7 +21,7 @@
                 <choose
                     v-model="query.inboundWarehouse"
                     class="choose"
-                    label="调出仓库"
+                    label="调入仓库"
                     :options="inGroup"
                 />
                 <button class="search-btn" @click="onSearch">
