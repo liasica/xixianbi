@@ -52,8 +52,8 @@ export default {
                 { prop: 'lineNo', label: '线路名称' },
                 { prop: 'busNo', label: '车辆编号' },
                 // { prop: 'age', label: '车龄' }, // ?
-                { prop: 'amount', label: '现金收入' },
-                { prop: 'times', label: '当日人次', render: (_, item) => Math.ceil(item.amount / 2) || 0 },
+                { prop: 'amount', label: '当日收入' },
+                // { prop: 'times', label: '当日人次', render: (_, item) => Math.ceil(item.amount / 2) || 0 },
                 { prop: 'kilo', label: '当日公里数' },
                 { prop: 'energy', label: '当日能耗' },
                 // { prop: 'byspeed', label: '超速' }, // ?

@@ -18,7 +18,7 @@
                             @click="click(t, item)"
                         >
                             <span v-if="t.render" v-html="t.render(item[t.prop], item)" />
-                            <span v-else>{{ item[t.prop] === undefined ? '-' :item[t.prop] }}</span>
+                            <span v-else>{{ item[t.prop] === undefined || item[t.prop] === '' || item[t.prop] === null ? '-' :item[t.prop] }}</span>
                         </td>
                     </tr>
                 </tbody>

@@ -38,7 +38,7 @@
         <el-form-item label="见习车长数量" prop="novitiates">
             <el-input v-model.number="form.novitiates" />
         </el-form-item>
-        <el-form-item label="停泊总数" prop="parking">
+        <el-form-item label="车辆总数" prop="parking">
             <el-input v-model.number="form.parking" />
         </el-form-item>
         <el-form-item label="累积进出量" prop="flow">

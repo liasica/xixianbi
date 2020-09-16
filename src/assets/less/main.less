@@ -32,6 +32,21 @@ body {
     opacity: 0;
 }
 
+.group-fade-enter-active,
+.group-fade-leave-active {
+    transition: opacity 0.25s;
+}
+
+.group-fade-enter,
+.group-fade-leave-to {
+    opacity: 0;
+}
+
+.group-fade-enter-active {
+    // transition-delay: .25s;
+    display: none;
+}
+
 .menu-enter-active,
 .menu-leave-active {
     transition: all 0.25s;

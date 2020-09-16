@@ -113,51 +113,57 @@
         <div class="right">
             <div class="bus-speed">
                 <div class="bi-title">当日车辆平均速度</div>
-                <div class="items">
-                    <div v-for="(item, index) in speedRank" :key="index" class="speed-item">
-                        <speed-icon :bg-color="item.bgColor" :color="item.color" />
-                        <div class="speed-body">
-                            <div class="speed">{{ item.speed.toFixed(2) }}km/h</div>
-                            <div class="rank-info">
-                                <span class="busline">{{ item.label }}</span>
-                                <span class="rank">{{ index+1 }}</span>
+                <transition v-if="speedRank.length > 0" name="fade" mode="out-in">
+                    <div :key="speedRank[0].uuid" class="items">
+                        <div v-for="item in speedRank" :key="item.uuid" class="speed-item">
+                            <speed-icon :bg-color="item.bgColor" :color="item.color" />
+                            <div class="speed-body">
+                                <div class="speed">{{ item.speed.toFixed(2) }}km/h</div>
+                                <div class="rank-info">
+                                    <span class="busline">{{ item.label }}</span>
+                                <!-- <span class="rank">{{ index+1 }}</span> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </transition>
             </div>
-            <div v-if="home.busDistance" class="mileage">
+            <div v-if="distanceRank.length > 0" class="mileage">
                 <div class="bi-title">当日营运里程</div>
-                <div class="item">
-                    <div class="label">{{ home.busDistance[0].line }}</div>
-                    <s-btn
-                        class="mileage-data"
-                        bg-color="#42DFFF"
-                        :corner="{leftTop: '#42DFFF', rightTop: '#42DFFF', leftBottom: '#42DFFF', rightBottom: '#42DFFF'}"
-                    >
-                        <div style="color:#42DFFF">{{ home.busDistance[0].distance }} KM</div>
-                    </s-btn>
-                </div>
-                <div class="item">
-                    <div class="label">{{ home.busDistance[1].line }}</div>
-                    <s-btn
-                        class="mileage-data"
-                        bg-color="#08F0C9"
-                        :corner="{leftTop: '#08F0C9', rightTop: '#08F0C9', leftBottom: '#08F0C9', rightBottom: '#08F0C9'}"
-                    >
-                        <div style="color:#08F0C9">{{ home.busDistance[1].distance }} KM</div>
-                    </s-btn>
-                </div>
-                <div class="item">
-                    <div class="label">{{ home.busDistance[2].line }}</div>
-                    <s-btn
-                        class="mileage-data"
-                        bg-color="#3C77FF"
-                        :corner="{leftTop: '#3C77FF', rightTop: '#3C77FF', leftBottom: '#3C77FF', rightBottom: '#3C77FF'}"
-                    >
-                        <div style="color:#3C77FF">{{ home.busDistance[2].distance }} KM</div>
-                    </s-btn>
-                </div>
+                <transition name="fade" mode="out-in">
+                    <div :key="distanceRank[0].uuid">
+                        <div class="item">
+                            <div class="label">{{ distanceRank[0].line }}</div>
+                            <s-btn
+                                class="mileage-data"
+                                bg-color="#42DFFF"
+                                :corner="{leftTop: '#42DFFF', rightTop: '#42DFFF', leftBottom: '#42DFFF', rightBottom: '#42DFFF'}"
+                            >
+                                <div style="color:#42DFFF">{{ distanceRank[0].distance }} KM</div>
+                            </s-btn>
+                        </div>
+                        <div class="item">
+                            <div class="label">{{ distanceRank[1].line }}</div>
+                            <s-btn
+                                class="mileage-data"
+                                bg-color="#08F0C9"
+                                :corner="{leftTop: '#08F0C9', rightTop: '#08F0C9', leftBottom: '#08F0C9', rightBottom: '#08F0C9'}"
+                            >
+                                <div style="color:#08F0C9">{{ distanceRank[1].distance }} KM</div>
+                            </s-btn>
+                        </div>
+                        <div class="item">
+                            <div class="label">{{ distanceRank[2].line }}</div>
+                            <s-btn
+                                class="mileage-data"
+                                bg-color="#3C77FF"
+                                :corner="{leftTop: '#3C77FF', rightTop: '#3C77FF', leftBottom: '#3C77FF', rightBottom: '#3C77FF'}"
+                            >
+                                <div style="color:#3C77FF">{{ distanceRank[2].distance }} KM</div>
+                            </s-btn>
+                        </div>
+                    </div>
+                </transition>
             </div>
             <div class="total">
                 <div class="bi-title">当日完成总班数</div>
@@ -171,10 +177,39 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
+
 import ProgressBar from '@/components/progressBar'
 import TieNumber from '@/components/tieNumber'
 import Radial from '@/components/radial'
 import SpeedIcon from '@/components/speedIcon'
+
+const rankItems = [
+    {
+        color: '#42DFFF',
+        bgColor: '#0A2E41',
+    },
+    {
+        color: '#F4BE45',
+        bgColor: '#3B2E17',
+    },
+    {
+        color: '#F06060',
+        bgColor: '#3F1E22',
+    },
+    {
+        color: '#08F0C9',
+        bgColor: '#045648',
+    },
+    {
+        color: '#3C77FF',
+        bgColor: '#0C2357',
+    },
+    {
+        color: '#FFFFFF',
+        bgColor: '#393A3B',
+    },
+]
 
 export default {
     components: { ProgressBar, TieNumber, Radial, SpeedIcon },
@@ -282,56 +317,60 @@ export default {
                     },
                 ],
             },
-            speedRank: [
-                {
-                    color: '#42DFFF',
-                    bgColor: '#0A2E41',
-                    label: '',
-                    speed: 0,
-                },
-                {
-                    color: '#F4BE45',
-                    bgColor: '#3B2E17',
-                    label: '',
-                    speed: 0,
-                },
-                {
-                    color: '#F06060',
-                    bgColor: '#3F1E22',
-                    label: '',
-                    speed: 0,
-                },
-                {
-                    color: '#08F0C9',
-                    bgColor: '#045648',
-                    label: '',
-                    speed: 0,
-                },
-                {
-                    color: '#3C77FF',
-                    bgColor: '#0C2357',
-                    label: '',
-                    speed: 0,
-                },
-                {
-                    color: '#FFFFFF',
-                    bgColor: '#393A3B',
-                    label: '',
-                    speed: 0,
-                },
-            ],
+            speedRank: [],
+            speedTimer: null,
+            distanceRank: [],
+            distanceTimer: null,
         }
+    },
+    beforeDestroy () {
+        clearInterval(this.speedTimer)
+        clearInterval(this.distanceRank)
+        this.speedTimer = null
+        this.distanceTimer = null
     },
     async created () {
         const data = await this.$axios.get('home')
         this.home = data
 
-        const { avgBusSpeed } = data
+        const { avgBusSpeed, busDistance } = data
 
         if (avgBusSpeed) {
-            avgBusSpeed.forEach((item, index) => {
-                this.speedRank[index] = { ...this.speedRank[index], ...item }
+            avgBusSpeed.slice(0, 6).forEach((item, index) => {
+                this.$set(this.speedRank, index, { ...rankItems[index], ...item, uuid: uuidv4() })
             })
+
+            const len1 = Math.ceil(avgBusSpeed.length / 6)
+            let c1 = 1
+            this.speedTimer = setInterval(() => {
+                if (c1 >= len1) {
+                    c1 = 0
+                }
+                c1 += 1
+                const end = 6 * c1
+                avgBusSpeed.slice(end - 6, end).forEach((item, index) => {
+                    this.$set(this.speedRank, index, { ...rankItems[index], ...item, uuid: uuidv4() })
+                })
+            }, 6000)
+        }
+
+        if (busDistance) {
+            busDistance.slice(0, 3).forEach((item, index) => {
+                this.$set(this.distanceRank, index, { ...item, uuid: uuidv4() })
+            })
+
+            const len2 = Math.ceil(busDistance.length / 3)
+            let c2 = 1
+            this.distanceTimer = setInterval(() => {
+                if (c2 >= len2) {
+                    c2 = 0
+                }
+                c2 += 1
+                const end = 3 * c2
+                busDistance.slice(end - 3, end).forEach((item, index) => {
+                    this.$set(this.distanceRank, index, { ...item, uuid: uuidv4() })
+                })
+            }, 5000)
         }
 
         this.setIcome(data.income)

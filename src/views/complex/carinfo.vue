@@ -46,6 +46,11 @@ export default {
     data () {
         return {
             page: 1,
+            filterData: {
+                filaName: '', // 公司
+                groupName: '', // 场站
+                lineNo: '', // 线路
+            },
             columns: [
                 { prop: 'filaName', label: '公司' },
                 { prop: 'groupName', label: '车队' },

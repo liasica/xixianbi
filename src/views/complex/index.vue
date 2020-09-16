@@ -224,7 +224,8 @@ export default {
             }
         },
         setEnergyChart (items) {
-            const end = Math.round((10 / items.length) * 100)
+            const end = items.length / 4
+            // const end = Math.round((50 / items.length) * 100)
             const xData = []
             const d1 = []
             const d2 = []

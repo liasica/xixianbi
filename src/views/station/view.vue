@@ -23,7 +23,7 @@
             </ul>
         </div> -->
         <div class="bi-title" style="margin-top: 20px;">累计进出量</div>
-        <div v-if="settings && busInfo" class="progress-bars">
+        <div v-if="settings && busInfo" :key="uuid" class="progress-bars">
             <progress-bar class="pbar" label="常规公交" :schedule="[settings.normal, busInfo.normal]" />
             <progress-bar
                 class="pbar"
@@ -63,6 +63,7 @@ export default {
             chargingPosts: null,
             settings: null,
             busInfo: null,
+            uuid: +new Date(),
         }
     },
     watch: {
@@ -70,6 +71,7 @@ export default {
             const { chargingPosts, settings, busInfo } = await this.$axios.get(
                 `station?station=${v}`,
             )
+            this.uuid = +new Date()
             this.chargingPosts = chargingPosts
             this.settings = settings
             this.busInfo = busInfo
