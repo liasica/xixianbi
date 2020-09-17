@@ -12,7 +12,7 @@
             </div>
             <div class="content-box">
                 <div class="left">
-                    <div class="bi-title" style="margin:0; width: 320px">当日驾驶员警告排名</div>
+                    <div class="bi-title" style="margin:0; width: 320px">当日驾驶员告警排名</div>
                     <div class="driver-rank">
                         <div class="title">
                             <span>排名</span>
