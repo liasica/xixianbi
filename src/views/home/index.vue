@@ -390,6 +390,10 @@ export default {
             options.series[0].data = data
             options.series[0].name = '收入'
 
+            const end = Math.round((10 / items.length) * 100)
+            options.dataZoom[0].end = end
+            options.dataZoom[1].end = end
+
             this.incomeChart = options
         },
         setEnergyChart (items) {
@@ -404,6 +408,10 @@ export default {
             options.xAxis.data = xdata
             options.series[0].data = data
             options.series[0].name = '能耗'
+
+            const end = Math.round((10 / items.length) * 100)
+            options.dataZoom[0].end = end
+            options.dataZoom[1].end = end
 
             this.energyChart = options
         },
