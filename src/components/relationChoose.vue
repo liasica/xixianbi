@@ -25,7 +25,7 @@
             value-index
             :options="driverList"
         />
-        <button v-if="showAll" class="btn" @click="onReset">重置</button>
+        <button v-if="showAll && !hideReset" class="btn" @click="onReset">重置</button>
     </div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
     props: {
         withDriver: { type: Boolean, default: false },
         showAll: { type: Boolean, default: false },
+        hideReset: { type: Boolean, default: false },
     },
     data () {
         return {

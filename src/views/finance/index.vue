@@ -14,25 +14,25 @@
                 <Card
                     :type="1"
                     label="IC卡人次"
-                    :value="item.icTimes"
+                    :value="item.card26Times"
                     color="#42DFFF"
                 />
                 <Card
                     :type="2"
                     label="IC卡金额"
-                    :value="item.icMoney"
+                    :value="item.card26Money"
                     color="#3C77FF"
                 />
                 <Card
                     :type="3"
-                    label="投币人次"
-                    :value="Math.ceil(item.tbMoney / 2)"
+                    label="现金人次"
+                    :value="item.totalPerson"
                     color="#08F0C9"
                 />
                 <Card
                     :type="4"
-                    label="投币收入"
-                    :value="item.tbMoney"
+                    label="现金收入"
+                    :value="item.totalMoney"
                     color="#F2F2F2"
                 />
             </div>
@@ -64,7 +64,7 @@ export default {
     computed: {
         item () {
             const item = this.items[this.date]
-            return item || { icMoney: 0, icTimes: 0, tbMoney: 0, tbTimes: 0 }
+            return item || { card26Money: 0, card26Times: 0, totalMoney: 0, totalPerson: 0 }
         },
     },
     async created () {

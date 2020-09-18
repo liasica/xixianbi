@@ -4,14 +4,14 @@
             <div class="filter-box">
                 <relation-choose
                     :show-all="true"
+                    :hide-reset="true"
                     style="margin-right: 40px"
-                    @init="onInit"
                     @change="onFilter"
                     @reset="onReset"
                 />
-                <button class="search-btn" @click="onSearch">
+                <!-- <button class="search-btn" @click="onSearch">
                     <i class="icon-search" />查询
-                </button>
+                </button> -->
             </div>
             <div class="filter-box">
                 <BiCheckBox :label="$route.meta.title" />
@@ -33,6 +33,9 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Loading } from 'element-ui'
+
 import BiTable from '@/components/table'
 import BiCheckBox from '@/components/checkbox'
 import RelationChoose from '@/components/relationChoose'
@@ -58,10 +61,10 @@ export default {
                 { prop: 'busLicense', label: '车辆牌照号' },
                 { prop: 'dataDate', label: '数据日期' },
                 // { prop: 'deptName', label: '部门编号 BM0601=第一中心场站  BM0602第二中心场站   BM0603第三中心场站' },
-                { prop: 'icMoney', label: 'IC卡金额', render: value => value || 0 },
-                { prop: 'icTimes', label: 'IC卡人次', render: value => value || 0 },
-                { prop: 'tbMoney', label: '现金合计收入', render: value => value || 0 },
-                { prop: 'tbTimes', label: '现金合计人次', render: (_, item) => Math.ceil(item.tbMoney / 2) || 0 },
+                { prop: 'card26Money', label: 'IC卡金额', render: value => value || 0 },
+                { prop: 'card26Times', label: 'IC卡人次', render: value => value || 0 },
+                { prop: 'totalMoney', label: '现金合计收入', render: value => value || 0 },
+                { prop: 'totalPerson', label: '现金合计人次', render: value => value || 0 },
             ],
             source: [],
             list: [],
@@ -81,25 +84,21 @@ export default {
             return this.source.filter(item => item.groupName === this.filterData.groupName)
         },
     },
-    created () {
-        this.getData()
-    },
     methods: {
         async getData () {
+            const loading = Loading.service({ background: 'rgba(0, 0, 0, 0.8)', fullscreen: true })
             try {
-                const data = await this.$axios.get('financial/list')
+                const data = await this.$axios.get(`financial/list?groupName=${this.filterData.groupName}&lineNo=${this.filterData.lineNo}`)
                 this.source = data.items
                 this.list = this.fData
             } catch (err) {
                 console.log(err)
             }
-        },
-        onInit (choosed) {
-            this.filterData = choosed
-            this.getData()
+            loading.close()
         },
         async onFilter (choosed) {
             this.filterData = choosed
+            this.getData()
         },
         onSearch () {
             this.page = 1
