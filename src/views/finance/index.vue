@@ -23,12 +23,12 @@
                     :value="item.card26Money"
                     color="#3C77FF"
                 />
-                <Card
+                <!-- <Card
                     :type="3"
                     label="现金人次"
                     :value="item.totalPerson"
                     color="#08F0C9"
-                />
+                /> -->
                 <Card
                     :type="4"
                     label="现金收入"
