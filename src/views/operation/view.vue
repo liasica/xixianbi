@@ -3,7 +3,7 @@
         <relation-choose
             style="margin-right: 40px"
             @change="onFilter"
-            @init="rcInit = true"
+            @init="onInit"
         />
         <div class="filter" />
         <div class="left">
@@ -36,10 +36,12 @@
             <div class="bottom">
                 <div class="bi-title">调度信息</div>
                 <BiTable
+                    v-loading.lock="loading"
                     :columns="columns1"
                     :source="list1"
                     :pagination="false"
                     :show-number="false"
+                    element-loading-background="rgba(18, 28, 37, 0.8)"
                 />
             </div>
         </div>
@@ -56,7 +58,7 @@
             </div>
             <div class="schedu-box">
                 <div class="bi-title">排班计划</div>
-                <div class="schedu-plan">
+                <div v-loading.lock="loading" class="schedu-plan" element-loading-background="rgba(18, 28, 37, 0.8)">
                     <div class="title-box">
                         <span class="name">排班表</span>
                         <!-- <div>
@@ -262,6 +264,7 @@ export default {
             driverIndex: 0,
             drivers: [],
             columns1: [],
+            loading: false,
         }
     },
     computed: {
@@ -278,12 +281,16 @@ export default {
             ]
         },
     },
-    created () {
-        this.getData()
-        this.getLineplan()
-        this.getPageData()
-    },
     methods: {
+        async onInit (choosed) {
+            this.filterData = choosed
+            this.rcInit = true
+            this.loading = true
+            await this.getData()
+            await this.getLineplan()
+            await this.getPageData()
+            this.loading = false
+        },
         async getPageData () {
             const { analysis, overspeed, offline, late } = await this.$axios.get('operation')
             const busChart = JSON.parse(JSON.stringify(this.chartOptions))
@@ -565,13 +572,16 @@ export default {
             }
         },
         async onFilter (choosed) {
-            if (this.rcInit) {
+            if (!this.rcInit) {
                 return
             }
+            // console.info(this.rcInit, choosed)
+            this.loading = true
             this.filterData = choosed
-            this.getData()
-            this.getDriverInfo()
-            this.getLineplan()
+            await this.getData()
+            await this.getDriverInfo()
+            await this.getLineplan()
+            this.loading = false
         },
     },
 }

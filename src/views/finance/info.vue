@@ -64,7 +64,7 @@ export default {
                 { prop: 'card26Money', label: 'IC卡金额', render: value => value || 0 },
                 { prop: 'card26Times', label: 'IC卡人次', render: value => value || 0 },
                 { prop: 'totalMoney', label: '现金合计收入', render: value => value || 0 },
-                { prop: 'totalPerson', label: '现金合计人次', render: value => value || 0 },
+                // { prop: 'totalPerson', label: '现金合计人次', render: value => value || 0 },
             ],
             source: [],
             list: [],
