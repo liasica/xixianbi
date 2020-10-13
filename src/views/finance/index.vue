@@ -87,6 +87,7 @@ export default {
                 data.push(item.num)
                 xdata.push(item.month)
             })
+            const end = Math.round((10 / items.length) * 100)
 
             this.chartOptions = {
                 legend: false,
@@ -98,7 +99,7 @@ export default {
                         type: 'inside',
                         realtime: true,
                         start: 0,
-                        end: 10,
+                        end,
                     },
                 ],
                 xAxis: {
