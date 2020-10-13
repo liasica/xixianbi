@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="content">
+        <div class="content" v-loading.lock="loading" element-loading-background="rgba(18, 28, 37, 0.8)">
             <div class="filter-box">
                 <relation-choose
                     :show-all="true"
@@ -46,6 +46,7 @@ export default {
     data () {
         return {
             page: 1,
+            loading: false,
             filterData: {
                 filaName: '', // 公司
                 groupName: '', // 车队
@@ -86,6 +87,7 @@ export default {
     },
     methods: {
         async getData () {
+            this.loading = true
             try {
                 const data = await this.$axios.get('operation/anlysis')
                 this.source = data.items
@@ -93,6 +95,7 @@ export default {
             } catch (err) {
                 console.log(err)
             }
+            this.loading = false
         },
         onInit (choosed) {
             this.filterData = choosed

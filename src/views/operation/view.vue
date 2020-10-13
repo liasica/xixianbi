@@ -7,7 +7,7 @@
         />
         <div class="filter" />
         <div class="left">
-            <div class="car-info">
+            <div class="car-info" v-loading.lock="loading" element-loading-background="rgba(18, 28, 37, 0.8)">
                 <div class="bi-title">车长信息</div>
                 <div class="item">
                     <span class="label">选择车辆</span>
@@ -289,6 +289,7 @@ export default {
             await this.getData()
             await this.getLineplan()
             await this.getPageData()
+            await this.getDriverInfo()
             this.loading = false
         },
         async getPageData () {
@@ -759,5 +760,8 @@ export default {
     text-overflow: ellipsis;
     display: block;
     white-space: normal;
+}
+.car-info .tie-text /deep/ .s-btn {
+    margin-left: 0;
 }
 </style>

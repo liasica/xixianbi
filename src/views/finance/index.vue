@@ -87,7 +87,7 @@ export default {
                 data.push(item.num)
                 xdata.push(item.month)
             })
-            const end = Math.round((10 / items.length) * 100)
+            const end = Math.round((12 / items.length) * 100)
 
             this.chartOptions = {
                 legend: false,

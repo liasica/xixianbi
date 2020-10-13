@@ -105,6 +105,8 @@ export default {
                 xdata.push(item.month)
             })
 
+            const end = Math.round((12 / items.length) * 100)
+
             this.chartOptions = {
                 legend: false,
                 tooltip: {
@@ -115,7 +117,7 @@ export default {
                         type: 'inside',
                         realtime: true,
                         start: 0,
-                        end: 10,
+                        end,
                     },
                 ],
                 xAxis: {
