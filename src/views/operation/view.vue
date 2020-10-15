@@ -7,7 +7,7 @@
         />
         <div class="filter" />
         <div class="left">
-            <div class="car-info" v-loading.lock="loading" element-loading-background="rgba(18, 28, 37, 0.8)">
+            <div v-loading.lock="loading" class="car-info" element-loading-background="rgba(18, 28, 37, 0.8)">
                 <div class="bi-title">车长信息</div>
                 <div class="item">
                     <span class="label">选择车辆</span>
@@ -177,8 +177,8 @@ export default {
                 },
                 tooltip: {},
                 grid: {
-                    width: 240,
-                    left: 70,
+                    width: 220,
+                    left: 90,
                     right: 0,
                 },
                 dataset: {
@@ -591,7 +591,10 @@ export default {
 .operation-container {
     flex-wrap: wrap;
     .left {
-        width: 310px;
+        width: 290px;
+        /deep/ .label {
+            font-size: 16px;
+        }
     }
     .mid {
         flex: 1;

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="content">
+        <div v-loading.lock="loading" class="content" element-loading-background="rgba(18, 28, 37, 0.8)">
             <div class="filter-box">
                 <relation-choose
                     ref="rc"
@@ -30,7 +30,7 @@
                     :source="items"
                     :page.sync="page"
                 />
-                <div v-else>该线路暂无调度排班计划</div>
+                <div v-else-if="!loading">该线路暂无调度排班计划</div>
             </div>
         </div>
     </div>
@@ -49,6 +49,7 @@ export default {
     },
     data () {
         return {
+            loading: true,
             page: 1,
             chooseInit: false,
             filterData: {
@@ -92,6 +93,7 @@ export default {
             this.filterData = choosed
         },
         async getPlans () {
+            this.loading = true
             const { items, max } = await this.$axios.get(
                 `operation/plan?line=${this.filterData.lineNo || ''}`,
             )
@@ -106,6 +108,7 @@ export default {
                 })
             }
             this.items = items
+            this.loading = false
             // this.items = items.map(item => {
             //     const { filaName, groupName, lineNo, projectName } = item
             //     const plans = {}

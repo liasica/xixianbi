@@ -26,8 +26,12 @@ export default {
                         color: '#fff',
                         fontFamily: 'BDZongYi',
                     },
+                    selected: { 近七日: true, 环比: true, 同比: false },
                 },
-                tooltip: {},
+                // tooltip: {},
+                tooltip: {
+                    formatter: p => `${p.marker}${p.seriesName}: ${p.data}`,
+                },
                 grid: {
                     left: 70,
                     right: 0,
@@ -122,6 +126,7 @@ export default {
                     },
                 ],
             }
+            console.info(options)
             return options
         },
     },
