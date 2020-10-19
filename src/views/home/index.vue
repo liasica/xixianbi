@@ -239,7 +239,7 @@ export default {
                     },
                 ],
                 grid: {
-                    left: '54px',
+                    left: '70px',
                     bottom: '90px',
                     right: '10px',
                     // top: '20px',
