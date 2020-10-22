@@ -507,7 +507,7 @@ export default {
             }
         },
         async getDriverInfo () {
-            const { items } = await this.$axios.get('operation/drivers')
+            const { items } = await this.$axios.get(`operation/drivers?lineNo=${this.filterData.lineNo}`)
             this.drivers = items
             const buses = []
             items.forEach(item => {
