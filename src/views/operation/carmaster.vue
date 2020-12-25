@@ -3,7 +3,6 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
-                    :show-all="true"
                     style="margin-right: 40px"
                     @init="onInit"
                     @change="onFilter"
@@ -48,11 +47,10 @@ export default {
             page: 1,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
                 lineNo: '', // 线路
             },
             columns: [
-                { prop: 'filaName', label: '公司' },
+                // { prop: 'filaName', label: '公司' },
                 { prop: 'lineName', label: '线路' },
                 { prop: 'busNoChar', label: '车号' },
                 { prop: 'employeeName', label: '司机姓名' },
@@ -76,7 +74,7 @@ export default {
             return fields
         },
         fData () {
-            return this.source.filter(item => item.groupName === this.filterData.groupName)
+            return this.source.filter(item => item.filaName === this.filterData.filaName)
         },
     },
     created () {
@@ -85,7 +83,7 @@ export default {
     methods: {
         async getData () {
             try {
-                const data = await this.$axios.get('operation/drivers')
+                const data = await this.$axios.get(`operation/drivers?lineNo=${this.filterData.lineNo}`)
                 this.source = data.items
                 this.list = this.fData
             } catch (err) {
@@ -99,13 +97,9 @@ export default {
         async onFilter (choosed) {
             this.filterData = choosed
         },
-        onSearch () {
+        async onSearch () {
             this.page = 1
-            if (this.filterData.lineNo) {
-                this.list = this.fData.filter(item => item.lineNo === this.filterData.lineNo)
-            } else {
-                this.list = this.fData
-            }
+            await this.getData()
         },
         onReset (choosed) {
             this.filterData = choosed

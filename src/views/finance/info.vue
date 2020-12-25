@@ -51,12 +51,10 @@ export default {
             page: 1,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
                 lineNo: '', // 线路
             },
             columns: [
                 { prop: 'filaName', label: '公司名称' },
-                { prop: 'groupName', label: '车队号' },
                 { prop: 'lineNo', label: '线路' },
                 { prop: 'busLicense', label: '车辆牌照号' },
                 { prop: 'dataDate', label: '数据日期' },
@@ -81,14 +79,14 @@ export default {
             return fields
         },
         fData () {
-            return this.source.filter(item => item.groupName === this.filterData.groupName)
+            return this.source.filter(item => item.filaName === this.filterData.filaName)
         },
     },
     methods: {
         async getData () {
             const loading = Loading.service({ background: 'rgba(0, 0, 0, 0.8)', fullscreen: true })
             try {
-                const data = await this.$axios.get(`financial/list?groupName=${this.filterData.groupName}&lineNo=${this.filterData.lineNo}`)
+                const data = await this.$axios.get(`financial/list?filaName=${this.filterData.filaName}&lineNo=${this.filterData.lineNo}`)
                 this.source = data.items
                 this.list = this.fData
             } catch (err) {

@@ -48,12 +48,10 @@ export default {
             page: 1,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
                 lineNo: '', // 线路
             },
             columns: [
                 { prop: 'filaName', label: '公司名称' },
-                { prop: 'groupName', label: '车队号' },
                 { prop: 'lineNo', label: '线路' },
                 { prop: 'busNo', label: '车辆编号' },
                 { prop: 'prepare1', label: '车辆牌照' },
@@ -75,7 +73,7 @@ export default {
             return fields
         },
         fData () {
-            return this.source.filter(item => item.groupName === this.filterData.groupName)
+            return this.source.filter(item => item.filaName === this.filterData.filaName)
         },
     },
     created () {

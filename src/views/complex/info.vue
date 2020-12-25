@@ -63,7 +63,6 @@ export default {
             },
             columns: [
                 { prop: 'filaName', label: '公司' },
-                { prop: 'groupName', label: '场站' },
                 { prop: 'totalDistance', label: '总里程' },
                 { prop: 'position', label: '职工类型' },
                 { prop: 'empName', label: '员工姓名' },

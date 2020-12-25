@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="content" v-loading.lock="loading" element-loading-background="rgba(18, 28, 37, 0.8)">
+        <div v-loading.lock="loading" class="content" element-loading-background="rgba(18, 28, 37, 0.8)">
             <div class="filter-box">
                 <relation-choose
                     :show-all="true"
@@ -49,7 +49,6 @@ export default {
             loading: false,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 车队
                 lineNo: '', // 线路
             },
             columns: [
@@ -79,7 +78,7 @@ export default {
             return fields
         },
         fData () {
-            return this.source.filter(item => item.groupName === this.filterData.groupName)
+            return this.source.filter(item => item.filaName === this.filterData.filaName)
         },
     },
     created () {

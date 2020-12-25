@@ -48,7 +48,6 @@ export default {
             page: 1,
             columns: [
                 { prop: 'filaName', label: '公司' },
-                { prop: 'groupName', label: '场站' },
                 { prop: 'busNoChar', label: '车牌号' },
                 { prop: 'driverName', label: '司机' },
                 { prop: 'offlineDistance', label: '偏线里程' },
@@ -59,6 +58,10 @@ export default {
             ],
             list: [],
             source: [],
+            filterData: {
+                filaName: '', // 公司
+                lineNo: '', // 线路
+            },
         }
     },
     computed: {
@@ -72,7 +75,7 @@ export default {
             return fields
         },
         fData () {
-            return this.source.filter(item => item.groupName === this.filterData.groupName)
+            return this.source.filter(item => item.filaName === this.filterData.filaName)
         },
     },
     created () {},

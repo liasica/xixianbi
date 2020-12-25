@@ -1,9 +1,11 @@
 <template>
     <div class="container">
         <el-tabs v-model="name" class="group-tab">
-            <el-tab-pane label="第一场站" name="1"><group-form :name="1" /></el-tab-pane>
-            <el-tab-pane label="第二场站" name="2"><group-form :name="2" /></el-tab-pane>
-            <el-tab-pane label="第三场站" name="3"><group-form :name="3" /></el-tab-pane>
+            <el-tab-pane label="第一分公司" name="第一分公司"><group-form name="第一分公司" /></el-tab-pane>
+            <el-tab-pane label="第二分公司" name="第二分公司"><group-form name="第二分公司" /></el-tab-pane>
+            <el-tab-pane label="第三分公司" name="第三分公司"><group-form name="第三分公司" /></el-tab-pane>
+            <el-tab-pane label="第四分公司" name="第四分公司"><group-form name="第四分公司" /></el-tab-pane>
+            <el-tab-pane label="旅游客运公司" name="旅游客运公司"><group-form name="旅游客运公司" /></el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -15,7 +17,7 @@ export default {
     components: { groupForm },
     data () {
         return {
-            name: '1',
+            name: '第一分公司',
         }
     },
     methods: {

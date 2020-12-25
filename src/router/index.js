@@ -441,7 +441,7 @@ export const routes = [
         component: layout,
         children: [
             { path: '/setting/energy', name: 'setting-energy', meta: { title: '充电桩设置' }, component: settingEnergy },
-            { path: '/setting/group', name: 'setting-group', meta: { title: '场站设置' }, component: settingGroup },
+            { path: '/setting/group', name: 'setting-group', meta: { title: '分公司设置' }, component: settingGroup },
             { path: '/setting/bus', name: 'setting-bus', meta: { title: '公交设置' }, component: settingBus },
             { path: '/setting/position', name: 'setting-position', meta: { title: '岗位设置' }, component: settingPosition },
         ],

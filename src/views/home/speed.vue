@@ -3,7 +3,7 @@
         <div class="content">
             <div class="filter-box">
                 <relation-choose
-                    style="margin-right: 40px; margin-bottom: 0"
+                    style="margin-bottom: 0"
                     @change="onFilter"
                 />
             </div>
@@ -42,12 +42,10 @@ export default {
             page: 1,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 车队
                 lineNo: '', // 线路
             },
             columns: [
                 { prop: 'filaName', label: '公司' },
-                { prop: 'groupName', label: '车队' },
                 { prop: 'lineNo', label: '线路' },
                 { prop: 'busNoChar', label: '车辆牌照' },
                 { prop: 'lineTime', label: '线路时间' },

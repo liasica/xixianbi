@@ -59,7 +59,7 @@
 <script>
 export default {
     props: {
-        name: { type: Number, default: 1 },
+        name: { type: String, required: true },
     },
     data () {
         return {
@@ -86,13 +86,8 @@ export default {
             },
         }
     },
-    computed: {
-        key () {
-            return `GROUP_INFO_${this.name}`
-        },
-    },
     async created () {
-        const { value } = await this.$axios.get(`setting?key=${this.key}`)
+        const { value } = await this.$axios.get(`setting?key=${this.name}`)
         if (value) { this.setform(value) }
     },
     methods: {
@@ -101,7 +96,7 @@ export default {
         },
         async onSubmit () {
             const { value } = await this.$axios.post(
-                `setting?key=${this.key}`,
+                `setting?key=${this.name}`,
                 { value: this.form },
             )
             if (value) {

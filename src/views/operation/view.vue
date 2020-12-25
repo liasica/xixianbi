@@ -152,7 +152,6 @@ export default {
             lateOptions: {},
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
                 lineNo: '', // 线路
             },
             rcInit: false,

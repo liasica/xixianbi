@@ -43,12 +43,10 @@ export default {
             page: 1,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
                 lineNo: '', // 线路
             },
             columns: [
                 { prop: 'filaName', label: '公司' },
-                { prop: 'groupName', label: '场站' },
                 { prop: 'lineNo', label: '线路名称' },
                 { prop: 'busNo', label: '车辆编号' },
                 // { prop: 'age', label: '车龄' }, // ?

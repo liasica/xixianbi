@@ -40,9 +40,11 @@ export default {
             form: {},
             rules: {},
             options: [
-                { value: '场站1', label: '场站1' },
-                { value: '场站2', label: '场站2' },
-                { value: '场站3', label: '场站3' },
+                { value: '第一分公司', label: '第一分公司' },
+                { value: '第二分公司', label: '第二分公司' },
+                { value: '第三分公司', label: '第三分公司' },
+                { value: '第四分公司', label: '第四分公司' },
+                { value: '旅游客运公司', label: '旅游客运公司' },
             ],
         }
     },

@@ -54,12 +54,10 @@ export default {
             chooseInit: false,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 场站
                 lineNo: '', // 线路
             },
             columns: [
                 { prop: 'filaName', label: '公司' },
-                { prop: 'groupName', label: '车队' },
                 { prop: 'lineNo', label: '线路' },
             ],
             items: [],
@@ -109,17 +107,6 @@ export default {
             }
             this.items = items
             this.loading = false
-            // this.items = items.map(item => {
-            //     const { filaName, groupName, lineNo, projectName } = item
-            //     const plans = {}
-            //     item.plans.forEach((plan, i) => {
-            //         plans[`time-${i + 1}`] = plan.planTime
-            //         plans[`direction-${i + 1}`] = `${
-            //             plan.isUpDown ? '下行' : '上行'
-            //         } - ${plan.toStation}`
-            //     })
-            //     return { filaName, groupName, lineNo, projectName, ...plans }
-            // })
         },
     },
 }

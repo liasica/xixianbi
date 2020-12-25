@@ -45,7 +45,6 @@ export default {
             page: 1,
             filterData: {
                 filaName: '', // 公司
-                groupName: '', // 车队
                 lineNo: '', // 线路
             },
             columns: [

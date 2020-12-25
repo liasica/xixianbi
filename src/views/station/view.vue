@@ -2,26 +2,6 @@
     <div class="container station-container">
         <div class="bi-title">场站信息</div>
         <choose v-model="station" class="station-choose" :options="companies" />
-        <!-- <div class="violation">
-            <div class="bi-title">当日车辆违规统计</div>
-            <ul>
-                <li class="thin-border border-bottom">
-                    <img class="icon-users" :src="require('./assets/users.png')">
-                    <span>本月报警数</span>
-                    <div class="value">20</div>
-                </li>
-                <li class="thin-border border-bottom">
-                    <img class="icon-driver" :src="require('./assets/driver.png')">
-                    <span>驾驶员违法违规</span>
-                    <div class="value">0</div>
-                </li>
-                <li class="thin-border border-bottom">
-                    <img class="icon-user" :src="require('./assets/user.png')">
-                    <span>驾驶员事故次数</span>
-                    <div class="value">0</div>
-                </li>
-            </ul>
-        </div> -->
         <div class="bi-title" style="margin-top: 20px;">累计进出量</div>
         <div v-if="settings && busInfo" :key="uuid" class="progress-bars">
             <progress-bar class="pbar" label="常规公交" :schedule="[settings.normal, busInfo.normal]" />

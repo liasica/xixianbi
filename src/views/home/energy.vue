@@ -45,7 +45,6 @@ export default {
             page: 1,
             columns: [
                 { prop: 'filaName', label: '公司名称' },
-                { prop: 'groupName', label: '车队号' },
                 { prop: 'lineNo', label: '线路' },
                 { prop: 'busNo', label: '车辆编号' },
                 { prop: 'prepare1', label: '车辆牌照' },
